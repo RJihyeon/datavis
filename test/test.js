@@ -3,7 +3,7 @@ const height = 500;
 const margin = 30;
 const legendHeight = 50;
 
-d3.csv("./data_famtype/element_alone.csv").then((data) => {
+d3.csv("element_alone.csv").then((data) => {
     showStackedBarChart(data);
 });
 
@@ -37,7 +37,7 @@ function showStackedBarChart(data) {
 
     // SVG
     const svg = d3
-        .select("#viz2")
+        .select("body")
         .append("svg")
         .attr("width", width + margin + margin)
         .attr("height", height + margin + margin + legendHeight)
