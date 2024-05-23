@@ -1,0 +1,39 @@
+.reason-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.reason-그냥 {
+  font-size: 15px;
+}
+
+.reason-title {
+  align-self: center;
+  font-size: 2rem;
+  color: rgb(85, 65, 83);
+  color: rgb(rgb(146, 119, 144), green, blue);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.reason-bar:hover {
+  cursor: pointer;
+}
+
+.reason-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.link-button {
+  background-color: white;
+  color: rgb(49, 27, 50);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgb(49, 27, 50);
+  text-decoration: none;
+}

@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 # CSV 파일이 저장된 폴더
-folder_path = 'domestic_violence'
+folder_path = 'domestic_violence/시도청별_신고건수.csv'
 
 # 폴더 내의 모든 파일을 순회
 for filename in os.listdir(folder_path):
