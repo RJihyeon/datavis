@@ -1,11 +1,11 @@
 //지현
 
-import RunExpComp from "../components/가출여부/RunExpComp";
+import ProtectionChart from "../components/가정폭력_보호조치/ProtectionChart";
 
 function DomViolencePage() {
   return (
     <div>
-      <RunExpComp />
+      <ProtectionChart />
     </div>
   );
 }
