@@ -1,22 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import "../main.css";
+import "./ElementAlone.css";
 
-function ElementAlone({ voronoi = false }) {
-    const svgRef = useRef();
+function ElementAlone() {
+    const svgRef = useRef(); // REACT
     const width = 1500;
     const height = 500;
-    const margin = 30;
+    const margin = 300;
     const legendHeight = 50;
 
-    useEffect(() => {
+    useEffect(() => { // REACT
         d3.csv("/domestic_famtype/element_alone.csv").then((data) => {
             showStackedBarChart(data);
         });
     }, []);
 
     function showStackedBarChart(data) {
-
         // VARIABLES
         const firstRow = data[0];
         const xLabel = Object.keys(firstRow)[1]; // 0행 1열
@@ -32,7 +31,7 @@ function ElementAlone({ voronoi = false }) {
             .domain(data.map(d => d.categories));
 
         // SVG
-        const svg = d3.select(svgRef.current);
+        const svg = d3.select(svgRef.current); // REACT
 
         const xScale = d3
             .scaleBand()
@@ -54,7 +53,10 @@ function ElementAlone({ voronoi = false }) {
             .call(xAxis);
 
         const yAxis = d3.axisLeft().scale(yScale);
-        const yAxisGroup = svg.append("g").call(yAxis);
+        const yAxisGroup = svg
+            .append("g")
+            .attr("transform", `translate(20, 0)`)
+            .call(yAxis);
 
         const stack = d3.stack()
             .keys(stackKeys)
@@ -153,8 +155,15 @@ function ElementAlone({ voronoi = false }) {
                 .call(xAxis);
         }
     }
-    return <svg ref={svgRef} width={width} height={height}></svg>;
+    return ( // REACT
 
-}
+        <svg
+            ref={svgRef}
+            width={width + 1000}
+            height={height + 1000}
+        ></svg>
+    );
 
-export default ElementAlone;
+} // REACT
+
+export default ElementAlone; // REACT
