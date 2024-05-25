@@ -1,5 +1,5 @@
 .menu_body {
-  width: 100%;
+  flex: 5%;
 }
 .menu_wrpper {
   overflow: hidden;
@@ -7,7 +7,6 @@
 
 .menu_div {
   height: 100%;
-  width: 20%;
   overflow: hidden;
   background-color: transparent;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),

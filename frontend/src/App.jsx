@@ -1,7 +1,7 @@
 import MainPage from "./pages/MainPage";
-import FamtypePage from "./pages/FamtypePage";
-import DomViolencePage from "./pages/DomViolencePage";
-import SchoolViolencePage from "./pages/SchoolViolencePage";
+import FamtypePage from "./components/Famtype";
+import DomViolencePage from "./components/DomViolence";
+import SchoolViolencePage from "./components/SchoolViolence";
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
