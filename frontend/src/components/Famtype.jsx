@@ -1,6 +1,6 @@
 //다운
 
-import ElementAlone from "./다운/ElementAlone";
+import ElementAlone from "./famtype/ElementAlone";
 
 function Famtype() {
   return (
