@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import "./ElementAlone.css";
+import "./Alone.css";
 
-function ElementAlone() {
+function Alone() {
     const svgRef = useRef(); // REACT
     const width = 1500;
     const height = 500;
@@ -166,4 +166,4 @@ function ElementAlone() {
 
 } // REACT
 
-export default ElementAlone; // REACT
+export default Alone; // REACT
