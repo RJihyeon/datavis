@@ -31,7 +31,9 @@ function Alone() {
 
   return (
     <div>
+      <Alone />
       <div>
+<<<<<<< HEAD
         <button
           onClick={() =>
             handleButtonClick("/domestic_famtype/kids_alone(o).csv")
@@ -53,6 +55,11 @@ function Alone() {
         >
           중학생 이상 자녀가 혼자 있는 시간
         </button>
+=======
+        <button onClick={() => handleButtonClick("/domestic_famtype/element_alone(o).csv")}>미취학 자녀가 혼자 있는 시간</button>
+        <button onClick={() => handleButtonClick("/domestic_famtype/element_alone(o).csv")}>초등학생 자녀가 혼자 있는 시간</button>
+        <button onClick={() => handleButtonClick("/domestic_famtype/middle_alone(o).csv")}>중학생 이상 자녀가 혼자 있는 시간</button>
+>>>>>>> dcfe4d28 (add mian)
       </div>
 
       <div id="data-container"></div>
