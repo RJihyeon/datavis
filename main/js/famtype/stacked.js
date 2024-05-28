@@ -1,6 +1,6 @@
 // INITIALIZE
-d3.csv("./data/element_alone(o).csv").then((data) => { // 초기 csv 파일 표시
-    d3.select("button[data-src='./data/element_alone(o).csv']").classed('active', true);
+d3.csv("./data/famtype/element_alone(o).csv").then((data) => { // 초기 csv 파일 표시
+    d3.select("button[data-src='./data/famtype/element_alone(o).csv']").classed('active', true);
 
     const groupedData = {};
 

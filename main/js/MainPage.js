@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
       case "family-type":
         contentArea.innerHTML = `
           <div>
-            <button data-src="./data/kids_alone(o).csv">미취학 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/element_alone(o).csv">초등학생 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/kids_alone(o).csv">미취학 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/element_alone(o).csv">초등학생 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
           <div id="data-container"></div>
           <form id="dataSelect">
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
         `;
         // Append script dynamically
         const script = document.createElement("script");
-        script.src = "js/stacked.js";
+        script.src = "js/famtype/stacked.js";
         contentArea.appendChild(script);
         break;
       case "dom-violence":
