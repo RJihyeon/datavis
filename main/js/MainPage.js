@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
         script.src = "js/famtype/stacked.js";
         contentArea.appendChild(script);
         break;
+        
       case "dom-violence":
         contentArea.innerHTML = "<div>가정환경 콘텐츠</div>"; // Replace with actual HTML content
         break;
