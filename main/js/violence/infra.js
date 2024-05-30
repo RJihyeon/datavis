@@ -29,7 +29,7 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
 
   function visualizeData(data, groupBy) {
     const margin = { top: 20, right: 30, bottom: 40, left: 50 };
-    const width = 1000 - margin.left - margin.right;
+    const width = 1000;
     const height = 600 - margin.top - margin.bottom;
 
     const svg = d3
