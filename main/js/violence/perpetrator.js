@@ -92,13 +92,17 @@ class PerpetratorChart {
             .selectAll("rect")
             .data((d) => d)
             .join("rect")
-            .attr("x", (d) => x(d[0]))
             .attr("y", (d) => y(d.data.categoryGender))
             .attr("height", y.bandwidth())
+            .attr("x", x(0))
+            .attr("width", 0)
+            .transition() // Add transition
+            .duration(1500)
+            .attr("x", (d) => x(d[0]))
             .attr("width", (d) => x(d[1]) - x(d[0]))
-            .append("title")
+            .selection()
+            .append("title") // Append title after the transition
             .text((d) => `${d.data.categoryGender} ${d.key}: ${d[1] - d[0]}`);
-
           // Add axes
           svg
             .append("g")
