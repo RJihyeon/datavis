@@ -130,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
       event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")
     ) {
-
       // family-type 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -148,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
       event.target.hasAttribute("data-src") &&
       event.target.closest("#school-violence-container")
     ) {
-
       // school-violence 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -159,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.textContent = group;
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
-      })
+      });
 
       const dataSrc = event.target.getAttribute("data-src");
 
@@ -175,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
       groupSelect.style.display = "block";
     }
   });
-
 
   renderMenuComponent();
   renderActiveComponent("dom-violence"); // Default component

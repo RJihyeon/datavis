@@ -31,7 +31,7 @@ class ProtectionChart {
     const width = 330;
     const height = 500;
     const marginTop = 20;
-    const marginRight = 20;
+    const marginRight = 50;
     const marginBottom = 30;
     const marginLeft = 50;
 
@@ -67,12 +67,18 @@ class ProtectionChart {
     svg
       .append("g")
       .attr("transform", `translate(0,${height - marginBottom})`)
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(x))
+      .attr("class", "protection-x-axis")
+      .selectAll(".tick text")
+      .attr("class", "protection-x-text"); // Draw the x-axis
 
     svg
       .append("g")
       .attr("transform", `translate(${marginLeft},0)`)
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y))
+      .attr("class", "protection-y-axis")
+      .selectAll(".tick text")
+      .attr("class", "protection-y-text");
 
     //pointer 추가하기
 
