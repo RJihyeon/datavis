@@ -114,7 +114,7 @@ function showStackedBarChart(data) {
     const container = d3.select("#data-container-fam"); // 수정된 부분
     const width = 700;
     const height = 300;
-    const margin = { top: 20, right: 30, bottom: 30, left: 80 };
+    const margin = { top: 30, right: 30, bottom: 30, left: 80 };
     const legendHeight = 50;
     container.select("svg").remove(); // 수정된 부분
 
@@ -428,7 +428,7 @@ function showChart(data) {
 
     svg.append("text")
         .attr("x", width + 35)
-        .attr("y", height + margin.bottom / 2)
+        .attr("y", height + margin.bottom / 2 +15)
         .style("text-anchor", "middle")
         .style("font-size", "16px")
         .style("fill", "black")
