@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   renderMenuComponent();
-  renderActiveComponent("family-type"); // Default component
+  renderActiveComponent("dom-violennce"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);
