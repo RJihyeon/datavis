@@ -3,6 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentArea = document.getElementById("content-area");
     contentArea.innerHTML = ""; // Clear previous content
     switch (activeComponent) {
+      case "runaway":
+        contentArea.innerHTML = `
+      <div></div>`;
+
+        const exp = document.createElement("script");
+        exp.src = "js/runaway/bar.js";
+        contentArea.appendChild(exp);
+
       case "family-type":
         contentArea.innerHTML = `
         <div id="famtype-container">
@@ -25,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           <form id="dataSelect">
             <input type="button" data-group="g1" value="한부모 연령별">
-            <input type="button" data-group="g2" value="한부모 학력별">
+            <input type="button" data-group="g2" value="한부모 기관유형별">
             <input type="button" data-group="g3" value="혼인 상태별">
             <input type="button" data-group="g4" value="가구 구성별">
             <input type="button" data-group="g5" value="가장 어린 자녀별">
@@ -98,6 +106,29 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         document.body.appendChild(script3);
 
+        break;
+
+      //가정폭력 인프라 케이스
+      case "violence-infra":
+        contentArea.innerHTML = `
+        <div class="container1"> 
+        <div id="chart-container" class="graph-vioinfra">
+            <p class="vioinfra-title">가정폭력/아동학대 예방교육 여부 및 도움 정도</p>
+            <div class="button-container">
+            <button class="group-btn" data-group="전체">전체</button>
+            <button class="group-btn" data-group="성별">성별</button>
+            <button class="group-btn" data-group="연령">연령</button>
+            <button class="group-btn" data-group="기관유형">기관유형</button>
+            </div>
+            <div id="groupSelect"></div>
+
+            <div id="vioinfra-chart"></div>
+        </div>
+      `; // Replace with actual HTML content
+
+        const scriptViolenceInfra = document.createElement("script");
+        scriptViolenceInfra.src = "js/violence/infra.js";
+        contentArea.appendChild(scriptViolenceInfra);
         break;
 
       case "school-violence":
@@ -175,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   renderMenuComponent();
-  renderActiveComponent("dom-violence"); // Default component
+  renderActiveComponent("violence-infra"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);
