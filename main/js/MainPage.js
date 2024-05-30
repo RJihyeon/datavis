@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   renderMenuComponent();
-  renderActiveComponent("dom-violennce"); // Default component
+  renderActiveComponent("violence-infra"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);
