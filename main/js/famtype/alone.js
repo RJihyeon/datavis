@@ -63,7 +63,10 @@ d3.selectAll("button").on("click", function () {
 
 function loadData(csvFile) {
     d3.csv(csvFile).then((data) => {
-
+        
+        if (!data || data.length === 0) {
+            return;
+        }
         const groupedData = {};
 
         data.forEach((d) => {
@@ -83,7 +86,7 @@ function loadData(csvFile) {
 
                 d3.selectAll("#dataSelect input[type='button']").classed('active', false);
                 d3.select(this).classed('active', true);
-
+                
                 const group = d3.select(this).attr("data-group");
                 switch (group) {
                     case "g1": showStackedBarChart(groupedData["한부모 연령별"]); showBarChart(groupedData["한부모 연령별"]); break;
@@ -101,10 +104,13 @@ function loadData(csvFile) {
 }
 
 function showStackedBarChart(data) {
+    if (!data || data.length === 0) {
+        return;
+    }
     const container = d3.select("#data-container-fam"); // 수정된 부분
     const width = 700;
     const height = 300;
-    const margin = { top: 30, right: 30, bottom: 50, left: 60 };
+    const margin = { top: 30, right: 30, bottom: 50, left: 80 };
     const legendHeight = 50;
     container.select("svg").remove(); // 수정된 부분
 
@@ -145,7 +151,7 @@ function showStackedBarChart(data) {
         .call(yAxis);
 
     svg.append("text")
-        .attr("x", -margin.left + 50) 
+        .attr("x", -margin.left + 70) 
         .attr("y", -15)       
         .style("text-anchor", "end")
         .style("font-size", "14px") 
@@ -262,6 +268,9 @@ function showStackedBarChart(data) {
 }
 
 function showBarChart(data) {
+    if (!data || data.length === 0) {
+        return;
+    }
     const container = d3.select("#data-container-avg"); // 수정된 부분
     const width = 500;
     const height = 300;
@@ -372,7 +381,7 @@ function showBarChart(data) {
 d3.select("body").append("div")
     .attr("id", "tooltip")
     .style("position", "absolute")
-    .style("background-color", "white")
+    .style("background-color", "#f9f9f9")
     .style("border", "solid")
     .style("border-width", "1px")
     .style("border-radius", "5px")
