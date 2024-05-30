@@ -15,22 +15,20 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = `
         <div id="famtype-container">
           <div>
-            <button data-src="./data/famtype/kids_alone(o).csv">미취학 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/famtype/element_alone(o).csv">초등학생 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/famtype/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/kids_alone.csv">미취학 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/element_alone.csv">초등학생 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/middle_alone.csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
-
           <div class="container">
-            <div class "graph-stacked">
-              <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
-              <div id="data-container-fam"></div>
-            </div>
-            <div id="chart-container" class "graph-avg">
-              <p class="title-avg">특성별 한부모 가정 자녀의 혼자 있는 시간 평균</p>
-              <div id="data-container-avg"></div>
-            </div>
+          <div id="chart-container" class "graph-stacked">
+            <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
+            <div id="data-container-fam"></div>
           </div>
-
+          <div id="chart-container" class "graph-avg">
+            <p class="title-avg">특성별 한부모 가정 자녀의 혼자 있는 시간 평균</p>
+            <div id="data-container-avg"></div>
+          </div>
+        </div>
           <form id="dataSelect">
             <input type="button" data-group="g1" value="한부모 연령별">
             <input type="button" data-group="g2" value="한부모 기관유형별">
@@ -46,12 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         // Append script dynamically
         const scriptFamtype_1 = document.createElement("script");
-        scriptFamtype_1.src = "js/famtype/stacked.js";
+        scriptFamtype_1.src = "js/famtype/alone.js";
         contentArea.appendChild(scriptFamtype_1);
-
-        const scriptFamtype_2 = document.createElement("script");
-        scriptFamtype_2.src = "js/famtype/avg.js";
-        contentArea.appendChild(scriptFamtype_2);
         break;
         
       // 가정폭력 케이스
