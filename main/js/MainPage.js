@@ -11,8 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
             <button data-src="./data/famtype/element_alone(o).csv">초등학생 자녀가 혼자 있는 시간</button>
             <button data-src="./data/famtype/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
-          <div id="data-container-fam"></div>
-          <div id="data-container-avg"></div>
+
+          <div class="container">
+            <div id="chart-container" class "graph-stacked">
+              <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
+              <div id="data-container-fam"></div>
+            </div>
+            <div id="chart-container" class "graph-avg">
+              <p class="title-avg">특성별 한부모 가정 자녀의 혼자 있는 시간 평균</p>
+              <div id="data-container-avg"></div>
+            </div>
+          </div>
+
           <form id="dataSelect">
             <input type="button" data-group="g1" value="한부모 연령별">
             <input type="button" data-group="g2" value="한부모 학력별">
@@ -30,10 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const scriptFamtype_1 = document.createElement("script");
         scriptFamtype_1.src = "js/famtype/stacked.js";
         contentArea.appendChild(scriptFamtype_1);
-
-        const scriptFamtype_2 = document.createElement("script");
-        scriptFamtype_2.src = "js/famtype/avg.js";
-        contentArea.appendChild(scriptFamtype_2);
         break;
 
       // 가정폭력 케이스
