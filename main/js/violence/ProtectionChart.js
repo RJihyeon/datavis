@@ -114,8 +114,8 @@ class ProtectionChart {
     const path = svg
       .append("g")
       .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
+      .attr("stroke", "#313e79")
+      .attr("stroke-width", 3)
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
       .selectAll("path")
@@ -154,7 +154,7 @@ class ProtectionChart {
       const i = d3.leastIndex(points, ([x, y]) => Math.hypot(x - xm, y - ym));
       const [x, y, k] = points[i];
       path
-        .style("stroke", ({ z }) => (z === k ? null : "#ddd"))
+        .style("stroke", ({ z }) => (z === k ? "#313e79" : "#ddd"))
         .filter(({ z }) => z === k)
         .raise();
       dot.attr("transform", `translate(${x},${y})`);
@@ -168,7 +168,7 @@ class ProtectionChart {
     }
 
     function pointerleft() {
-      path.style("mix-blend-mode", "multiply").style("stroke", null);
+      path.style("mix-blend-mode", "multiply").style("stroke", "#313e79");
       dot.attr("display", "none");
       svg.node().value = null;
       svg.dispatch("input", { bubbles: true });
