@@ -289,7 +289,7 @@ function showBarChart(data) {
     const xAxis = d3.axisBottom(xScale);
 
     const yAxisGroup = svg.append("g")
-        .attr("class", "yAxis-style")
+        .style("font-size", "16px")
         .call(yAxis);
 
     const xAxisGroup = svg.append("g")
@@ -301,7 +301,7 @@ function showBarChart(data) {
         .attr("x", width + 30) 
         .attr("y", height + margin.bottom / 2)
         .style("text-anchor", "middle")
-        .style("font-size", "14px")
+        .style("font-size", "16px")
         .style("fill", "black")
         .text("시간");
 
