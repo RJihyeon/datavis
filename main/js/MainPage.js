@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <button data-src="./data/famtype/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
           <div id="data-container-fam"></div>
+          <div id="data-container-avg"></div>
           <form id="dataSelect">
             <input type="button" data-group="g1" value="한부모 연령별">
             <input type="button" data-group="g2" value="한부모 학력별">
@@ -26,9 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         `;
         // Append script dynamically
-        const scriptFamtype = document.createElement("script");
-        scriptFamtype.src = "js/famtype/stacked.js";
-        contentArea.appendChild(scriptFamtype);
+        const scriptFamtype_1 = document.createElement("script");
+        scriptFamtype_1.src = "js/famtype/stacked.js";
+        contentArea.appendChild(scriptFamtype_1);
+
+        const scriptFamtype_2 = document.createElement("script");
+        scriptFamtype_2.src = "js/famtype/avg.js";
+        contentArea.appendChild(scriptFamtype_2);
         break;
 
       // 가정폭력 케이스
@@ -115,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
       event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")
     ) {
+
       // family-type 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -127,13 +133,12 @@ document.addEventListener("DOMContentLoaded", function () {
         groupSelect.appendChild(button);
       });
       const dataSrc = event.target.getAttribute("data-src");
-      console.log("Selected CSV: ", dataSrc); // CSV 파일 경로 출력
-      console.log("Default Group: ", groups[0]); // 기본 그룹 출력
       loadAndRenderChart(dataSrc);
     } else if (
       event.target.hasAttribute("data-src") &&
       event.target.closest("#school-violence-container")
     ) {
+
       // school-violence 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -144,11 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
         button.textContent = group;
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
-      });
+      })
 
       const dataSrc = event.target.getAttribute("data-src");
-      console.log("Selected CSV (school-violence)main:", dataSrc); // CSV 파일 경로 출력
-      console.log("Default Group (school-violence)main:", groups); // 기본 그룹 출력
 
       // 그룹 버튼 클릭 이벤트 핸들러 추가
       d3.selectAll("#groupSelect button").on("click", function () {
@@ -162,6 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
       groupSelect.style.display = "block";
     }
   });
+
 
   renderMenuComponent();
   renderActiveComponent("dom-violence"); // Default component
