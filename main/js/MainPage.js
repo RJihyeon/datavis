@@ -11,7 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
             <button data-src="./data/famtype/element_alone(o).csv">초등학생 자녀가 혼자 있는 시간</button>
             <button data-src="./data/famtype/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
-          <div id="data-container-fam"></div>
+
+          <div class="container">
+            <div id="chart-container" class "graph-stacked">
+              <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
+              <div id="data-container-fam"></div>
+            </div>
+            <div id="chart-container" class "graph-avg">
+              <p class="title-avg">특성별 한부모 가정 자녀의 혼자 있는 시간 평균</p>
+              <div id="data-container-avg"></div>
+            </div>
+          </div>
+
           <form id="dataSelect">
             <input type="button" data-group="g1" value="한부모 연령별">
             <input type="button" data-group="g2" value="한부모 학력별">
@@ -26,30 +37,69 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         `;
         // Append script dynamically
-        const scriptFamtype = document.createElement("script");
-        scriptFamtype.src = "js/famtype/stacked.js";
-        contentArea.appendChild(scriptFamtype);
+        const scriptFamtype_1 = document.createElement("script");
+        scriptFamtype_1.src = "js/famtype/stacked.js";
+        contentArea.appendChild(scriptFamtype_1);
+
+        const scriptFamtype_2 = document.createElement("script");
+        scriptFamtype_2.src = "js/famtype/avg.js";
+        contentArea.appendChild(scriptFamtype_2);
         break;
+
+      // 가정폭력 케이스
       case "dom-violence":
         contentArea.innerHTML = `
-        <!-경찰청 가정폭력 피해자 보호조치 현황->
-          <div id="chart-container" class="graph-protection">
-            <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
-            <div id="chart"></div> 
-          </div>
+        <div class="container1">
+  <!-- 경찰청 가정폭력 피해자 보호조치 현황 -->
+  <div id="chart-container" class="graph-protection">
+      <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
+      <div id="chart"></div> 
+  </div>
 
-        <!-->
-        `; // Replace with actual HTML content
+  <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
+  <div id="chart-container" class="graph-violenceExp">
+      <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
+      <div id="violenceExp-chart"></div>
+  </div>
+  </div>
+
+  <div class="container2"> 
+  <div id="chart-container" class="graph-perpetrator">
+      <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
+      <div id="perpetrator-chart"></div>
+  </div>
+  `;
+
+        // 보호조치 현황 차트 스크립트 로드
         const script1 = document.createElement("script");
         script1.src = "js/violence/ProtectionChart.js";
         script1.onload = () => {
-          // 스크립트 로드 완료 후 차트 인스턴스 생성 및 렌더링
           const protectionChart = new ProtectionChart();
           const chartContainer = document.getElementById("chart");
           chartContainer.appendChild(protectionChart.render());
         };
         document.body.appendChild(script1);
+
+        // 폭력 피해 경험 차트 스크립트 로드
+        const script2 = document.createElement("script");
+        script2.src = "js/violence/violenceExp.js";
+        script2.onload = () => {
+          const violenceExpChart = new ViolenceExpChart("violenceExp-chart");
+          violenceExpChart.render();
+        };
+        document.body.appendChild(script2);
+
+        //폭력 목격 경험 차트 스크립트 로드
+        const script3 = document.createElement("script");
+        script3.src = "js/violence/perpetrator.js";
+        script3.onload = () => {
+          const perpetratorChart = new PerpetratorChart("perpetrator-chart");
+          perpetratorChart.render();
+        };
+        document.body.appendChild(script3);
+
         break;
+
       case "school-violence":
         contentArea.innerHTML = `
         <div id="school-violence-container">
@@ -80,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
       event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")
     ) {
+
       // family-type 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -92,13 +143,12 @@ document.addEventListener("DOMContentLoaded", function () {
         groupSelect.appendChild(button);
       });
       const dataSrc = event.target.getAttribute("data-src");
-      console.log("Selected CSV: ", dataSrc); // CSV 파일 경로 출력
-      console.log("Default Group: ", groups[0]); // 기본 그룹 출력
       loadAndRenderChart(dataSrc);
     } else if (
       event.target.hasAttribute("data-src") &&
       event.target.closest("#school-violence-container")
     ) {
+
       // school-violence 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -112,8 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
       })
 
       const dataSrc = event.target.getAttribute("data-src");
-      console.log("Selected CSV (school-violence)main:", dataSrc); // CSV 파일 경로 출력
-      console.log("Default Group (school-violence)main:", groups); // 기본 그룹 출력
 
       // 그룹 버튼 클릭 이벤트 핸들러 추가
       d3.selectAll("#groupSelect button").on("click", function () {
@@ -127,6 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
       groupSelect.style.display = "block";
     }
   });
+
 
   renderMenuComponent();
   renderActiveComponent("dom-violence"); // Default component

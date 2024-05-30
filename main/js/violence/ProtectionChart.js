@@ -29,7 +29,7 @@ class ProtectionChart {
     if (!this.protection.length) return;
 
     const width = 330;
-    const height = 300;
+    const height = 500;
     const marginTop = 20;
     const marginRight = 20;
     const marginBottom = 30;
@@ -159,7 +159,9 @@ class ProtectionChart {
         .raise();
       dot.attr("transform", `translate(${x},${y})`);
       dot.select("text").text(k);
-      svg.property("value", protection[i]).dispatch("input", { bubbles: true });
+      svg
+        .property("value", this.protection[i])
+        .dispatch("input", { bubbles: true });
     }
 
     function pointerentered() {

@@ -9,14 +9,14 @@ d3.csv("./data/famtype/element_alone(o).csv").then((data) => { // 초기 csv 파
         if (!groupedData[group]) {
             groupedData[group] = [];
         }
-        
+
         groupedData[group].push(d);
-        
+
     });
-    
+
     showStackedBarChart(groupedData["한부모 연령별"]);// 초기 차트 표시
     d3.select("#dataSelect input[type='button'][data-group='g1']").classed('active', true); // 초기 버튼 활성화
-    
+
     d3.selectAll("#dataSelect input[type='button']")
         .on("click", function () {
 
@@ -59,8 +59,6 @@ d3.selectAll("button").on("click", function () {
     loadData(csvFile);
 });
 
-
-
 function loadData(csvFile) {
     d3.csv(csvFile).then((data) => {
 
@@ -100,8 +98,8 @@ function loadData(csvFile) {
 }
 
 function showStackedBarChart(data) {
-    const width = 800;
-    const height = 500;
+    const width = 700;
+    const height = 400;
     const margin = { top: 30, right: 30, bottom: 50, left: 60 };
     const legendHeight = 50;
     d3.select("svg").remove(); // 기존 SVG 제거
@@ -141,6 +139,16 @@ function showStackedBarChart(data) {
     const yAxisGroup = svg.append("g")
         .attr("class", "yAxis-style")
         .call(yAxis);
+
+    // Add the label '개수' above the y-axis
+    svg.append("text")
+        .attr("x", -margin.left + 50)  // Align with the y-axis
+        .attr("y", -15)                // Position above the y-axis
+        .style("text-anchor", "end")
+        .style("font-size", "14px")    // Adjust the font size as needed
+        .style("fill", "black")        // Adjust the text color as needed
+        .text("%");
+
 
     const stack = d3.stack()
         .keys(["1~3시간", "4~6시간", "7시간 이상"]);
@@ -259,3 +267,4 @@ d3.select("body").append("div")
     .style("border-radius", "5px")
     .style("padding", "10px")
     .style("display", "none");
+
