@@ -129,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
       })
-      //else if로 dom-violence 관련 로직 추가하시면됩니다.;
 
       const dataSrc = event.target.getAttribute("data-src");
       console.log("Selected CSV (school-violence)main:", dataSrc); // CSV 파일 경로 출력
