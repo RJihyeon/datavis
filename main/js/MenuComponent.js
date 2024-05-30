@@ -39,7 +39,9 @@ function renderMenuComponent() {
               <li>
                 <button class="sub_button click" id="social-infra" onclick="setActiveComponent('social-infra')">- 사회복지 인프라</button>
               </li>
-      </ul>
+              <li>
+                <button class="sub_button click" id="social-infra" onclick="setActiveComponent('social-infra')">- 지현님 채워주세요</button>
+              </li>
     </div>
   `;
 }
