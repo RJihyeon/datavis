@@ -37,7 +37,7 @@ class PerpetratorChart {
         visualizeData(processedData);
 
         function visualizeData(data) {
-          const width = 928;
+          const width = 1300;
           const height = 500; // Adjusted height
           const margin = { top: 30, right: 20, bottom: 100, left: 330 };
 

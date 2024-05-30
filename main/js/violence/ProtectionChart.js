@@ -28,7 +28,7 @@ class ProtectionChart {
   drawChart() {
     if (!this.protection.length) return;
 
-    const width = 330;
+    const width = 500;
     const height = 500;
     const marginTop = 20;
     const marginRight = 50;
