@@ -9,12 +9,14 @@ d3.csv("./data/famtype/element_alone(o).csv").then((data) => { // 초기 csv 파
         if (!groupedData[group]) {
             groupedData[group] = [];
         }
+        
         groupedData[group].push(d);
+        
     });
-
-    showStackedBarChart(groupedData["한부모 연령별"]); // 초기 차트 표시
+    
+    showStackedBarChart(groupedData["한부모 연령별"]);// 초기 차트 표시
     d3.select("#dataSelect input[type='button'][data-group='g1']").classed('active', true); // 초기 버튼 활성화
-
+    
     d3.selectAll("#dataSelect input[type='button']")
         .on("click", function () {
 
@@ -112,7 +114,7 @@ function showStackedBarChart(data) {
 
 
     // SVG
-    const svg = d3.select("#data-container")
+    const svg = d3.select("#data-container-fam")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom + legendHeight)
