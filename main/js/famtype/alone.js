@@ -323,11 +323,17 @@ function showBarChart(data) {
         .attr("fill", "#3CB371")
         .attr("y", d => yScale(d.구분))
         .attr("x", 0) 
-        .attr("width", d => xScale(d.평균)) 
+        .attr("width", 0) 
         .attr("height", yScale.bandwidth())
         .attr("data-xLabel", d => d.구분)
         .on("click", () => {
             sortBars();
+        })
+        .transition()
+        .attr("width", d => xScale(d.평균)) 
+        .duration(500)
+        .delay((d, i) => { // ** 첫 번째부터 순차적으로 나오게 순서별 delay를 줌. 각각 시작 시간 다르게
+            return (i / data.length) * 100;
         });
 
     // 각 막대의 데이터 값을 텍스트로 추가
@@ -385,7 +391,7 @@ function showChart(data) {
     const container = d3.select("#data-container-ox");  // container
     const width = 600;
     const height = 150;
-    const margin = { top: 30, right: 200, bottom: 10, left: 200 };  // 오른쪽 margin 증가
+    const margin = { top: 30, right: 200, bottom: 10, left: 400 };  // 오른쪽 margin 증가
     const legendHeight = 50;
     container.select("svg").remove();
 
@@ -450,7 +456,7 @@ function showChart(data) {
         .attr("y", d => yScale(d.data.구분))
         .attr("x", d => xScale(d[0]))
         .attr("height", yScale.bandwidth())
-        .attr("width", d => xScale(d[1]) - xScale(d[0]))
+        .attr("width", 0) // ** 여기를 처음에 0으로 설정해줘야 animation 들어감
         .attr("data-xLabel", d => d.data.구분)
         .on("mouseover", (event, d) => {
             d3.select("#tooltip")
@@ -467,6 +473,12 @@ function showChart(data) {
         })
         .on("mouseleave", () => {
             d3.select("#tooltip").style("display", "none");
+        })
+        .transition()
+        .attr("width", d => xScale(d[1]) - xScale(d[0]))
+        .duration(500)
+        .delay((d, i) => { // ** 첫 번째부터 순차적으로 나오게 순서별 delay를 줌. 각각 시작 시간 다르게
+            return (i / data.length) * 100;
         });
 
     // LEGEND

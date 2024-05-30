@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <button data-src="./data/famtype/element_alone.csv">초등학생 자녀가 혼자 있는 시간</button>
             <button data-src="./data/famtype/middle_alone.csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
-          <div id="data-container-ox"></div> <style> #data-container-ox {margin: 0 auto;}</style>
+          <div id="data-container-ox"></div> <style> #data-container-ox {margin: 0 auto;} </style>
           <div class="container">
           <div id="chart-container" class "graph-stacked">
             <p class="title-stacked">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
