@@ -28,9 +28,9 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
   }
 
   function visualizeData(data, groupBy) {
-    const margin = { top: 20, right: 100, bottom: 40, left: 50 };
-    const width = 1100;
-    const height = 600;
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const width = 1000 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
 
     const svg = d3
       .select("#vioinfra-chart")
@@ -84,6 +84,19 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .selectAll(".tick text")
       .attr("class", "perpetrator-y-text");
 
+    const tooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("visibility", "hidden")
+      .style("background", "rgba(255, 255, 255, 0.8)")
+      .style("border", "1px solid #ddd")
+      .style("padding", "5px")
+      .style("border-radius", "5px")
+      .style("text-align", "left")
+      .style("font-size", "12px");
+
     const bars = svg
       .selectAll(".bar")
       .data(data)
@@ -108,7 +121,18 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .attr("y", (d) => y(d[1]))
       .attr("width", x.bandwidth() / 6)
       .attr("height", (d) => height - y(d[1]))
-      .attr("fill", (d) => color(d[0]));
+      .attr("fill", (d) => color(d[0]))
+      .on("mouseover", (event, d) => {
+        tooltip.style("visibility", "visible").text(`${d[0]}: ${d[1]}`);
+      })
+      .on("mousemove", (event) => {
+        tooltip
+          .style("top", event.pageY - 10 + "px")
+          .style("left", event.pageX + 10 + "px");
+      })
+      .on("mouseout", () => {
+        tooltip.style("visibility", "hidden");
+      });
 
     const legend = svg
       .append("g")
@@ -119,7 +143,7 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .data(color.domain())
       .enter()
       .append("rect")
-      .attr("x", -230)
+      .attr("x", -200)
       .attr("y", (d, i) => i * 20)
       .attr("width", 18)
       .attr("height", 18)
@@ -130,7 +154,7 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .data(color.domain())
       .enter()
       .append("text")
-      .attr("x", -200)
+      .attr("x", -180)
       .attr("y", (d, i) => i * 20 + 9)
       .attr("dy", "0.35em")
       .text((d) => d);
