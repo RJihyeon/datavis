@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         scriptFamtype_2.src = "js/famtype/avg.js";
         contentArea.appendChild(scriptFamtype_2);
         break;
-
+        
       // 가정폭력 케이스
       case "dom-violence":
         contentArea.innerHTML = `
