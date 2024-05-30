@@ -1,1 +1,4 @@
 jihyeon_chart
+
+# Ignore Visual Studio Code settings folder
+.vscode/
