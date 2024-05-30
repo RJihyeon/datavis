@@ -47,6 +47,12 @@ document.addEventListener("DOMContentLoaded", function () {
       <div id="violenceExp-chart"></div>
   </div>
   </div>
+
+  <div class="container2"> 
+  <div id="chart-container" class="graph-perpetrator">
+      <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
+      <div id="perpetrator-chart"></div>
+  </div>
   `;
 
         // 보호조치 현황 차트 스크립트 로드
@@ -67,6 +73,16 @@ document.addEventListener("DOMContentLoaded", function () {
           violenceExpChart.render();
         };
         document.body.appendChild(script2);
+
+        //폭력 목격 경험 차트 스크립트 로드
+        const script3 = document.createElement("script");
+        script3.src = "js/violence/perpetrator.js";
+        script3.onload = () => {
+          const perpetratorChart = new PerpetratorChart("perpetrator-chart");
+          perpetratorChart.render();
+        };
+        document.body.appendChild(script3);
+
         break;
 
       case "school-violence":
