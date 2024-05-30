@@ -1,3 +1,6 @@
-jihyeon_chart
-frontend
-dataviz
+
+
+# Ignore Visual Studio Code settings folder
+.vscode/
+=======
+
