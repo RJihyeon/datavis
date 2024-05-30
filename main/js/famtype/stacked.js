@@ -100,8 +100,8 @@ function loadData(csvFile) {
 }
 
 function showStackedBarChart(data) {
-    const width = 800;
-    const height = 500;
+    const width = 500;
+    const height = 400;
     const margin = { top: 30, right: 30, bottom: 50, left: 60 };
     const legendHeight = 50;
     d3.select("svg").remove(); // 기존 SVG 제거
@@ -141,6 +141,8 @@ function showStackedBarChart(data) {
     const yAxisGroup = svg.append("g")
         .attr("class", "yAxis-style")
         .call(yAxis);
+
+    yAxisGroup.transition().duration(1000).call(yAxis);
 
     const stack = d3.stack()
         .keys(["1~3시간", "4~6시간", "7시간 이상"]);
@@ -259,3 +261,5 @@ d3.select("body").append("div")
     .style("border-radius", "5px")
     .style("padding", "10px")
     .style("display", "none");
+
+ 
