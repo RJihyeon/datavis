@@ -89,15 +89,26 @@ function loadData(csvFile) {
                 d3.select(this).classed('active', true);
 
                 const group = d3.select(this).attr("data-group");
-                showBarChart(groupedData[group]); // 수정된 부분
+                switch (group) {
+                    case "g1": showStackedBarChart(groupedData["한부모 연령별"]); break;
+                    case "g2": showStackedBarChart(groupedData["한부모 학력별"]); break;
+                    case "g3": showStackedBarChart(groupedData["혼인 상태별"]); break;
+                    case "g4": showStackedBarChart(groupedData["가구 구성별"]); break;
+                    case "g5": showStackedBarChart(groupedData["가장 어린 자녀별"]); break;
+                    case "g6": showStackedBarChart(groupedData["종사상 지위별"]); break;
+                    case "g7": showStackedBarChart(groupedData["정부 지원 유형별"]); break;
+                    case "g8": showStackedBarChart(groupedData["소득 수준별"]); break;
+                    case "g9": showStackedBarChart(groupedData["한부모가된 기간별"]); break;
+                }
             });
     });
 }
 
 
+
 function showBarChart(data) {
-    const width = 200;
-    const height = 100;
+    const width = 400;
+    const height = 200;
     const margin = { top: 30, right: 30, bottom: 50, left: 60 };
     d3.select("svg").remove(); // 기존 SVG 제거
     let = sortAscending = true;
@@ -109,91 +120,97 @@ function showBarChart(data) {
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    const xScale = d3.scaleBand()
+    const yScale = d3.scaleBand() // xScale과 yScale을 반전시킵니다.
         .domain(data.map(d => d.구분))
-        .range([0, width])
+        .range([0, height])
         .padding(0.2);
 
-    const yScale = d3.scaleLinear()
-        .domain(data.map((d) => d.평균))
-        .range([height, 0]);
+    const xScale = d3.scaleLinear() // xScale과 yScale을 반전시킵니다.
+        .domain([0, d3.max(data, d => d.평균)])
+        .range([0, width]);
 
-    const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
+    const xAxis = d3.axisBottom(xScale);
+
+    const yAxisGroup = svg.append("g") // x축과 y축을 반전시킵니다.
+        .attr("class", "yAxis-style")
+        .call(yAxis);
 
     const xAxisGroup = svg.append("g")
         .attr("transform", `translate(0, ${height})`)
         .attr("class", "xAxis-style")
         .call(xAxis);
 
-    const yAxisGroup = svg.append("g")
-        .attr("class", "yAxis-style")
-        .call(yAxis);
-
     // Add the label '개수' above the y-axis
     svg.append("text")
-        .attr("x", -margin.left + 50)  // Align with the y-axis
-        .attr("y", -15)                // Position above the y-axis
-        .style("text-anchor", "end")
-        .style("font-size", "14px")    // Adjust the font size as needed
-        .style("fill", "black")        // Adjust the text color as needed
-        .text("%");
+        .attr("x", width / 2)  // 가운데 정렬
+        .attr("y", height + margin.bottom / 2)
+        .style("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("fill", "black")
+        .text("시간");
 
-    //Bar 추가
+    // Bar 추가
     const bars = svg
         .selectAll("rect")
         .data(data)
         .enter()
         .append("rect")
         .attr("fill", "steelblue")
-        .attr("x", d => xScale(d.구분))
-        .attr("y", d => yScale(d.평균))
-        .attr("height", d => yScale(0) - yScale(d.평균))
-        .attr("width", xScale.bandwidth())
-        .attr("data-xLabel", d => d.구분);
-        // .on("click", (event, d) => {
-        //     event.stopPropagation(); // 이벤트 전파 중지
-        //     sortBars(d);
-        // })
-        // .on("mouseover", (event, d) => {
-        //     d3.select("#tooltip")
-        //         .style("display", "block")
-        //         .html(`
-        //             <div class="tooltip-label">
-        //                 <div>${d3.select(event.target.parentNode).datum().key}: ${Math.floor(d[1] - d[0])}${" %"}</div>
-        //             </div>`);
-        // })
-        // .on("mousemove", (event) => {
-        //     d3.select("#tooltip")
-        //         .style("left", event.pageX + 10 + "px")
-        //         .style("top", event.pageY + 10 + "px");
-        // })
-        // .on("mouseleave", () => {
-        //     d3.select("#tooltip").style("display", "none");
-        // });
+        .attr("y", d => yScale(d.구분))
+        .attr("x", 0) // 막대의 x 위치를 0으로 설정
+        .attr("width", d => xScale(d.평균)) // 막대의 너비는 데이터에 따라 달라집니다.
+        .attr("height", yScale.bandwidth()) // 막대의 높이는 yScale의 bandwidth로 설정됩니다.
+        .attr("data-xLabel", d => d.구분)
+        .on("click", () => {
+            sortBars();
+        });
 
-        
-    // function sortBars() {
-    //     data.sort((a, b) => {
-    //         return sortAscending
-    //             ? d3.ascending(a.age, b.age)
-    //             : d3.descending(a.age, b.age);
-    //     });
-    //     yScale.domain(data.map((d) => d.name));
-    //     svg
-    //         .selectAll("rect")
-    //         .data(data, (d) => d.name)
-    //         .transition()
-    //         .duration(1000)
-    //         .attr("y", (d) => yScale(d.name));
-    //     yAxisGroup.transition().duration(1000).call(yAxis);
-    //     sortAscending = !sortAscending;
+    // 각 막대의 데이터 값을 텍스트로 추가
+    svg.selectAll(".bar-label")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("class", "bar-label")
+        .attr("x", d => xScale(d.평균)) // 막대의 오른쪽에 텍스트를 위치시킵니다.
+        .attr("y", d => yScale(d.구분) + yScale.bandwidth() / 2)
+        .attr("dx", 5) // 텍스트의 위치를 막대 안으로 이동
+        .attr("dy", "0.35em") // 수직 정렬을 위해 추가
+        .style("font-size", "12px")
+        .style("fill", "black")
+        .text(d => d.평균);
 
-    // }
 
-    // bars.on("click", () => {
-    //     console.log();
-    //     sortBars();
-    // });
+    // SORTING
+    let sortDescending = false;
+
+    function sortBars() {
+
+        data.sort((a, b) => {
+            return sortDescending ? b.평균 - a.평균 : a.평균 - b.평균;
+        });
+
+        yScale.domain(data.map((d) => d.구분));
+
+        svg
+            .selectAll("rect")
+            .data(data, (d) => d.구분)
+            .transition()
+            .duration(1000)
+            .attr("y", (d) => yScale(d.구분));
+
+        svg
+            .selectAll(".bar-label")
+            .data(data, (d) => d.구분)
+            .transition()
+            .duration(1000)
+            .attr("x", (d) => xScale(d.평균)) // 막대의 오른쪽에 텍스트를 위치시킵니다.
+            .attr("y", (d) => yScale(d.구분) + yScale.bandwidth() / 2);
+
+        yAxisGroup.transition().duration(1000).call(yAxis);
+        sortDescending = !sortDescending;
+
+    }
+
 }
 
