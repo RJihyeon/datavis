@@ -103,7 +103,7 @@ function loadData(csvFile) {
 function showStackedBarChart(data) {
     const container = d3.select("#data-container-fam"); // 수정된 부분
     const width = 700;
-    const height = 400;
+    const height = 300;
     const margin = { top: 30, right: 30, bottom: 50, left: 60 };
     const legendHeight = 50;
     container.select("svg").remove(); // 수정된 부분
@@ -264,7 +264,7 @@ function showStackedBarChart(data) {
 function showBarChart(data) {
     const container = d3.select("#data-container-avg"); // 수정된 부분
     const width = 500;
-    const height = 400;
+    const height = 300;
     const margin = { top: 30, right: 50, bottom: 50, left: 150 };
     container.select("svg").remove(); // 수정된 부분
 
