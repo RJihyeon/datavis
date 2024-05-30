@@ -107,9 +107,9 @@ function loadData(csvFile) {
 
 
 function showBarChart(data) {
-    const width = 400;
-    const height = 200;
-    const margin = { top: 30, right: 30, bottom: 50, left: 60 };
+    const width = 500;
+    const height = 400;
+    const margin = { top: 30, right: 50, bottom: 50, left: 70 };
     d3.select("svg").remove(); // 기존 SVG 제거
     let = sortAscending = true;
 
@@ -143,7 +143,7 @@ function showBarChart(data) {
 
     // Add the label '개수' above the y-axis
     svg.append("text")
-        .attr("x", width / 2)  // 가운데 정렬
+        .attr("x", width + 30)  // 가운데 정렬
         .attr("y", height + margin.bottom / 2)
         .style("text-anchor", "middle")
         .style("font-size", "14px")
@@ -156,7 +156,7 @@ function showBarChart(data) {
         .data(data)
         .enter()
         .append("rect")
-        .attr("fill", "steelblue")
+        .attr("fill", "#3CB371")
         .attr("y", d => yScale(d.구분))
         .attr("x", 0) // 막대의 x 위치를 0으로 설정
         .attr("width", d => xScale(d.평균)) // 막대의 너비는 데이터에 따라 달라집니다.
@@ -172,13 +172,14 @@ function showBarChart(data) {
         .enter()
         .append("text")
         .attr("class", "bar-label")
-        .attr("x", d => xScale(d.평균)) // 막대의 오른쪽에 텍스트를 위치시킵니다.
+        .attr("x", d => xScale(d.평균))
         .attr("y", d => yScale(d.구분) + yScale.bandwidth() / 2)
-        .attr("dx", 5) // 텍스트의 위치를 막대 안으로 이동
-        .attr("dy", "0.35em") // 수직 정렬을 위해 추가
-        .style("font-size", "12px")
-        .style("fill", "black")
-        .text(d => d.평균);
+        .attr("dx", -80)
+        .attr("dy", "0.35em")
+        .style("font-size", "18px")
+        .style("fill", "white")
+        .style("font-weight", "bold")
+        .text(d => d.평균 + " 시간");
 
 
     // SORTING
@@ -213,4 +214,12 @@ function showBarChart(data) {
     }
 
 }
-
+d3.select("body").append("div")
+    .attr("id", "tooltip")
+    .style("position", "absolute")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("display", "none");

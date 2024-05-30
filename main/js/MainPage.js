@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
 
           <div class="container">
-            <div id="chart-container" class "graph-stacked">
+            <div class "graph-stacked">
               <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
               <div id="data-container-fam"></div>
             </div>
