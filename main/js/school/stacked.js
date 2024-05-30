@@ -1,5 +1,6 @@
 let groupedData = {};
 console.log("stacked");
+
 // 데이터 초기화 함수
 function initialize(csvFile, defaultGroup) {
     d3.csv(csvFile).then((data) => {
@@ -11,7 +12,7 @@ function initialize(csvFile, defaultGroup) {
             }
             groupedData[group].push(d);
         });
-        
+        console.log("groupedData", groupedData);
         if (groupedData[defaultGroup]) {
             
             showStackedBarChart(groupedData[defaultGroup]); // 초기 차트 표시
@@ -24,7 +25,6 @@ function initialize(csvFile, defaultGroup) {
                 event.preventDefault();
                 d3.selectAll("#groupSelect button").classed('active', false);
                 d3.select(this).classed('active', true);
-
                 const group = d3.select(this).attr("data-group");
                  if (groupedData[group]) {
                     showStackedBarChart(groupedData[group]);
@@ -43,6 +43,7 @@ function showStackedBarChart(data) {
     const margin = { top: 40, right: 30, bottom: 50, left: 60 };
     const legendHeight = 50;
     d3.select("#school-violence-container svg").remove(); // 기존 SVG 제거
+    
 
     // COLOR
     const customColors = ["#87CEFA", "#4169E1"];
