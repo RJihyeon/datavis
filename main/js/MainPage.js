@@ -40,6 +40,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const scriptFamtype_1 = document.createElement("script");
         scriptFamtype_1.src = "js/famtype/stacked.js";
         contentArea.appendChild(scriptFamtype_1);
+
+        const scriptFamtype_2 = document.createElement("script");
+        scriptFamtype_2.src = "js/famtype/avg.js";
+        contentArea.appendChild(scriptFamtype_2);
         break;
 
       // 가정폭력 케이스
