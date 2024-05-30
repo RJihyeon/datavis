@@ -298,8 +298,8 @@ function showBarChart(data) {
         .call(xAxis);
 
     svg.append("text")
-        .attr("x", width + 30) 
-        .attr("y", height + margin.bottom / 2)
+        .attr("x", width + 35) 
+        .attr("y", height + margin.bottom / 2 - 5)
         .style("text-anchor", "middle")
         .style("font-size", "16px")
         .style("fill", "black")
@@ -365,7 +365,6 @@ function showBarChart(data) {
 
         yAxisGroup.transition().duration(1000).call(yAxis);
         sortDescending = !sortDescending;
-
     }
 
 }
