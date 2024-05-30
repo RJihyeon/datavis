@@ -6,13 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
       case "family-type":
         contentArea.innerHTML = `
         <div id="famtype-container">
-        <div id="famtype-container">
           <div>
             <button data-src="./data/famtype/kids_alone(o).csv">미취학 자녀가 혼자 있는 시간</button>
             <button data-src="./data/famtype/element_alone(o).csv">초등학생 자녀가 혼자 있는 시간</button>
             <button data-src="./data/famtype/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
-          <div id="data-container-fam"></div>
           <div id="data-container-fam"></div>
           <form id="dataSelect">
             <input type="button" data-group="g1" value="한부모 연령별">
@@ -26,41 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="button" data-group="g9" value="한부모가된 기간별">
           </form>
         </div>
-        </div>
         `;
         // Append script dynamically
         const scriptFamtype = document.createElement("script");
         scriptFamtype.src = "js/famtype/stacked.js";
         contentArea.appendChild(scriptFamtype);
-        const scriptFamtype = document.createElement("script");
-        scriptFamtype.src = "js/famtype/stacked.js";
-        contentArea.appendChild(scriptFamtype);
         break;
-
-      // 가정폭력
-
       case "dom-violence":
-        contentArea.innerHTML = `
-        <!-경찰청 가정폭력 피해자 보호조치 현황->
-          <div id="chart-container" class="graph-protection">
-            <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
-            <div id="chart"></div> 
-          </div>
-
-        <!-->
-        `; // Replace with actual HTML content
-        const script1 = document.createElement("script");
-        script1.src = "js/violence/ProtectionChart.js";
-        script1.onload = () => {
-          // 스크립트 로드 완료 후 차트 인스턴스 생성 및 렌더링
-          const protectionChart = new ProtectionChart();
-          const chartContainer = document.getElementById("chart");
-          chartContainer.appendChild(protectionChart.render());
-        };
-        document.body.appendChild(script1);
-        contentArea.innerHTML = "<div>가정환경 콘텐츠</div><div id='data-container-dom'></div>"; // Replace with actual HTML content
+        contentArea.innerHTML =
+          "<div>가정환경 콘텐츠</div><div id='data-container-dom'></div>"; // Replace with actual HTML content
         break;
-
       case "school-violence":
         contentArea.innerHTML = `
         <div id="school-violence-container">
@@ -79,9 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
       `; // Replace with actual HTML content
 
         const scriptschool = document.createElement("script");
-            scriptschool.src = "js/school/stacked.js";
-            contentArea.appendChild(scriptschool);
-            break;
+        scriptschool.src = "js/school/stacked.js";
+        contentArea.appendChild(scriptschool);
+        break;
       default:
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
@@ -138,53 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
       groupSelect.style.display = "block";
     }
   });
-  document.addEventListener("click", function(event) {
-    if (event.target.hasAttribute("data-src")&&event.target.closest("#famtype-container")) {
-      // family-type 관련 로직
-      const groups = event.target.getAttribute("data-groups").split(",");
-      const groupSelect = document.getElementById("groupSelect");
-      
-      groupSelect.innerHTML = "";
-      groups.forEach(group => {
-        const button = document.createElement("button");
-        button.textContent = group;
-        button.setAttribute("data-group", group);
-        groupSelect.appendChild(button);
-      });
-      const dataSrc = event.target.getAttribute("data-src");
-      console.log("Selected CSV: ", dataSrc); // CSV 파일 경로 출력
-      console.log("Default Group: ", groups[0]); // 기본 그룹 출력
-      loadAndRenderChart(dataSrc);
-    } else if (event.target.hasAttribute("data-src")&&event.target.closest("#school-violence-container")){
-       // school-violence 관련 로직
-      const groups = event.target.getAttribute("data-groups").split(",");
-      const groupSelect = document.getElementById("groupSelect");
-
-      groupSelect.innerHTML = "";
-      groups.forEach(group => {
-        const button = document.createElement("button");
-        button.textContent = group;
-        button.setAttribute("data-group", group);
-        groupSelect.appendChild(button);
-      });
-
-      const dataSrc = event.target.getAttribute("data-src");
-      console.log("Selected CSV (school-violence)main:", dataSrc); // CSV 파일 경로 출력
-      console.log("Default Group (school-violence)main:", groups); // 기본 그룹 출력
-
-      // 그룹 버튼 클릭 이벤트 핸들러 추가
-      d3.selectAll("#groupSelect button").on("click", function() {
-        d3.selectAll("#groupSelect button").classed("active", false);
-        d3.select(this).classed("active", true);
-
-        const group = d3.select(this).attr("data-group");
-        console.log("Selected Group (school-violence):", group); // 선택된 그룹 출력
-        loadAndRenderChartSchoolViolence(dataSrc, group); // school-violence 관련 차트 로드 함수 호출
-      });
-      groupSelect.style.display = "block"
-    }
-  });
-  
 
   renderMenuComponent();
   renderActiveComponent("dom-violence"); // Default component

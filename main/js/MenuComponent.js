@@ -20,7 +20,7 @@ function renderMenuComponent() {
                 <button class="sub_button click" id="famtype" onclick="setActiveComponent('family-type')">- 가정유형</button>
               </li>
               <li>
-                <button class="sub_button click" id="domviolence" onclick="setActiveComponent('violence')">- 가정환경</button>
+                <button class="sub_button click" id="domviolence" onclick="setActiveComponent('dom-violence')">- 가정환경</button>
               </li>
               <li>
                 <button class="sub_button click" id="school" onclick="setActiveComponent('school-violence')">- 학교폭력</button>
