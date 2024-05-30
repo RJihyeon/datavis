@@ -37,10 +37,12 @@
 }
 
 
+
+
 /* */
 .legend-text {
+    font-size: 18px;
     font-weight: bold;
-    font-size: 16px;
     color: black;
 }
 
@@ -62,8 +64,8 @@
 
 /* Switch .csv file Button */
 button {
-    font-weight: bold;
     font-size: 17px;
+    font-weight: bold;
     margin-right: 10px;
     margin-bottom: 10px;
     padding: 10px 20px;
@@ -99,8 +101,8 @@ button:hover {
 }
 
 #dataSelect input[type="button"] {
-    font-weight: bold;
     font-size: 17px;
+    font-weight: bold;
     margin-right: 10px;
     margin-bottom: 10px;
     padding: 10px 20px;

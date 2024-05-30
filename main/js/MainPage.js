@@ -6,18 +6,19 @@ document.addEventListener("DOMContentLoaded", function () {
       case "family-type":
         contentArea.innerHTML = `
         <div id="famtype-container">
-          <div>
+        <h1>한부모 가정 자녀의 혼자 있는 시간</h1> <style>h1{text-align: center;}</style>
+          <div class="file-buttons">
             <button data-src="./data/famtype/kids_alone.csv">미취학 자녀가 혼자 있는 시간</button>
             <button data-src="./data/famtype/element_alone.csv">초등학생 자녀가 혼자 있는 시간</button>
             <button data-src="./data/famtype/middle_alone.csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
           <div class="container">
           <div id="chart-container" class "graph-stacked">
-            <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
+            <p class="title-stacked">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
             <div id="data-container-fam"></div>
           </div>
           <div id="chart-container" class "graph-avg">
-            <p class="title-avg">특성별 한부모 가정 자녀의 혼자 있는 시간 평균</p>
+            <p class="title-avg">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
             <div id="data-container-avg"></div>
           </div>
         </div>
