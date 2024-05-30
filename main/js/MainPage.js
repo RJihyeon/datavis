@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   function renderActiveComponent(activeComponent) {
     const contentArea = document.getElementById("content-area");
     contentArea.innerHTML = ""; // Clear previous content
@@ -28,9 +28,27 @@ document.addEventListener("DOMContentLoaded", function() {
         script.src = "js/famtype/stacked.js";
         contentArea.appendChild(script);
         break;
-      case "dom-violence":
-        contentArea.innerHTML = "<div>가정환경 콘텐츠</div>"; // Replace with actual HTML content
+      case "violence":
+        contentArea.innerHTML = `
+        <!-경찰청 가정폭력 피해자 보호조치 현황->
+          <div id="chart-container" class="graph-protection">
+            <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
+            <div id="chart"></div> 
+          </div>
+
+        <!-->
+        `; // Replace with actual HTML content
+        const script1 = document.createElement("script");
+        script1.src = "js/violence/ProtectionChart.js";
+        script1.onload = () => {
+          // 스크립트 로드 완료 후 차트 인스턴스 생성 및 렌더링
+          const protectionChart = new ProtectionChart();
+          const chartContainer = document.getElementById("chart");
+          chartContainer.appendChild(protectionChart.render());
+        };
+        document.body.appendChild(script1);
         break;
+
       case "school-violence":
         contentArea.innerHTML = "<div>학교폭력 콘텐츠</div>"; // Replace with actual HTML content
         break;
@@ -40,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   renderMenuComponent();
-  renderActiveComponent("dom-violence"); // Default component
+  renderActiveComponent("violence"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);
