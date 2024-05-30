@@ -1,6 +1,6 @@
 // INITIALIZE
-d3.csv("./data/famtype/element_alone(o).csv").then((data) => { // 초기 csv 파일 표시
-    d3.select("button[data-src='./data/famtype/element_alone(o).csv']").classed('active', true);
+d3.csv("./data/famtype/element_alone.csv").then((data) => { // 초기 csv 파일 표시
+    d3.select("button[data-src='./data/famtype/element_alone.csv']").classed('active', true);
 
     const groupedData = {};
 
@@ -15,6 +15,7 @@ d3.csv("./data/famtype/element_alone(o).csv").then((data) => { // 초기 csv 파
     });
 
     showStackedBarChart(groupedData["한부모 연령별"]);// 초기 차트 표시
+    showBarChart(groupedData["한부모 연령별"]);
     d3.select("#dataSelect input[type='button'][data-group='g1']").classed('active', true); // 초기 버튼 활성화
 
     d3.selectAll("#dataSelect input[type='button']")
@@ -74,6 +75,7 @@ function loadData(csvFile) {
         });
 
         showStackedBarChart(groupedData["한부모 연령별"]); // 초기 차트 표시
+        showBarChart(groupedData["한부모 연령별"]);
         d3.select("#dataSelect input[type='button'][data-group='g1']").classed('active', true); // 초기 버튼 활성화
 
         d3.selectAll("#dataSelect input[type='button']")
@@ -99,11 +101,12 @@ function loadData(csvFile) {
 }
 
 function showStackedBarChart(data) {
+    const container = d3.select("#data-container-fam"); // 수정된 부분
     const width = 700;
     const height = 400;
     const margin = { top: 30, right: 30, bottom: 50, left: 60 };
     const legendHeight = 50;
-    d3.select("svg").remove(); // 기존 SVG 제거
+    container.select("svg").remove(); // 수정된 부분
 
     // COLOR
     const customColors = ["#87CEFA", "#4169E1", "#00008B"];
@@ -141,13 +144,12 @@ function showStackedBarChart(data) {
         .attr("class", "yAxis-style")
         .call(yAxis);
 
-    // Add the label '개수' above the y-axis
     svg.append("text")
-        .attr("x", -margin.left + 50)  // Align with the y-axis
-        .attr("y", -15)                // Position above the y-axis
+        .attr("x", -margin.left + 50) 
+        .attr("y", -15)       
         .style("text-anchor", "end")
-        .style("font-size", "14px")    // Adjust the font size as needed
-        .style("fill", "black")        // Adjust the text color as needed
+        .style("font-size", "14px") 
+        .style("fill", "black")
         .text("%");
 
 
@@ -260,11 +262,12 @@ function showStackedBarChart(data) {
 }
 
 function showBarChart(data) {
+    const container = d3.select("#data-container-avg"); // 수정된 부분
     const width = 500;
     const height = 400;
-    const margin = { top: 30, right: 50, bottom: 50, left: 70 };
-    d3.select("svg").remove(); // 기존 SVG 제거
-    let = sortAscending = true;
+    const margin = { top: 30, right: 50, bottom: 50, left: 150 };
+    container.select("svg").remove(); // 수정된 부분
+
 
     const svg = d3.select("#data-container-avg")
         .append("svg")
@@ -273,19 +276,19 @@ function showBarChart(data) {
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    const yScale = d3.scaleBand() // xScale과 yScale을 반전시킵니다.
+    const yScale = d3.scaleBand()
         .domain(data.map(d => d.구분))
         .range([0, height])
         .padding(0.2);
 
-    const xScale = d3.scaleLinear() // xScale과 yScale을 반전시킵니다.
+    const xScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.평균)])
         .range([0, width]);
 
     const yAxis = d3.axisLeft(yScale);
     const xAxis = d3.axisBottom(xScale);
 
-    const yAxisGroup = svg.append("g") // x축과 y축을 반전시킵니다.
+    const yAxisGroup = svg.append("g")
         .attr("class", "yAxis-style")
         .call(yAxis);
 
@@ -294,9 +297,8 @@ function showBarChart(data) {
         .attr("class", "xAxis-style")
         .call(xAxis);
 
-    // Add the label '개수' above the y-axis
     svg.append("text")
-        .attr("x", width + 30)  // 가운데 정렬
+        .attr("x", width + 30) 
         .attr("y", height + margin.bottom / 2)
         .style("text-anchor", "middle")
         .style("font-size", "14px")
@@ -311,9 +313,9 @@ function showBarChart(data) {
         .append("rect")
         .attr("fill", "#3CB371")
         .attr("y", d => yScale(d.구분))
-        .attr("x", 0) // 막대의 x 위치를 0으로 설정
-        .attr("width", d => xScale(d.평균)) // 막대의 너비는 데이터에 따라 달라집니다.
-        .attr("height", yScale.bandwidth()) // 막대의 높이는 yScale의 bandwidth로 설정됩니다.
+        .attr("x", 0) 
+        .attr("width", d => xScale(d.평균)) 
+        .attr("height", yScale.bandwidth())
         .attr("data-xLabel", d => d.구분)
         .on("click", () => {
             sortBars();
@@ -358,7 +360,7 @@ function showBarChart(data) {
             .data(data, (d) => d.구분)
             .transition()
             .duration(1000)
-            .attr("x", (d) => xScale(d.평균)) // 막대의 오른쪽에 텍스트를 위치시킵니다.
+            .attr("x", (d) => xScale(d.평균))
             .attr("y", (d) => yScale(d.구분) + yScale.bandwidth() / 2);
 
         yAxisGroup.transition().duration(1000).call(yAxis);
