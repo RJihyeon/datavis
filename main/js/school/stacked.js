@@ -1,5 +1,5 @@
 let groupedData = {};
-
+console.log("stacked");
 // 데이터 초기화 함수
 function initialize(csvFile, defaultGroup) {
     d3.csv(csvFile).then((data) => {
@@ -20,7 +20,7 @@ function initialize(csvFile, defaultGroup) {
             
         }
         d3.selectAll("#groupSelect button")
-            .on("click", function () {
+            .on("click", function (event) {
                 event.preventDefault();
                 d3.selectAll("#groupSelect button").classed('active', false);
                 d3.select(this).classed('active', true);
@@ -107,9 +107,6 @@ function showStackedBarChart(data) {
         .append("text")
         .attr("x", d => xScale(d.data.year) + xScale.bandwidth() / 2)
         .attr("y", d => {
-            console.log("d object:", d); // d 객체의 구조 출력
-            console.log("yScale output:", "1:",yScale(d[0]), "2:",yScale(d[1])); // yScale 함수의 결과 출력
-
             if (d.key == "학폭피해경험 무") {
                 return yScale((d[0] + (d[1] - d[0]) / 2)); // 중간 위치
             } else {
@@ -174,9 +171,6 @@ function showStackedBarChart(data) {
 setTimeout(() => drawTrendLine(data), 100);
 
 }
-
-
-
 document.getElementById('school-violence-container').addEventListener('click', function(event) {
     if (event.target.closest('.data-btn') && event.target.hasAttribute('data-groups')) {
         const groups = event.target.getAttribute('data-groups').split(',');
