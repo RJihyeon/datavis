@@ -1,6 +1,6 @@
 // INITIALIZE
-d3.csv("./data/famtype/element_alone(o).csv").then((data) => { // 초기 csv 파일 표시
-    d3.select("button[data-src='./data/famtype/element_alone(o).csv']").classed('active', true);
+d3.csv("./data/famtype/element_alone(avg).csv").then((data) => { // 초기 csv 파일 표시
+    d3.select("button[data-src='./data/famtype/element_alone(avg).csv']").classed('active', true);
 
     const groupedData = {};
 
@@ -46,8 +46,15 @@ d3.selectAll("button").on("click", function () {
     d3.select(this).classed('active', true);
 
     // 새로운 csv 파일 버튼이 눌리면, type 버튼은 초기화
-    csvFile = this.getAttribute("data-src");
-    const type = this.getAttribute("data-type");
+    check = this.getAttribute("data-src");
+    if (check == "./data/famtype/kids_alone(o).csv")
+        csvFile = "./data/famtype/kids_alone(avg).csv";
+    else if (check == "./data/famtype/element_alone(o).csv")
+        csvFile = "./data/famtype/element_alone(avg).csv";
+    else if (check == "./data/famtype/middle_alone(o).csv")
+        csvFile = "./data/famtype/middle_alone(avg).csv";
+
+    const type = this.getAttribute("value");
     d3.selectAll("#dataSelect input[type='button']").each(function () {
         if (this.getAttribute("data-group") === type) {
             d3.select(this).classed('active', true);
@@ -82,25 +89,15 @@ function loadData(csvFile) {
                 d3.select(this).classed('active', true);
 
                 const group = d3.select(this).attr("data-group");
-                switch (group) {
-                    case "g1": showBarChart(groupedData["한부모 연령별"]); break;
-                    case "g2": showBarChart(groupedData["한부모 학력별"]); break;
-                    case "g3": showBarChart(groupedData["혼인 상태별"]); break;
-                    case "g4": showBarChart(groupedData["가구 구성별"]); break;
-                    case "g5": showBarChart(groupedData["가장 어린 자녀별"]); break;
-                    case "g6": showBarChart(groupedData["종사상 지위별"]); break;
-                    case "g7": showBarChart(groupedData["정부 지원 유형별"]); break;
-                    case "g8": showBarChart(groupedData["소득 수준별"]); break;
-                    case "g9": showBarChart(groupedData["한부모가된 기간별"]); break;
-                }
+                showBarChart(groupedData[group]); // 수정된 부분
             });
     });
 }
 
 
 function showBarChart(data) {
-    const width = 400;
-    const height = 400;
+    const width = 200;
+    const height = 100;
     const margin = { top: 30, right: 30, bottom: 50, left: 60 };
     d3.select("svg").remove(); // 기존 SVG 제거
     let = sortAscending = true;
@@ -194,9 +191,9 @@ function showBarChart(data) {
 
     // }
 
-    bars.on("click", () => {
-        console.log();
-        sortBars();
-    });
+    // bars.on("click", () => {
+    //     console.log();
+    //     sortBars();
+    // });
 }
 

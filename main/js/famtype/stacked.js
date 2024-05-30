@@ -47,14 +47,15 @@ d3.selectAll("button").on("click", function () {
 
     // 새로운 csv 파일 버튼이 눌리면, type 버튼은 초기화
     csvFile = this.getAttribute("data-src");
-    const type = this.getAttribute("data-type");
-    d3.selectAll("#dataSelect input[type='button']").each(function () {
-        if (this.getAttribute("data-group") === type) {
-            d3.select(this).classed('active', true);
-        } else {
-            d3.select(this).classed('active', false);
-        }
-    });
+    // const type = this.getAttribute("value");
+    // console.log(type);
+    // d3.selectAll("#dataSelect input[type='button']").each(function () {
+    //     if (this.getAttribute("data-group") === type) {
+    //         d3.select(this).classed('active', true);
+    //     } else {
+    //         d3.select(this).classed('active', false);
+    //     }
+    // });
 
     loadData(csvFile);
 });
