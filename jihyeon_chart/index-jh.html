@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>violence</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div id="chart-container" class="graph-protection">
+      <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
+      <script src="ProtectionChart.js"></script>
+      <script>
+        const protectionChart = new ProtectionChart();
+        const chartContainer = document.getElementById("chart-container");
+        chartContainer.appendChild(protectionChart.render());
+      </script>
+    </div>
+
+    <!-- 새로운 차트를 그릴 시간 -->
+
+    <div id="chart-container1" class="graph-violenceExp">
+      <script src="violenceExp.js"></script>
+    </div>
+  </body>
+</html>

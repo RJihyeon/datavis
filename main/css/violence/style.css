@@ -129,8 +129,28 @@
   font-size: 13px;
   font-weight: bold;
 }
-/* <div class="container2"> 
-<div id="chart-container" class="graph-perpetrator">
-    <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
-    <div id="perpetrator-chart"></div>
-</div> */
+
+/* 가정폭력 인프라 */
+.graph-vioinfra {
+  /* padding: 20px; */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* margin: 20px; */
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  padding: 0px;
+}
+
+.vioinfra-title {
+  padding-top: 15px;
+  padding-bottom: 20px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #6e7176;
+  margin: 0px;
+}
