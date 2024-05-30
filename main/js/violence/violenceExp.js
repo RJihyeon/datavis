@@ -1,4 +1,3 @@
-// violenceExp.js
 class ViolenceExpChart {
   constructor(containerId) {
     this.containerId = containerId;
@@ -7,13 +6,11 @@ class ViolenceExpChart {
   render() {
     const container = document.getElementById(this.containerId);
     if (container) {
-      // Your chart rendering logic here
-
       // Load and process the CSV data
       d3.csv(
         "data/domestic_violence/만_18세_이전_보호자로부터_폭력_피해_경험_20240503232633_utf8.csv"
       ).then(function (data) {
-        // 데이터 매핑 state-피해별 / gender : value / value : value
+        // 데이터 매핑
         const processedData = data.flatMap((d) => [
           {
             state: d["피해별(1)"],
@@ -27,15 +24,13 @@ class ViolenceExpChart {
           },
         ]);
 
-        console.log(processedData);
-
         visualizeData(processedData);
 
         function visualizeData(data) {
-          const width = 928;
+          const width = 1000;
           const height = 600;
           const marginTop = 10;
-          const marginRight = 200; // Increased margin for legend
+          const marginRight = 100; // Increased margin for legend
           const marginBottom = 20;
           const marginLeft = 40;
 
@@ -45,86 +40,84 @@ class ViolenceExpChart {
             남자: null,
           };
 
-          // Prepare the scales for positional and color encodings.
-          const fx = d3
-            .scaleBand()
-            .domain(Array.from(new Set(data.map((d) => d.state))))
-            .rangeRound([marginLeft, width - marginRight])
-            .paddingInner(0.1);
-
-          // Both x and color encode the gender class.
           const genders = Array.from(new Set(data.map((d) => d.gender)));
 
-          const x = d3
-            .scaleBand()
-            .domain(genders)
-            .rangeRound([0, fx.bandwidth()])
-            .padding(0.05);
-
-          const colorRange = ["#313e79", "#008080"];
-
-          const color = d3
-            .scaleOrdinal()
-            .domain(genders)
-            .range(colorRange)
-            .unknown("#ccc");
-
-          // Y encodes the height of the bar.
-          const y = d3
-            .scaleLinear()
-            .domain([0, d3.max(data, (d) => d.value)])
-            .nice()
-            .rangeRound([height - marginBottom, marginTop]);
-
-          console.log(container);
-          // Create the SVG container.
           const svg = d3
-            .select("#" + container.id)
+            .select(container)
             .append("svg")
             .attr("width", width)
             .attr("height", height)
             .attr("viewBox", [0, 0, width, height])
             .attr("style", "max-width: 100%; height: auto;");
 
-          // Append a group for each state, and a rect for each value.
+          const fx = d3
+            .scaleBand()
+            .domain(data.map((d) => d.state))
+            .rangeRound([marginLeft, width - marginRight])
+            .paddingInner(0.1);
+
+          const x = d3
+            .scaleBand()
+            .domain(["여자", "남자"])
+            .rangeRound([0, fx.bandwidth()])
+            .padding(0.05);
+
+          const y = d3
+            .scaleLinear()
+            .domain([0, d3.max(data, (d) => d.value)])
+            .nice()
+            .range([height - marginBottom, marginTop]);
+
+          const color = d3
+            .scaleOrdinal()
+            .domain(["여자", "남자"])
+            .range(["#ff9393", "#313e79"]);
           const stateGroups = svg
+            .selectAll(".state-group")
+            .data(
+              d3.group(data, (d) => d.state),
+              (d) => d[0]
+            )
+            .enter()
             .append("g")
-            .selectAll("g")
-            .data(d3.group(data, (d) => d.state))
-            .join("g")
-            .attr("transform", ([state]) => `translate(${fx(state)},0)`);
+            .attr("class", "state-group")
+            .attr("transform", (d) => `translate(${fx(d[0])},0)`);
 
-          const rects = stateGroups
+          stateGroups
             .selectAll("rect")
-            .data(([, d]) => d)
-            .join("rect")
+            .data(
+              (d) => d[1],
+              (d) => d.gender
+            )
+            .enter()
+            .append("rect")
             .attr("x", (d) => x(d.gender))
-            .attr("y", (d) => y(d.value))
+            .attr("y", (d) => y(0))
             .attr("width", x.bandwidth())
-            .attr("height", (d) => y(0) - y(d.value))
-            .attr("fill", (d) => color(d.gender));
-
-          // Append the horizontal axis.
+            .attr("height", 0)
+            .attr("fill", (d) => color(d.gender))
+            .transition() // Add transition for the initial rendering
+            .duration(1000)
+            .attr("y", (d) => y(d.value))
+            .attr("height", (d) => height - marginBottom - y(d.value));
           svg
             .append("g")
             .attr("class", "violenceExp-x-axis")
             .attr("transform", `translate(0,${height - marginBottom})`)
             .call(d3.axisBottom(fx).tickSizeOuter(0))
             .call((g) => g.selectAll(".domain").remove())
-            .selectAll(".tick text") //축의 텍스트 선택
+            .selectAll(".tick text")
             .attr("class", "violenceExp-x-text");
 
-          // Append the vertical axis.
           svg
             .append("g")
             .attr("class", "violenceExp-y-axis")
             .attr("transform", `translate(${marginLeft},0)`)
             .call(d3.axisLeft(y).ticks(null, "s"))
             .call((g) => g.selectAll(".domain").remove())
-            .selectAll(".tick text") //축의 텍스트 선택
+            .selectAll(".tick text")
             .attr("class", "violenceExp-y-text");
 
-          // Append the legend.
           const legend = svg
             .append("g")
             .attr(
@@ -137,29 +130,93 @@ class ViolenceExpChart {
             .join("g")
             .attr("transform", (d, i) => `translate(0,${i * 20})`)
             .style("cursor", "pointer")
-            .on("click", function (event, d) {
+            .on("click", function (event, genderClicked) {
               // Toggle sorting order for the clicked gender
-              sortingOrders[d] =
-                sortingOrders[d] === null ? false : !sortingOrders[d];
+              sortingOrders[genderClicked] =
+                sortingOrders[genderClicked] === null
+                  ? false
+                  : !sortingOrders[genderClicked];
 
-              // Filter data by gender
-              const filteredData = data.filter((item) => item.gender === d);
+              // Prepare the sorting function
+              const sortByGender = sortingOrders[genderClicked]
+                ? d3.ascending
+                : d3.descending;
 
-              // Sort filtered data based on the current order
-              filteredData.sort((a, b) =>
-                sortingOrders[d]
-                  ? d3.ascending(a.value, b.value)
-                  : d3.descending(a.value, b.value)
-              );
+              // Sort all data based on the clicked gender and recompute the state group order
+              const sortedStates = Array.from(
+                d3.group(data, (d) => d.state).values()
+              )
+                .sort((a, b) =>
+                  sortByGender(
+                    a.find((d) => d.gender === genderClicked).value,
+                    b.find((d) => d.gender === genderClicked).value
+                  )
+                )
+                .map((group) => group[0].state);
 
-              // Update the fx scale domain
-              fx.domain(Array.from(new Set(filteredData.map((d) => d.state))));
+              // Update the fx scale domain with the new sorted order of states
+              fx.domain(sortedStates);
 
-              // Transition the rectangles
-              stateGroups
+              // Transition state groups to new positions
+              const stateGroups = svg
+                .selectAll("g.state-group")
+                .data(sortedStates, (state) => state)
+                .join(
+                  (enter) =>
+                    enter
+                      .append("g")
+                      .classed("state-group", true)
+                      .attr(
+                        "transform",
+                        (state) => `translate(${fx(state)},0)`
+                      ),
+                  (update) =>
+                    update.call((update) =>
+                      update
+                        .transition()
+                        .duration(1000)
+                        .attr(
+                          "transform",
+                          (state) => `translate(${fx(state)},0)`
+                        )
+                    ),
+                  (exit) => exit.remove()
+                );
+
+              // Update rectangles within each state group based on the new sorting
+              stateGroups.each(function (state) {
+                const group = d3.select(this);
+                const rects = group.selectAll("rect").data(
+                  data.filter((d) => d.state === state),
+                  (d) => d.gender
+                );
+
+                rects
+                  .enter()
+                  .append("rect")
+                  .attr("x", (d) => x(d.gender))
+                  .attr("y", (d) => y(0))
+                  .attr("width", x.bandwidth())
+                  .attr("height", 0)
+                  .attr("fill", (d) => color(d.gender))
+                  .merge(rects)
+                  .transition()
+                  .duration(1000)
+                  .attr("y", (d) => y(d.value))
+                  .attr("height", (d) => y(0) - y(d.value));
+
+                rects.exit().remove();
+              });
+
+              // Update the x-axis
+              svg
+                .select(".violenceExp-x-axis")
                 .transition()
                 .duration(1000)
-                .attr("transform", ([state]) => `translate(${fx(state)},0)`);
+                .call(d3.axisBottom(fx).tickSizeOuter(0))
+                .call((g) => g.selectAll(".domain").remove())
+                .selectAll(".tick text")
+                .attr("class", "violenceExp-x-text");
             });
 
           legend

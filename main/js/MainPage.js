@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div id="violenceExp-chart"></div>
   </div>
   </div>
-a
+
   <div class="container2"> 
   <div id="chart-container" class="graph-perpetrator">
       <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
@@ -126,7 +126,6 @@ a
       event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")
     ) {
-
       // family-type 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -144,7 +143,6 @@ a
       event.target.hasAttribute("data-src") &&
       event.target.closest("#school-violence-container")
     ) {
-
       // school-violence 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -155,7 +153,7 @@ a
         button.textContent = group;
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
-      })
+      });
 
       const dataSrc = event.target.getAttribute("data-src");
 
@@ -171,7 +169,6 @@ a
       groupSelect.style.display = "block";
     }
   });
-
 
   renderMenuComponent();
   renderActiveComponent("dom-violence"); // Default component
