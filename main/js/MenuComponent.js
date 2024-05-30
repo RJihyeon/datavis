@@ -12,7 +12,8 @@ function renderMenuComponent() {
             </li>
           </ul>
         </li>
-        <ul>
+      </ul>
+      <ul>
           <li class="side-nav__list on">
             <button class="menu fst_button">잠재적 원인 관련 데이터</button>
             <ul class="sub_menu">
@@ -27,7 +28,17 @@ function renderMenuComponent() {
               </li>
             </ul>
           </li>
-        </ul>
+      </ul>
+      <ul>
+          <li class="side-nav__list on">
+            <button class="menu fst_button">인프라 데이터</button>
+            <ul class="sub_menu">
+              <li>
+                <button class="sub_button click" id="after-school-bully" onclick="setActiveComponent('after-school-bully')">- 학교폭력 피해지원</button>
+              </li>
+              <li>
+                <button class="sub_button click" id="social-infra" onclick="setActiveComponent('social-infra')">- 사회복지 인프라</button>
+              </li>
       </ul>
     </div>
   `;
