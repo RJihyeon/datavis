@@ -72,6 +72,21 @@ class ViolenceExpChart {
             .scaleOrdinal()
             .domain(["여자", "남자"])
             .range(["#ff9393", "#313e79"]);
+
+          // Create a tooltip
+          const tooltip = d3
+            .select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("background", "rgba(255, 255, 255, 0.8)")
+            .style("border", "1px solid #ddd")
+            .style("padding", "5px")
+            .style("border-radius", "5px")
+            .style("text-align", "left")
+            .style("font-size", "12px");
+
           const stateGroups = svg
             .selectAll(".state-group")
             .data(
@@ -96,10 +111,24 @@ class ViolenceExpChart {
             .attr("width", x.bandwidth())
             .attr("height", 0)
             .attr("fill", (d) => color(d.gender))
+            .on("mouseover", (event, d) => {
+              tooltip
+                .style("visibility", "visible")
+                .text(`${d.gender}: ${d.value}`);
+            })
+            .on("mousemove", (event) => {
+              tooltip
+                .style("top", event.pageY - 10 + "px")
+                .style("left", event.pageX + 10 + "px");
+            })
+            .on("mouseout", () => {
+              tooltip.style("visibility", "hidden");
+            })
             .transition() // Add transition for the initial rendering
             .duration(1000)
             .attr("y", (d) => y(d.value))
             .attr("height", (d) => height - marginBottom - y(d.value));
+
           svg
             .append("g")
             .attr("class", "violenceExp-x-axis")
@@ -199,6 +228,19 @@ class ViolenceExpChart {
                   .attr("width", x.bandwidth())
                   .attr("height", 0)
                   .attr("fill", (d) => color(d.gender))
+                  .on("mouseover", (event, d) => {
+                    tooltip
+                      .style("visibility", "visible")
+                      .text(`${d.gender}: ${d.value}`);
+                  })
+                  .on("mousemove", (event) => {
+                    tooltip
+                      .style("top", event.pageY - 10 + "px")
+                      .style("left", event.pageX + 10 + "px");
+                  })
+                  .on("mouseout", () => {
+                    tooltip.style("visibility", "hidden");
+                  })
                   .merge(rects)
                   .transition()
                   .duration(1000)
