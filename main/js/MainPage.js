@@ -30,26 +30,45 @@ document.addEventListener("DOMContentLoaded", function () {
         scriptFamtype.src = "js/famtype/stacked.js";
         contentArea.appendChild(scriptFamtype);
         break;
+
+      // 가정폭력 케이스
       case "dom-violence":
         contentArea.innerHTML = `
-        <!-경찰청 가정폭력 피해자 보호조치 현황->
-          <div id="chart-container" class="graph-protection">
-            <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
-            <div id="chart"></div> 
-          </div>
+        <div class="container1">
+  <!-- 경찰청 가정폭력 피해자 보호조치 현황 -->
+  <div id="chart-container" class="graph-protection">
+      <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
+      <div id="chart"></div> 
+  </div>
 
-        <!-->
-        `; // Replace with actual HTML content
+  <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
+  <div id="chart-container" class="graph-violenceExp">
+      <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
+      <div id="violenceExp-chart"></div>
+  </div>
+  </div>
+  `;
+
+        // 보호조치 현황 차트 스크립트 로드
         const script1 = document.createElement("script");
         script1.src = "js/violence/ProtectionChart.js";
         script1.onload = () => {
-          // 스크립트 로드 완료 후 차트 인스턴스 생성 및 렌더링
           const protectionChart = new ProtectionChart();
           const chartContainer = document.getElementById("chart");
           chartContainer.appendChild(protectionChart.render());
         };
         document.body.appendChild(script1);
+
+        // 폭력 피해 경험 차트 스크립트 로드
+        const script2 = document.createElement("script");
+        script2.src = "js/violence/violenceExp.js";
+        script2.onload = () => {
+          const violenceExpChart = new ViolenceExpChart("violenceExp-chart");
+          violenceExpChart.render();
+        };
+        document.body.appendChild(script2);
         break;
+
       case "school-violence":
         contentArea.innerHTML = `
         <div id="school-violence-container">
