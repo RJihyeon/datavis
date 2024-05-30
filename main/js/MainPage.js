@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.textContent = group;
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
-      });
+      })
 
       const dataSrc = event.target.getAttribute("data-src");
       console.log("Selected CSV (school-violence)main:", dataSrc); // CSV 파일 경로 출력
