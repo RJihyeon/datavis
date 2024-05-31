@@ -123,13 +123,13 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
       case "after-school-bully":
           console.log("after-school-bully click");
-          
+      
           contentArea.innerHTML = `
           <div id="after-bully-container">
             <div>
                   <button class="data-btn" data-groups="초4,초5,초6,중1,중2,중3,고1,고2,고3" data-src="./data/school/after_bully_grade.csv">학년별 학교폭력 피해지원</button>
                   <button class="data-btn" data-groups="남자,여자" data-src="./data/school/after_bully_sex.csv">성별 학교폭력 피해지원</button>
-                  <button class="data-btn" data-groups="남학교,여학교,남녀공학" data-src="./data/school/after_bullytype.csv">학교유형별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="남학교,여학교,남녀공학" data-src="./data/school/after_bully_type.csv">학교유형별 학교폭력 피해지원</button>
                   <button class="data-btn" data-groups="초등학교,중학교,고등학교" data-src="./data/school/after_bully_step.csv">진학단계별 학교폭력 피해지원</button>
             </div>
             <form id="groupSelect">
@@ -139,33 +139,16 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           `;
           console.log("after-bully-container", contentArea);
-
+      
           const script_after_bully = document.createElement("script");
           script_after_bully.src = "js/school/bar.js";
           contentArea.appendChild(script_after_bully);
           console.log("after-bully-container", contentArea);
-
-          document.querySelectorAll('.data-btn').forEach((button) => {
-            button.addEventListener('click', function(event) {
-              event.preventDefault();
-              // 여기에 클릭 이벤트에 대한 로직을 추가합니다.
-              const groups = event.target.getAttribute("data-groups").split(",");
-              const groupSelect = document.getElementById("groupSelect");
-              groupSelect.innerHTML = ""; // 기존 그룹 버튼 제거
-
-              groups.forEach((group) => {
-                const button = document.createElement("button");
-                button.textContent = group;
-                button.setAttribute("data-group", group);
-                button.addEventListener("click", () => {
-                  loadAndRenderChart(event.target.getAttribute("data-src"), group);
-                });
-                groupSelect.appendChild(button);
-        });
-            });
-          })
+      
           
+      
           break;
+      
 
       
 
@@ -224,9 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const button = document.createElement("button");
         button.textContent = group;
         button.setAttribute("data-group", group);
-        button.addEventListener("click", () => {
-          loadAndRenderChart(event.target.getAttribute("data-src"), group);
-        });
+
         groupSelect.appendChild(button);
       });
       console.log("groups1", groups);
