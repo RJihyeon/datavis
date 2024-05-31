@@ -54,29 +54,32 @@ document.addEventListener("DOMContentLoaded", function () {
       case "dom-violence":
         contentArea.innerHTML = `
         <div class="container1">
-  <!-- 경찰청 가정폭력 피해자 보호조치 현황 -->
-  <div id="chart-container" class="graph-protection">
-      <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
-      <div id="chart"></div> 
-  </div>
-
-  <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
-  <div id="chart-container" class="graph-violenceExp">
-      <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
-      <div id="violenceExp-chart"></div>
-  </div>
-
-  <div id="chart-container" class="graph-report">
-  <p class="report-title">가정폭력 시도청별 신고건수</p>
-  <div id="report-chart"></div>
-  </div>
-  </div>
-
-  <div class="container2"> 
-  <div id="chart-container" class="graph-perpetrator">
-      <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
-      <div id="perpetrator-chart"></div>
-  </div>
+        <!-- 경찰청 가정폭력 피해자 보호조치 현황 -->
+        <div id="chart-container" class="graph-protection">
+            <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
+            <div id="chart"></div> 
+        </div>
+      
+        <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
+        <div id="chart-container" class="graph-violenceExp">
+            <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
+            <div id="violenceExp-chart"></div>
+        </div>
+      
+      
+        </div>
+      
+        <div class="container2"> 
+        <div id="chart-container" class="graph-perpetrator">
+            <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
+            <div id="perpetrator-chart"></div>
+        </div>
+      
+        <div id="chart-container" class="graph-report">
+        <p class="report-title">가정폭력 시도청별 신고건수</p>
+        <div id="report-chart"></div>
+        </div>
+        </div>
 
 
   `;
