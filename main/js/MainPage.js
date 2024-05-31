@@ -66,16 +66,19 @@ document.addEventListener("DOMContentLoaded", function () {
       <div id="violenceExp-chart"></div>
   </div>
 
-  <div id="chart-container" class="graph-report">
-  <p class="report-title">가정폭력 시도청별 신고건수</p>
-  <div id="report-chart"></div>
-  </div>
+
   </div>
 
   <div class="container2"> 
   <div id="chart-container" class="graph-perpetrator">
       <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
       <div id="perpetrator-chart"></div>
+  </div>
+
+  <div id="chart-container" class="graph-report">
+  <p class="report-title">가정폭력 시도청별 신고건수</p>
+  <div id="report-chart"></div>
+  </div>
   </div>
 
 

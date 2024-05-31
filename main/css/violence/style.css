@@ -5,6 +5,8 @@
   flex-direction: row;
   margin-top: 0px;
   justify-content: space-around;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* 가정폭력 현황 */
@@ -23,7 +25,7 @@
 }
 .protection-title {
   padding-top: 15px;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   color: #6e7176;
   margin: 0px;
@@ -57,7 +59,7 @@
 
 .violenceExp-title {
   padding-top: 15px;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   color: #6e7176;
   margin: 0px;
@@ -93,7 +95,7 @@
 
 .container2 {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-top: 0px;
   justify-content: space-around;
 }
@@ -114,7 +116,7 @@
 
 .perpetrator-title {
   padding-top: 15px;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   color: #6e7176;
   margin: 0px;
@@ -154,3 +156,50 @@
   color: #6e7176;
   margin: 0px;
 }
+
+/* 가정폭력 신고건수 */
+.graph-report {
+  /* padding: 20px; */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* margin: 20px; */
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  width: 50%;
+}
+
+.report-title{
+  padding-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #6e7176;
+  margin: 0px;
+
+}
+
+/*   <div id="chart-container" class="graph-protection">
+      <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
+      <div id="chart"></div> 
+  </div>
+
+  <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
+  <div id="chart-container" class="graph-violenceExp">
+      <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
+      <div id="violenceExp-chart"></div>
+  </div>
+
+  <div id="chart-container" class="graph-report">
+  <p class="report-title">가정폭력 시도청별 신고건수</p>
+  <div id="report-chart"></div>
+  </div>
+  </div>
+
+  <div class="container2"> 
+  <div id="chart-container" class="graph-perpetrator">
+      <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
+      <div id="perpetrator-chart"></div>
+  </div> */
