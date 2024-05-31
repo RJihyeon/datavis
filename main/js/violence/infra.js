@@ -10,7 +10,6 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
     도움이됨: +d["도움이 됨"],
     매우도움이됨: +d["매우 도움이 됨"],
   }));
-  console.log(processedData);
 
   function updateChart(groupBy) {
     console.log(groupBy);

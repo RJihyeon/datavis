@@ -65,6 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
       <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
       <div id="violenceExp-chart"></div>
   </div>
+
+  <div id="chart-container" class="graph-report">
+  <p class="report-title">가정폭력 시도청별 신고건수</p>
+  <div id="report-chart"></div>
+  </div>
   </div>
 
   <div class="container2"> 
@@ -72,6 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
       <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
       <div id="perpetrator-chart"></div>
   </div>
+
+
   `;
 
         // 보호조치 현황 차트 스크립트 로드
@@ -101,6 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
           perpetratorChart.render();
         };
         document.body.appendChild(script3);
+
+        //신고건수 차트 스크립트 로드
+        const report = document.createElement("script");
+        report.src = "js/violence/report.js";
+        contentArea.appendChild(report);
 
         break;
 
@@ -202,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   renderMenuComponent();
-  renderActiveComponent("violence-infra"); // Default component
+  renderActiveComponent("dom-violence"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);
