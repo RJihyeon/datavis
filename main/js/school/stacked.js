@@ -1,5 +1,5 @@
 let groupedData = {};
-console.log("stacked");
+
 
 // 데이터 초기화 함수
 function initialize(csvFile, defaultGroup) {
@@ -12,9 +12,8 @@ function initialize(csvFile, defaultGroup) {
             }
             groupedData[group].push(d);
         });
-        console.log("groupedData2", groupedData);
+        
         if (groupedData[defaultGroup]) {
-            console.log("defaultGroup", defaultGroup);
             showStackedBarChart(groupedData[defaultGroup]); // 초기 차트 표시
             d3.select(`#groupSelect button[data-group='${defaultGroup}']`).classed('active', true); // 초기 버튼 활성화
         } else {
@@ -174,7 +173,7 @@ setTimeout(() => drawTrendLine(data), 100);
 }
 document.getElementById('school-violence-container').addEventListener('click', function(event) {
     if (event.target.closest('.data-btn') && event.target.hasAttribute('data-groups')) {
-        console.log("data-btn click");
+        
         const groups = event.target.getAttribute('data-groups').split(',');
         const src = event.target.getAttribute('data-src');
         const groupSelect = document.getElementById('groupSelect');
@@ -189,15 +188,16 @@ document.getElementById('school-violence-container').addEventListener('click', f
             groupSelect.appendChild(input);
         });
 
+        
         initialize(src, groups[0]);  // 초기 그룹 설정
     }
 });
 
 document.getElementById('groupSelect').addEventListener('click', function(event) {
     if (event.target.tagName === 'BUTTON' && event.target.hasAttribute('data-group')) {
-        console.log("groupSelect click");
         const src = event.target.getAttribute('data-src');
         const group = event.target.getAttribute('data-group');
+        
         showStackedBarChart(groupedData[group]);  // 선택된 그룹에 맞게 차트 업데이트
     }
 });
