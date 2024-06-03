@@ -8,7 +8,7 @@ def detect_encoding(file_path):
     return result['encoding']
 
 # 파일 경로 지정
-file_path = 'main/data/domestic_violence/시도청별_신고건수.csv'
+file_path = 'main/data/domestic_violence/2021 검거, 조치현황.csv'
 
 # 파일 인코딩 감지
 encoding = detect_encoding(file_path)
