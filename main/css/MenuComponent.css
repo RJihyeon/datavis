@@ -6,6 +6,7 @@
 }
 
 .menu_div {
+  width: 40;
   height: 100%;
   overflow: hidden;
   background-color: transparent;

@@ -53,34 +53,11 @@ document.addEventListener("DOMContentLoaded", function () {
       // 가정폭력 케이스
       case "dom-violence":
         contentArea.innerHTML = `
-        <div class="container1">
-  <!-- 경찰청 가정폭력 피해자 보호조치 현황 -->
-  <div id="chart-container" class="graph-protection">
-      <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
-      <div id="chart"></div> 
-  </div>
-
-  <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
-  <div id="chart-container" class="graph-violenceExp">
-      <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
-      <div id="violenceExp-chart"></div>
-  </div>
-
-
-  </div>
-
-  <div class="container2"> 
-  <div id="chart-container" class="graph-perpetrator">
-      <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
-      <div id="perpetrator-chart"></div>
-  </div>
-
-  <div id="chart-container" class="graph-report">
-  <p class="report-title">가정폭력 시도청별 신고건수</p>
-  <div id="report-chart"></div>
-  </div>
-  </div>
-
+        <div id="chart-container" class="graph-perpetrator">
+        <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
+        <div id="perpetrator-chart"></div>
+    </div>
+  
 
   `;
 
@@ -94,15 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         document.body.appendChild(script1);
 
-        // 폭력 피해 경험 차트 스크립트 로드
-        const script2 = document.createElement("script");
-        script2.src = "js/violence/violenceExp.js";
-        script2.onload = () => {
-          const violenceExpChart = new ViolenceExpChart("violenceExp-chart");
-          violenceExpChart.render();
-        };
-        document.body.appendChild(script2);
-
         //폭력 목격 경험 차트 스크립트 로드
         const script3 = document.createElement("script");
         script3.src = "js/violence/perpetrator.js";
@@ -111,11 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
           perpetratorChart.render();
         };
         document.body.appendChild(script3);
-
-        //신고건수 차트 스크립트 로드
-        const report = document.createElement("script");
-        report.src = "js/violence/report.js";
-        contentArea.appendChild(report);
 
         break;
 
