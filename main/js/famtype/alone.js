@@ -14,9 +14,9 @@ d3.csv("./data/famtype/element_alone.csv").then((data) => { // 초기 csv 파일
 
     });
 
-    showStackedBarChart(groupedData["한부모 연령별"]);// 초기 차트 표시
-    showBarChart(groupedData["한부모 연령별"]);
-    showChart(groupedData["한부모 연령별"]);
+    hours_1(groupedData["한부모 연령별"]);// 초기 차트 표시
+    avg(groupedData["한부모 연령별"]);
+    compare(groupedData["한부모 연령별"]);
 
     d3.select("#dataSelect input[type='button'][data-group='g1']").classed('active', true); // 초기 버튼 활성화
 
@@ -28,15 +28,15 @@ d3.csv("./data/famtype/element_alone.csv").then((data) => { // 초기 csv 파일
 
             const group = d3.select(this).attr("data-group");
             switch (group) {
-                case "g1": showStackedBarChart(groupedData["한부모 연령별"]); showBarChart(groupedData["한부모 연령별"]); showChart(groupedData["한부모 연령별"]); break;
-                case "g2": showStackedBarChart(groupedData["한부모 학력별"]); showBarChart(groupedData["한부모 학력별"]); showChart(groupedData["한부모 학력별"]); break;
-                case "g3": showStackedBarChart(groupedData["혼인 상태별"]); showBarChart(groupedData["혼인 상태별"]); showChart(groupedData["혼인 상태별"]); break;
-                case "g4": showStackedBarChart(groupedData["가구 구성별"]); showBarChart(groupedData["가구 구성별"]); showChart(groupedData["가구 구성별"]);  break;
-                case "g5": showStackedBarChart(groupedData["가장 어린 자녀별"]); showBarChart(groupedData["가장 어린 자녀별"]); showChart(groupedData["가장 어린 자녀별"]); break;
-                case "g6": showStackedBarChart(groupedData["종사상 지위별"]); showBarChart(groupedData["종사상 지위별"]); showChart(groupedData["종사상 지위별"]); break;
-                case "g7": showStackedBarChart(groupedData["정부 지원 유형별"]); showBarChart(groupedData["정부 지원 유형별"]); showChart(groupedData["정부 지원 유형별"]); break;
-                case "g8": showStackedBarChart(groupedData["소득 수준별"]); showBarChart(groupedData["소득 수준별"]); showChart(groupedData["소득 수준별"]); break;
-                case "g9": showStackedBarChart(groupedData["한부모가된 기간별"]); showBarChart(groupedData["한부모가된 기간별"]); showChart(groupedData["한부모가된 기간별"]); break;
+                case "g1": hours_1(groupedData["한부모 연령별"]); avg(groupedData["한부모 연령별"]); compare(groupedData["한부모 연령별"]); break;
+                case "g2": hours_1(groupedData["한부모 학력별"]); avg(groupedData["한부모 학력별"]); compare(groupedData["한부모 학력별"]); break;
+                case "g3": hours_1(groupedData["혼인 상태별"]); avg(groupedData["혼인 상태별"]); compare(groupedData["혼인 상태별"]); break;
+                case "g4": hours_1(groupedData["가구 구성별"]); avg(groupedData["가구 구성별"]); compare(groupedData["가구 구성별"]);  break;
+                case "g5": hours_1(groupedData["가장 어린 자녀별"]); avg(groupedData["가장 어린 자녀별"]); compare(groupedData["가장 어린 자녀별"]); break;
+                case "g6": hours_1(groupedData["종사상 지위별"]); avg(groupedData["종사상 지위별"]); compare(groupedData["종사상 지위별"]); break;
+                case "g7": hours_1(groupedData["정부 지원 유형별"]); avg(groupedData["정부 지원 유형별"]); compare(groupedData["정부 지원 유형별"]); break;
+                case "g8": hours_1(groupedData["소득 수준별"]); avg(groupedData["소득 수준별"]); compare(groupedData["소득 수준별"]); break;
+                case "g9": hours_1(groupedData["한부모가된 기간별"]); avg(groupedData["한부모가된 기간별"]); compare(groupedData["한부모가된 기간별"]); break;
             }
         });
 });
@@ -79,9 +79,9 @@ function loadData(csvFile) {
             groupedData[group].push(d);
         });
 
-        showStackedBarChart(groupedData["한부모 연령별"]); // 초기 차트 표시
-        showBarChart(groupedData["한부모 연령별"]);
-        showChart(groupedData["한부모 연령별"]);
+        hours_1(groupedData["한부모 연령별"]); // 초기 차트 표시
+        avg(groupedData["한부모 연령별"]);
+        compare(groupedData["한부모 연령별"]);
 
         d3.select("#dataSelect input[type='button'][data-group='g1']").classed('active', true); // 초기 버튼 활성화
 
@@ -93,21 +93,21 @@ function loadData(csvFile) {
                 
                 const group = d3.select(this).attr("data-group");
                 switch (group) {
-                    case "g1": showStackedBarChart(groupedData["한부모 연령별"]); showBarChart(groupedData["한부모 연령별"]); showChart(groupedData["한부모 연령별"]); break;
-                    case "g2": showStackedBarChart(groupedData["한부모 학력별"]); showBarChart(groupedData["한부모 학력별"]); showChart(groupedData["한부모 학력별"]); break;
-                    case "g3": showStackedBarChart(groupedData["혼인 상태별"]); showBarChart(groupedData["혼인 상태별"]); showChart(groupedData["혼인 상태별"]); break;
-                    case "g4": showStackedBarChart(groupedData["가구 구성별"]); showBarChart(groupedData["가구 구성별"]); showChart(groupedData["가구 구성별"]);  break;
-                    case "g5": showStackedBarChart(groupedData["가장 어린 자녀별"]); showBarChart(groupedData["가장 어린 자녀별"]); showChart(groupedData["가장 어린 자녀별"]); break;
-                    case "g6": showStackedBarChart(groupedData["종사상 지위별"]); showBarChart(groupedData["종사상 지위별"]); showChart(groupedData["종사상 지위별"]); break;
-                    case "g7": showStackedBarChart(groupedData["정부 지원 유형별"]); showBarChart(groupedData["정부 지원 유형별"]); showChart(groupedData["정부 지원 유형별"]); break;
-                    case "g8": showStackedBarChart(groupedData["소득 수준별"]); showBarChart(groupedData["소득 수준별"]); showChart(groupedData["소득 수준별"]); break;
-                    case "g9": showStackedBarChart(groupedData["한부모가된 기간별"]); showBarChart(groupedData["한부모가된 기간별"]); showChart(groupedData["한부모가된 기간별"]); break;
+                    case "g1": hours_1(groupedData["한부모 연령별"]); avg(groupedData["한부모 연령별"]); compare(groupedData["한부모 연령별"]); break;
+                    case "g2": hours_1(groupedData["한부모 학력별"]); avg(groupedData["한부모 학력별"]); compare(groupedData["한부모 학력별"]); break;
+                    case "g3": hours_1(groupedData["혼인 상태별"]); avg(groupedData["혼인 상태별"]); compare(groupedData["혼인 상태별"]); break;
+                    case "g4": hours_1(groupedData["가구 구성별"]); avg(groupedData["가구 구성별"]); compare(groupedData["가구 구성별"]);  break;
+                    case "g5": hours_1(groupedData["가장 어린 자녀별"]); avg(groupedData["가장 어린 자녀별"]); compare(groupedData["가장 어린 자녀별"]); break;
+                    case "g6": hours_1(groupedData["종사상 지위별"]); avg(groupedData["종사상 지위별"]); compare(groupedData["종사상 지위별"]); break;
+                    case "g7": hours_1(groupedData["정부 지원 유형별"]); avg(groupedData["정부 지원 유형별"]); compare(groupedData["정부 지원 유형별"]); break;
+                    case "g8": hours_1(groupedData["소득 수준별"]); avg(groupedData["소득 수준별"]); compare(groupedData["소득 수준별"]); break;
+                    case "g9": hours_1(groupedData["한부모가된 기간별"]); avg(groupedData["한부모가된 기간별"]); compare(groupedData["한부모가된 기간별"]); break;
                 }
             });
     });
 }
 
-function showStackedBarChart(data) {
+function hours_1(data) {
     if (!data || data.length === 0) {
         return;
     }
@@ -119,7 +119,7 @@ function showStackedBarChart(data) {
     container.select("svg").remove(); // 수정된 부분
 
     // COLOR
-    const customColors = ["#87CEFA", "#4169E1", "#00008B"];
+    const customColors = ["#8CE889", "#3CB371", "#135731"];
     const color = d3.scaleOrdinal(d3.schemeCategory10)
         .domain(["1~3시간", "4~6시간", "7시간 이상"])
         .range(customColors);
@@ -267,7 +267,7 @@ function showStackedBarChart(data) {
     }
 }
 
-function showBarChart(data) {
+function avg(data) {
     if (!data || data.length === 0) {
         return;
     }
@@ -384,128 +384,100 @@ function showBarChart(data) {
 
 }
 
-function showChart(data) {
+function compare(data) {
     if (!data || data.length === 0) {
         return;
     }
-    const container = d3.select("#data-container-ox");  // container
-    const width = 600;
-    const height = 150;
-    const margin = { top: 30, right: 200, bottom: 10, left: 400 };  // 오른쪽 margin 증가
-    const legendHeight = 50;
-    container.select("svg").remove();
+    
+    const container = d3.select("#data-container-ox");
+    container.selectAll("svg").remove();
 
-    // COLOR
-    const customColors = ["#3CB371", "#FFDAB9"];
-    const color = d3.scaleOrdinal(d3.schemeCategory10)
-        .domain(["혼자 있는 시간 O", "혼자 있는 시간 X"])
-        .range(customColors);
+    const width = 400;
+    const height = 300 ;
+    const margin = { top: 30, right: 70, bottom: 50, left: 50 }; 
 
-    // SVG
-    const svg = d3.select("#data-container-ox") // container
-        .append("svg")
+    const svg = container.append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom + legendHeight)
+        .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    const yScale = d3.scaleBand()
+    const xScale = d3.scaleBand()
         .domain(data.map(d => d.구분))
-        .range([0, height])
+        .range([0, width])
         .padding(0.2);
 
-    const xScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => +d["혼자 있는 시간 O"] + +d["혼자 있는 시간 X"])])
-        .range([0, width]);
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => Math.max(+d["2018"], +d["2021"]))])
+        .range([height, 0]);
 
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
 
-    const xAxisGroup = svg.append("g")
+    svg.append("g")
         .attr("transform", `translate(0, ${height})`)
-        .attr("class", "xAxis-style")
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("transform", "rotate(-45)");
 
-    svg.append("text")
-        .attr("x", width + 35)
-        .attr("y", height + margin.bottom / 2 +15)
-        .style("text-anchor", "middle")
-        .style("font-size", "16px")
-        .style("fill", "black")
-        .text("%");
-
-    const yAxisGroup = svg.append("g")
-        .attr("class", "yAxis-style")
+    svg.append("g")
         .call(yAxis);
 
-    const stack = d3.stack()
-        .keys(["혼자 있는 시간 O", "혼자 있는 시간 X"]);
+    const barWidth = xScale.bandwidth() / 2;
 
-    const stackedData = stack(data);
+    // Draw bars for 2018
+    svg.selectAll(".bar-2018")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar-2018")
+        .attr("x", d => xScale(d.구분))
+        .attr("y", d => yScale(+d["2018"]))
+        .attr("width", barWidth)
+        .attr("height", d => height - yScale(+d["2018"]))
+        .attr("fill", "#FFDAB9");
 
-    svg.selectAll(".layer")
-        .data(stackedData)
-        .enter()
-        .append("g")
-        .attr("class", "layer")
-        .attr("fill", d => color(d.key))
-        .selectAll("rect")
-        .data(d => d)
-        .enter()
-        .append("rect")
-        .attr("y", d => yScale(d.data.구분))
-        .attr("x", d => xScale(d[0]))
-        .attr("height", yScale.bandwidth())
-        .attr("width", 0) // ** 여기를 처음에 0으로 설정해줘야 animation 들어감
-        .attr("data-xLabel", d => d.data.구분)
-        .on("mouseover", (event, d) => {
-            d3.select("#tooltip")
-                .style("display", "block")
-                .html(`
-                    <div class="tooltip-label">
-                        <div>${d3.select(event.target.parentNode).datum().key}: ${Math.floor(d[1] - d[0])}${" %"}</div>
-                    </div>`);
-        })
-        .on("mousemove", (event) => {
-            d3.select("#tooltip")
-                .style("left", event.pageX + 10 + "px")
-                .style("top", event.pageY + 10 + "px");
-        })
-        .on("mouseleave", () => {
-            d3.select("#tooltip").style("display", "none");
-        })
-        .transition()
-        .attr("width", d => xScale(d[1]) - xScale(d[0]))
-        .duration(500)
-        .delay((d, i) => { // ** 첫 번째부터 순차적으로 나오게 순서별 delay를 줌. 각각 시작 시간 다르게
-            return (i / data.length) * 100;
-        });
+    // Draw bars for 2021
+    svg.selectAll(".bar-2021")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar-2021")
+        .attr("x", d => xScale(d.구분) + barWidth)
+        .attr("y", d => yScale(+d["2021"]))
+        .attr("width", barWidth)
+        .attr("height", d => height - yScale(+d["2021"]))
+        .attr("fill", "#3CB371"); 
 
     // LEGEND
-    const legendSpacing = 40; // 범례 간의 간격
     const legend = svg.append("g")
-        .attr("transform", `translate(${width + 40}, ${(height - color.domain().length * legendSpacing) / 2})`);  // 우측 가운데에 위치
+        .attr("transform", `translate(${width + 1}, 0)`);
 
-    const legendItem = legend.selectAll(".legend")
-        .data(color.domain())
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", (d, i) => `translate(0, ${i * legendSpacing})`);  // 세로로 배치, 간격 증가
-
-    legendItem.append("rect")
+    legend.append("rect")
         .attr("x", 0)
-        .attr("y", 0)
+        .attr("y", 10)
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", color);
+        .attr("fill", "#FFDAB9");
 
-    legendItem.append("text")
-        .attr("x", 24)
-        .attr("y", 9)
-        .attr("dy", ".35em")
-        .text(d => d);
+    legend.append("text")
+        .attr("x", 25)
+        .attr("y", 19)
+        .text("2018");
 
+    legend.append("rect")
+        .attr("x", 0)
+        .attr("y", 40)
+        .attr("width", 18)
+        .attr("height", 18)
+        .attr("fill", "#3CB371");
+
+    legend.append("text")
+        .attr("x", 25)
+        .attr("y", 49)
+        .text("2021");
 }
+
+
 
 
 d3.select("body").append("div")
