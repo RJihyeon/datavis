@@ -74,7 +74,7 @@ function kids(data) {
 
         const width = 300;
         const height = 200;
-        const margin = { top: 30, right: 70, bottom: 80, left: 50 };
+        const margin = { top: 30, right: 50, bottom: 90, left: 120 };
 
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -88,21 +88,34 @@ function kids(data) {
             .padding(0.2);
 
         const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => Math.max(+d["2018"], +d["2021"]))])
+            .domain([0, 100])
             .range([height, 0]);
 
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yScale);
 
-        svg.append("g")
+        // x축을 추가하고 xAxisGroup 변수에 저장
+        const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .call(xAxis)
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("transform", "rotate(-45)");
+            .call(xAxis);
 
-        svg.append("g")
-            .call(yAxis);
+        // x축 텍스트 스타일 설정
+        xAxisGroup.selectAll("text")
+            .style("text-anchor", "end")
+            .attr("transform", "rotate(-45)")
+            .attr("class", "xAxis-style");
+
+        const yAxisGroup = svg.append("g")
+            .call(yAxis)
+            .attr("class", "yAxis-style");
+
+        svg.append("text")
+            .attr("x", -margin.left + 100)
+            .attr("y", -15)
+            .style("text-anchor", "end")
+            .style("font-size", "14px")
+            .style("fill", "black")
+            .text("%");
 
         const barWidth = xScale.bandwidth() / 2;
 
@@ -115,7 +128,37 @@ function kids(data) {
             .attr("y", d => yScale(+d["2018"]))
             .attr("width", barWidth)
             .attr("height", d => height - yScale(+d["2018"]))
-            .attr("fill", "#FFDAB9");
+            .attr("fill", "#FFDAB9")
+            .on("mouseover", (event, d) => {
+                d3.select("#tooltip")
+                    .style("display", "block")
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`)
+                    .html(`
+        <div class="tooltip-label">
+            <div>${d.구분}: ${d["2018"]}${" %"}</div>
+        </div>`);
+            })
+            .on("mousemove", (event) => {
+                d3.select("#tooltip")
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseleave", () => {
+                d3.select("#tooltip").style("display", "none");
+            });
+
+        // 막대 위에 데이터 값 표기
+        svg.selectAll(".text-2018")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "text-2018")
+            .attr("x", d => xScale(d.구분) + barWidth / 2) // 막대의 중앙에 위치
+            .attr("y", d => yScale(+d["2018"]) - 5) // 막대의 상단보다 조금 위에 위치
+            .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
+            .text(d => `${d["2018"]}`) // 표시할 텍스트
+            .attr("fill", "black") // 텍스트 색상
+            .style("font-size", "12px");
 
         // Draw bars for 2021
         svg.selectAll(".bar-2021")
@@ -126,35 +169,154 @@ function kids(data) {
             .attr("y", d => yScale(+d["2021"]))
             .attr("width", barWidth)
             .attr("height", d => height - yScale(+d["2021"]))
-            .attr("fill", "#3CB371");
+            .attr("fill", "#3CB371")
+            .on("mouseover", (event, d) => {
+                d3.select("#tooltip")
+                    .style("display", "block")
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`)
+                    .html(`
+                    <div class="tooltip-label">
+                        <div>${d.구분}: ${d["2021"]}${" %"}</div>
+                    </div>`);
+            })
+            .on("mousemove", (event) => {
+                d3.select("#tooltip")
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseleave", () => {
+                d3.select("#tooltip").style("display", "none");
+            });
+
+        // 2021 데이터에 대한 막대 위에 데이터 값을 표시
+        svg.selectAll(".text-2021")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "text-2021")
+            .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 막대의 중앙에 위치
+            .attr("y", d => yScale(+d["2021"]) - 10) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
+            .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
+            .text(d => `${d["2021"]}`) // 표시할 텍스트
+            .attr("fill", "black")
+            .style("font-size", "12px");
 
         // LEGEND
         const legend = svg.append("g")
-            .attr("transform", `translate(${width + 1}, 0)`);
+            .attr("transform", `translate(80, -30)`)
+            .attr("class", "legend-text");
 
-        legend.append("rect")
+        const legendData = [
+            { year: "2018", color: "#FFDAB9" },
+            { year: "2021", color: "#3CB371" }
+        ];
+
+        const legendItem = legend.selectAll(".legend")
+            .data(legendData)
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", (d, i) => `translate(${i * 80}, 0)`) // Adjust the spacing between items if needed
+            .style("cursor", "pointer")
+            .on("click", (event, d) => {
+                sortBars(d.year);
+            });
+
+        legendItem.append("rect")
             .attr("x", 0)
             .attr("y", 10)
             .attr("width", 18)
             .attr("height", 18)
-            .attr("fill", "#FFDAB9");
+            .style("fill", d => d.color);
 
-        legend.append("text")
+        legendItem.append("text")
             .attr("x", 25)
-            .attr("y", 19)
-            .text("2018");
+            .attr("y", 23)
+            .text(d => d.year)
+            .attr("class", "legend-text");
 
+        let sortDescending = false;
+        let sortCategory = "";
+
+        function sortBars(category) {
+            if (sortCategory === category) {
+                sortDescending = !sortDescending;
+            } else {
+                sortDescending = false;
+            }
+            sortCategory = category;
+
+            // 데이터 정렬
+            data.sort((a, b) => {
+                return sortDescending ? b[category] - a[category] : a[category] - b[category];
+            });
+
+            xScale.domain(data.map(d => d.구분));
+
+            svg.selectAll(".bar-2021")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분) + barWidth);
+
+            svg.selectAll(".bar-2018")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분));
+
+            xAxisGroup.transition()
+                .duration(1000)
+                .call(xAxis);
+        }
+        // SVG 내에 필터 정의 부분
+        const defs = svg.append("defs");
+
+        const dropShadowFilter = defs.append("filter")
+            .attr("id", "drop-shadow")
+            .attr("height", "150%")  // 필터 높이를 조절하여 그림자 범위를 조정
+            .attr("width", "150%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
+
+        // 가우시안 블러로 그림자 부드러움 조절
+        dropShadowFilter.append("feGaussianBlur")
+            .attr("in", "SourceAlpha")
+            .attr("stdDeviation", 5)  // 그림자의 흐림 정도 조절
+            .attr("result", "blur");
+
+        // 그림자의 위치 조절
+        dropShadowFilter.append("feOffset")
+            .attr("in", "blur")
+            .attr("dx", 5)  // 수평 거리 조절
+            .attr("dy", 5)  // 수직 거리 조절
+            .attr("result", "offsetBlur");
+
+        // 그림자의 색상 및 투명도 조절
+        dropShadowFilter.append("feFlood")
+            .attr("flood-color", "black")
+            .attr("flood-opacity", 0.5)
+            .attr("result", "offsetColor");
+        dropShadowFilter.append("feComposite")
+            .attr("in", "offsetColor")
+            .attr("in2", "offsetBlur")
+            .attr("operator", "in")
+            .attr("result", "offsetBlur");
+
+        // 원본 그래픽과 그림자 병합
+        const feMerge = dropShadowFilter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "offsetBlur")
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
+
+        // 범례의 크기와 위치 계산하여 네모 테두리 추가 및 그림자 적용
+        const legendBox = legend.node().getBBox();
         legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 40)
-            .attr("width", 18)
-            .attr("height", 18)
-            .attr("fill", "#3CB371");
-
-        legend.append("text")
-            .attr("x", 25)
-            .attr("y", 49)
-            .text("2021");
+            .attr("x", legendBox.x - 5)
+            .attr("y", legendBox.y - 5)
+            .attr("width", legendBox.width + 15)
+            .attr("height", legendBox.height + 15)
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
     }
 
     function hours(data) {
@@ -164,7 +326,7 @@ function kids(data) {
         const container = d3.select("#kids-hours"); // 수정된 부분
         const width = 300;
         const height = 200;
-        const margin = { top: 30, right: 30, bottom: 30, left: 80 };
+        const margin = { top: 50, right: 50, bottom: 90, left: 120 };
         const legendHeight = 50;
         container.select("svg").remove(); // 수정된 부분
 
@@ -179,7 +341,7 @@ function kids(data) {
         const svg = d3.select("#kids-hours")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom + legendHeight)
+            .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -197,15 +359,19 @@ function kids(data) {
 
         const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .attr("class", "xAxis-style")
             .call(xAxis);
+
+        xAxisGroup.selectAll("text")
+            .style("text-anchor", "end")
+            .attr("transform", "rotate(-45)")
+            .attr("class", "xAxis-style");
 
         const yAxisGroup = svg.append("g")
             .attr("class", "yAxis-style")
             .call(yAxis);
 
         svg.append("text")
-            .attr("x", -margin.left + 70)
+            .attr("x", -margin.left + 100)
             .attr("y", -15)
             .style("text-anchor", "end")
             .style("font-size", "14px")
@@ -252,17 +418,17 @@ function kids(data) {
 
 
         // LEGEND
-        const legendWidth = color.domain().length * 150;
+        const legendWidth = color.domain().length * 100;
         const legendX = (width - legendWidth) / 2;
 
         const legend = svg.append("g")
-            .attr("transform", `translate(${legendX}, ${height + margin.bottom})`);
+            .attr("transform", `translate(0,-55)`);
 
         const legendItem = legend.selectAll(".legend")
             .data(color.domain())
             .enter().append("g")
             .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${i * 150}, 0)`);
+            .attr("transform", (d, i) => `translate(${i * 100}, 0)`);
 
         legendItem.append("rect")
             .attr("x", 0)
@@ -285,6 +451,56 @@ function kids(data) {
             .on("click", (event, d) => {
                 sortBars(d);
             });
+
+        // SVG 내에 필터 정의 부분
+        const defs = svg.append("defs");
+
+        const dropShadowFilter = defs.append("filter")
+            .attr("id", "drop-shadow")
+            .attr("height", "150%")  // 필터 높이를 조절하여 그림자 범위를 조정
+            .attr("width", "150%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
+
+        // 가우시안 블러로 그림자 부드러움 조절
+        dropShadowFilter.append("feGaussianBlur")
+            .attr("in", "SourceAlpha")
+            .attr("stdDeviation", 5)  // 그림자의 흐림 정도 조절
+            .attr("result", "blur");
+
+        // 그림자의 위치 조절
+        dropShadowFilter.append("feOffset")
+            .attr("in", "blur")
+            .attr("dx", 5)  // 수평 거리 조절
+            .attr("dy", 5)  // 수직 거리 조절
+            .attr("result", "offsetBlur");
+
+        // 그림자의 색상 및 투명도 조절
+        dropShadowFilter.append("feFlood")
+            .attr("flood-color", "black")
+            .attr("flood-opacity", 0.5)
+            .attr("result", "offsetColor");
+        dropShadowFilter.append("feComposite")
+            .attr("in", "offsetColor")
+            .attr("in2", "offsetBlur")
+            .attr("operator", "in")
+            .attr("result", "offsetBlur");
+
+        // 원본 그래픽과 그림자 병합
+        const feMerge = dropShadowFilter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "offsetBlur")
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
+
+        // 범례의 크기와 위치 계산하여 네모 테두리 추가 및 그림자 적용
+        const legendBox = legend.node().getBBox();
+        legend.append("rect")
+            .attr("x", legendBox.x - 5)
+            .attr("y", legendBox.y - 5)
+            .attr("width", legendBox.width + 15)
+            .attr("height", legendBox.height + 15)
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
 
         // SORTING
         let sortDescending = false;
@@ -324,7 +540,7 @@ function kids(data) {
         const container = d3.select("#kids-avg"); // 수정된 부분
         const width = 300;
         const height = 200;
-        const margin = { top: 20, right: 50, bottom: 30, left: 150 };
+        const margin = { top: 0, right: 50, bottom: 30, left: 120 };
         container.select("svg").remove(); // 수정된 부분
 
 
@@ -451,7 +667,7 @@ function elements(data) {
 
         const width = 300;
         const height = 200;
-        const margin = { top: 30, right: 70, bottom: 80, left: 50 };
+        const margin = { top: 30, right: 50, bottom: 90, left: 120 };
 
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -465,21 +681,34 @@ function elements(data) {
             .padding(0.2);
 
         const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => Math.max(+d["2018"], +d["2021"]))])
+            .domain([0, 100])
             .range([height, 0]);
 
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yScale);
 
-        svg.append("g")
+        // x축을 추가하고 xAxisGroup 변수에 저장
+        const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .call(xAxis)
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("transform", "rotate(-45)");
+            .call(xAxis);
 
-        svg.append("g")
-            .call(yAxis);
+        // x축 텍스트 스타일 설정
+        xAxisGroup.selectAll("text")
+            .style("text-anchor", "end")
+            .attr("transform", "rotate(-45)")
+            .attr("class", "xAxis-style");
+
+        const yAxisGroup = svg.append("g")
+            .call(yAxis)
+            .attr("class", "yAxis-style");
+
+        svg.append("text")
+            .attr("x", -margin.left + 100)
+            .attr("y", -15)
+            .style("text-anchor", "end")
+            .style("font-size", "14px")
+            .style("fill", "black")
+            .text("%");
 
         const barWidth = xScale.bandwidth() / 2;
 
@@ -492,7 +721,37 @@ function elements(data) {
             .attr("y", d => yScale(+d["2018"]))
             .attr("width", barWidth)
             .attr("height", d => height - yScale(+d["2018"]))
-            .attr("fill", "#FFDAB9");
+            .attr("fill", "#FFDAB9")
+            .on("mouseover", (event, d) => {
+                d3.select("#tooltip")
+                    .style("display", "block")
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`)
+                    .html(`
+        <div class="tooltip-label">
+            <div>${d.구분}: ${d["2018"]}${" %"}</div>
+        </div>`);
+            })
+            .on("mousemove", (event) => {
+                d3.select("#tooltip")
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseleave", () => {
+                d3.select("#tooltip").style("display", "none");
+            });
+
+        // 막대 위에 데이터 값 표기
+        svg.selectAll(".text-2018")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "text-2018")
+            .attr("x", d => xScale(d.구분) + barWidth / 2) // 막대의 중앙에 위치
+            .attr("y", d => yScale(+d["2018"]) - 5) // 막대의 상단보다 조금 위에 위치
+            .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
+            .text(d => `${d["2018"]}`) // 표시할 텍스트
+            .attr("fill", "black")
+            .style("font-size", "12px");
 
         // Draw bars for 2021
         svg.selectAll(".bar-2021")
@@ -503,35 +762,154 @@ function elements(data) {
             .attr("y", d => yScale(+d["2021"]))
             .attr("width", barWidth)
             .attr("height", d => height - yScale(+d["2021"]))
-            .attr("fill", "#3CB371");
+            .attr("fill", "#3CB371")
+            .on("mouseover", (event, d) => {
+                d3.select("#tooltip")
+                    .style("display", "block")
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`)
+                    .html(`
+                <div class="tooltip-label">
+                    <div>${d.구분}: ${d["2021"]}${" %"}</div>
+                </div>`);
+            })
+            .on("mousemove", (event) => {
+                d3.select("#tooltip")
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseleave", () => {
+                d3.select("#tooltip").style("display", "none");
+            });
+
+        svg.selectAll(".text-2021")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "text-2021")
+            .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 막대의 중앙에 위치
+            .attr("y", d => yScale(+d["2021"]) - 10) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
+            .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
+            .text(d => `${d["2021"]}`) // 표시할 텍스트
+            .attr("fill", "black")
+            .style("font-size", "12px");
 
         // LEGEND
         const legend = svg.append("g")
-            .attr("transform", `translate(${width + 1}, 0)`);
+            .attr("transform", `translate(80, -30)`)
+            .attr("class", "legend-text");
 
-        legend.append("rect")
+        const legendData = [
+            { year: "2018", color: "#FFDAB9" },
+            { year: "2021", color: "#3CB371" }
+        ];
+
+        const legendItem = legend.selectAll(".legend")
+            .data(legendData)
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", (d, i) => `translate(${i * 80}, 0)`) // Adjust the spacing between items if needed
+            .style("cursor", "pointer")
+            .on("click", (event, d) => {
+                sortBars(d.year);
+            });
+
+        legendItem.append("rect")
             .attr("x", 0)
             .attr("y", 10)
             .attr("width", 18)
             .attr("height", 18)
-            .attr("fill", "#FFDAB9");
+            .style("fill", d => d.color);
 
-        legend.append("text")
+        legendItem.append("text")
             .attr("x", 25)
-            .attr("y", 19)
-            .text("2018");
+            .attr("y", 23)
+            .text(d => d.year)
+            .attr("class", "legend-text");
 
+        let sortDescending = false;
+        let sortCategory = "";
+
+        function sortBars(category) {
+            if (sortCategory === category) {
+                sortDescending = !sortDescending;
+            } else {
+                sortDescending = false;
+            }
+            sortCategory = category;
+
+            // 데이터 정렬
+            data.sort((a, b) => {
+                return sortDescending ? b[category] - a[category] : a[category] - b[category];
+            });
+
+            xScale.domain(data.map(d => d.구분));
+
+            svg.selectAll(".bar-2021")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분) + barWidth);
+
+            svg.selectAll(".bar-2018")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분));
+
+            xAxisGroup.transition()
+                .duration(1000)
+                .call(xAxis);
+        }
+
+        // SVG 내에 필터 정의 부분
+        const defs = svg.append("defs");
+
+        const dropShadowFilter = defs.append("filter")
+            .attr("id", "drop-shadow")
+            .attr("height", "150%")  // 필터 높이를 조절하여 그림자 범위를 조정
+            .attr("width", "150%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
+
+        // 가우시안 블러로 그림자 부드러움 조절
+        dropShadowFilter.append("feGaussianBlur")
+            .attr("in", "SourceAlpha")
+            .attr("stdDeviation", 5)  // 그림자의 흐림 정도 조절
+            .attr("result", "blur");
+
+        // 그림자의 위치 조절
+        dropShadowFilter.append("feOffset")
+            .attr("in", "blur")
+            .attr("dx", 5)  // 수평 거리 조절
+            .attr("dy", 5)  // 수직 거리 조절
+            .attr("result", "offsetBlur");
+
+        // 그림자의 색상 및 투명도 조절
+        dropShadowFilter.append("feFlood")
+            .attr("flood-color", "black")
+            .attr("flood-opacity", 0.5)
+            .attr("result", "offsetColor");
+        dropShadowFilter.append("feComposite")
+            .attr("in", "offsetColor")
+            .attr("in2", "offsetBlur")
+            .attr("operator", "in")
+            .attr("result", "offsetBlur");
+
+        // 원본 그래픽과 그림자 병합
+        const feMerge = dropShadowFilter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "offsetBlur")
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
+
+        // 범례의 크기와 위치 계산하여 네모 테두리 추가 및 그림자 적용
+        const legendBox = legend.node().getBBox();
         legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 40)
-            .attr("width", 18)
-            .attr("height", 18)
-            .attr("fill", "#3CB371");
-
-        legend.append("text")
-            .attr("x", 25)
-            .attr("y", 49)
-            .text("2021");
+            .attr("x", legendBox.x - 5)
+            .attr("y", legendBox.y - 5)
+            .attr("width", legendBox.width + 15)
+            .attr("height", legendBox.height + 15)
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
     }
 
 
@@ -542,7 +920,7 @@ function elements(data) {
         const container = d3.select("#elements-hours"); // 수정된 부분
         const width = 300;
         const height = 200;
-        const margin = { top: 30, right: 30, bottom: 30, left: 80 };
+        const margin = { top: 50, right: 50, bottom: 90, left: 120 };
         const legendHeight = 50;
         container.select("svg").remove(); // 수정된 부분
 
@@ -557,7 +935,7 @@ function elements(data) {
         const svg = d3.select("#elements-hours")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom + legendHeight)
+            .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -578,12 +956,17 @@ function elements(data) {
             .attr("class", "xAxis-style")
             .call(xAxis);
 
+        xAxisGroup.selectAll("text")
+            .style("text-anchor", "end")
+            .attr("transform", "rotate(-45)")
+            .attr("class", "xAxis-style");
+
         const yAxisGroup = svg.append("g")
             .attr("class", "yAxis-style")
             .call(yAxis);
 
         svg.append("text")
-            .attr("x", -margin.left + 70)
+            .attr("x", -margin.left + 100)
             .attr("y", -15)
             .style("text-anchor", "end")
             .style("font-size", "14px")
@@ -630,17 +1013,17 @@ function elements(data) {
 
 
         // LEGEND
-        const legendWidth = color.domain().length * 150;
+        const legendWidth = color.domain().length * 100;
         const legendX = (width - legendWidth) / 2;
 
         const legend = svg.append("g")
-            .attr("transform", `translate(${legendX}, ${height + margin.bottom})`);
+            .attr("transform", `translate(0, -55)`);
 
         const legendItem = legend.selectAll(".legend")
             .data(color.domain())
             .enter().append("g")
             .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${i * 150}, 0)`);
+            .attr("transform", (d, i) => `translate(${i * 100}, 0)`);
 
         legendItem.append("rect")
             .attr("x", 0)
@@ -693,6 +1076,55 @@ function elements(data) {
                 .duration(1000)
                 .call(xAxis);
         }
+        // SVG 내에 필터 정의 부분
+        const defs = svg.append("defs");
+
+        const dropShadowFilter = defs.append("filter")
+            .attr("id", "drop-shadow")
+            .attr("height", "150%")  // 필터 높이를 조절하여 그림자 범위를 조정
+            .attr("width", "150%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
+
+        // 가우시안 블러로 그림자 부드러움 조절
+        dropShadowFilter.append("feGaussianBlur")
+            .attr("in", "SourceAlpha")
+            .attr("stdDeviation", 5)  // 그림자의 흐림 정도 조절
+            .attr("result", "blur");
+
+        // 그림자의 위치 조절
+        dropShadowFilter.append("feOffset")
+            .attr("in", "blur")
+            .attr("dx", 5)  // 수평 거리 조절
+            .attr("dy", 5)  // 수직 거리 조절
+            .attr("result", "offsetBlur");
+
+        // 그림자의 색상 및 투명도 조절
+        dropShadowFilter.append("feFlood")
+            .attr("flood-color", "black")
+            .attr("flood-opacity", 0.5)
+            .attr("result", "offsetColor");
+        dropShadowFilter.append("feComposite")
+            .attr("in", "offsetColor")
+            .attr("in2", "offsetBlur")
+            .attr("operator", "in")
+            .attr("result", "offsetBlur");
+
+        // 원본 그래픽과 그림자 병합
+        const feMerge = dropShadowFilter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "offsetBlur")
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
+
+        // 범례의 크기와 위치 계산하여 네모 테두리 추가 및 그림자 적용
+        const legendBox = legend.node().getBBox();
+        legend.append("rect")
+            .attr("x", legendBox.x - 5)
+            .attr("y", legendBox.y - 5)
+            .attr("width", legendBox.width + 15)
+            .attr("height", legendBox.height + 15)
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
     }
 
     function avg(data) {
@@ -702,7 +1134,7 @@ function elements(data) {
         const container = d3.select("#elements-avg"); // 수정된 부분
         const width = 300;
         const height = 200;
-        const margin = { top: 20, right: 50, bottom: 30, left: 150 };
+        const margin = { top: 0, right: 50, bottom: 30, left: 120 };
         container.select("svg").remove(); // 수정된 부분
 
 
@@ -813,7 +1245,7 @@ function elements(data) {
     }
 }
 
-// ELEMENTS
+// MIDDLES
 function middles(data) {
     compare(data);
     hours(data);
@@ -829,7 +1261,7 @@ function middles(data) {
 
         const width = 300;
         const height = 200;
-        const margin = { top: 30, right: 70, bottom: 80, left: 50 };
+        const margin = { top: 30, right: 50, bottom: 90, left: 120 };
 
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -843,21 +1275,34 @@ function middles(data) {
             .padding(0.2);
 
         const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => Math.max(+d["2018"], +d["2021"]))])
+            .domain([0, 100])
             .range([height, 0]);
 
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yScale);
 
-        svg.append("g")
+        // x축을 추가하고 xAxisGroup 변수에 저장
+        const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .call(xAxis)
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("transform", "rotate(-45)");
+            .call(xAxis);
 
-        svg.append("g")
-            .call(yAxis);
+        // x축 텍스트 스타일 설정
+        xAxisGroup.selectAll("text")
+            .style("text-anchor", "end")
+            .attr("transform", "rotate(-45)")
+            .attr("class", "xAxis-style");
+
+        const yAxisGroup = svg.append("g")
+            .call(yAxis)
+            .attr("class", "yAxis-style");
+
+        svg.append("text")
+            .attr("x", -margin.left + 100)
+            .attr("y", -15)
+            .style("text-anchor", "end")
+            .style("font-size", "14px")
+            .style("fill", "black")
+            .text("%");
 
         const barWidth = xScale.bandwidth() / 2;
 
@@ -870,7 +1315,37 @@ function middles(data) {
             .attr("y", d => yScale(+d["2018"]))
             .attr("width", barWidth)
             .attr("height", d => height - yScale(+d["2018"]))
-            .attr("fill", "#FFDAB9");
+            .attr("fill", "#FFDAB9")
+            .on("mouseover", (event, d) => {
+                d3.select("#tooltip")
+                    .style("display", "block")
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`)
+                    .html(`
+        <div class="tooltip-label">
+            <div>${d.구분}: ${d["2018"]}${" %"}</div>
+        </div>`);
+            })
+            .on("mousemove", (event) => {
+                d3.select("#tooltip")
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseleave", () => {
+                d3.select("#tooltip").style("display", "none");
+            });
+
+        // 막대 위에 데이터 값 표기
+        svg.selectAll(".text-2018")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "text-2018")
+            .attr("x", d => xScale(d.구분) + barWidth / 2) // 막대의 중앙에 위치
+            .attr("y", d => yScale(+d["2018"]) - 5) // 막대의 상단보다 조금 위에 위치
+            .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
+            .text(d => `${d["2018"]}`) // 표시할 텍스트
+            .attr("fill", "black")
+            .style("font-size", "12px");
 
         // Draw bars for 2021
         svg.selectAll(".bar-2021")
@@ -881,35 +1356,154 @@ function middles(data) {
             .attr("y", d => yScale(+d["2021"]))
             .attr("width", barWidth)
             .attr("height", d => height - yScale(+d["2021"]))
-            .attr("fill", "#3CB371");
+            .attr("fill", "#3CB371")
+            .on("mouseover", (event, d) => {
+                d3.select("#tooltip")
+                    .style("display", "block")
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`)
+                    .html(`
+                <div class="tooltip-label">
+                    <div>${d.구분}: ${d["2021"]}${" %"}</div>
+                </div>`);
+            })
+            .on("mousemove", (event) => {
+                d3.select("#tooltip")
+                    .style("left", event.pageX + 10 + "px")
+                    .style("top", event.pageY + 10 + "px");
+            })
+            .on("mouseleave", () => {
+                d3.select("#tooltip").style("display", "none");
+            });
+
+        svg.selectAll(".text-2021")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "text-2021")
+            .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 막대의 중앙에 위치
+            .attr("y", d => yScale(+d["2021"]) - 10) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
+            .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
+            .text(d => `${d["2021"]}`) // 표시할 텍스트
+            .attr("fill", "black")
+            .style("font-size", "12px");
+
 
         // LEGEND
         const legend = svg.append("g")
-            .attr("transform", `translate(${width + 1}, 0)`);
+            .attr("transform", `translate(80, -30)`)
+            .attr("class", "legend-text");
 
-        legend.append("rect")
+        const legendData = [
+            { year: "2018", color: "#FFDAB9" },
+            { year: "2021", color: "#3CB371" }
+        ];
+
+        const legendItem = legend.selectAll(".legend")
+            .data(legendData)
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", (d, i) => `translate(${i * 80}, 0)`) // Adjust the spacing between items if needed
+            .style("cursor", "pointer")
+            .on("click", (event, d) => {
+                sortBars(d.year);
+            });
+
+        legendItem.append("rect")
             .attr("x", 0)
             .attr("y", 10)
             .attr("width", 18)
             .attr("height", 18)
-            .attr("fill", "#FFDAB9");
+            .style("fill", d => d.color);
 
-        legend.append("text")
+        legendItem.append("text")
             .attr("x", 25)
-            .attr("y", 19)
-            .text("2018");
+            .attr("y", 23)
+            .text(d => d.year)
+            .attr("class", "legend-text");
 
+        let sortDescending = false;
+        let sortCategory = "";
+
+        function sortBars(category) {
+            if (sortCategory === category) {
+                sortDescending = !sortDescending;
+            } else {
+                sortDescending = false;
+            }
+            sortCategory = category;
+
+            // 데이터 정렬
+            data.sort((a, b) => {
+                return sortDescending ? b[category] - a[category] : a[category] - b[category];
+            });
+
+            xScale.domain(data.map(d => d.구분));
+
+            svg.selectAll(".bar-2021")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분) + barWidth);
+
+            svg.selectAll(".bar-2018")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분));
+
+            xAxisGroup.transition()
+                .duration(1000)
+                .call(xAxis);
+        }
+        // SVG 내에 필터 정의 부분
+        const defs = svg.append("defs");
+
+        const dropShadowFilter = defs.append("filter")
+            .attr("id", "drop-shadow")
+            .attr("height", "150%")  // 필터 높이를 조절하여 그림자 범위를 조정
+            .attr("width", "150%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
+
+        // 가우시안 블러로 그림자 부드러움 조절
+        dropShadowFilter.append("feGaussianBlur")
+            .attr("in", "SourceAlpha")
+            .attr("stdDeviation", 5)  // 그림자의 흐림 정도 조절
+            .attr("result", "blur");
+
+        // 그림자의 위치 조절
+        dropShadowFilter.append("feOffset")
+            .attr("in", "blur")
+            .attr("dx", 5)  // 수평 거리 조절
+            .attr("dy", 5)  // 수직 거리 조절
+            .attr("result", "offsetBlur");
+
+        // 그림자의 색상 및 투명도 조절
+        dropShadowFilter.append("feFlood")
+            .attr("flood-color", "black")
+            .attr("flood-opacity", 0.5)
+            .attr("result", "offsetColor");
+        dropShadowFilter.append("feComposite")
+            .attr("in", "offsetColor")
+            .attr("in2", "offsetBlur")
+            .attr("operator", "in")
+            .attr("result", "offsetBlur");
+
+        // 원본 그래픽과 그림자 병합
+        const feMerge = dropShadowFilter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "offsetBlur")
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
+
+        // 범례의 크기와 위치 계산하여 네모 테두리 추가 및 그림자 적용
+        const legendBox = legend.node().getBBox();
         legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 40)
-            .attr("width", 18)
-            .attr("height", 18)
-            .attr("fill", "#3CB371");
-
-        legend.append("text")
-            .attr("x", 25)
-            .attr("y", 49)
-            .text("2021");
+            .attr("x", legendBox.x - 5)
+            .attr("y", legendBox.y - 5)
+            .attr("width", legendBox.width + 15)
+            .attr("height", legendBox.height + 15)
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
     }
 
 
@@ -920,7 +1514,7 @@ function middles(data) {
         const container = d3.select("#middles-hours"); // 수정된 부분
         const width = 300;
         const height = 200;
-        const margin = { top: 30, right: 30, bottom: 30, left: 80 };
+        const margin = { top: 50, right: 50, bottom: 90, left: 120 };
         const legendHeight = 50;
         container.select("svg").remove(); // 수정된 부분
 
@@ -935,7 +1529,7 @@ function middles(data) {
         const svg = d3.select("#middles-hours")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom + legendHeight)
+            .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -956,18 +1550,22 @@ function middles(data) {
             .attr("class", "xAxis-style")
             .call(xAxis);
 
+        xAxisGroup.selectAll("text")
+            .style("text-anchor", "end")
+            .attr("transform", "rotate(-45)")
+            .attr("class", "xAxis-style");
+
         const yAxisGroup = svg.append("g")
             .attr("class", "yAxis-style")
             .call(yAxis);
 
         svg.append("text")
-            .attr("x", -margin.left + 70)
+            .attr("x", -margin.left + 100)
             .attr("y", -15)
             .style("text-anchor", "end")
             .style("font-size", "14px")
             .style("fill", "black")
             .text("%");
-
 
         const stack = d3.stack()
             .keys(["1~3시간", "4~6시간", "7시간 이상"]);
@@ -1008,17 +1606,17 @@ function middles(data) {
 
 
         // LEGEND
-        const legendWidth = color.domain().length * 150;
+        const legendWidth = color.domain().length * 100;
         const legendX = (width - legendWidth) / 2;
 
         const legend = svg.append("g")
-            .attr("transform", `translate(${legendX}, ${height + margin.bottom})`);
+            .attr("transform", `translate(0,-55)`);
 
         const legendItem = legend.selectAll(".legend")
             .data(color.domain())
             .enter().append("g")
             .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${i * 150}, 0)`);
+            .attr("transform", (d, i) => `translate(${i * 100}, 0)`);
 
         legendItem.append("rect")
             .attr("x", 0)
@@ -1071,6 +1669,55 @@ function middles(data) {
                 .duration(1000)
                 .call(xAxis);
         }
+        // SVG 내에 필터 정의 부분
+        const defs = svg.append("defs");
+
+        const dropShadowFilter = defs.append("filter")
+            .attr("id", "drop-shadow")
+            .attr("height", "150%")  // 필터 높이를 조절하여 그림자 범위를 조정
+            .attr("width", "150%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
+
+        // 가우시안 블러로 그림자 부드러움 조절
+        dropShadowFilter.append("feGaussianBlur")
+            .attr("in", "SourceAlpha")
+            .attr("stdDeviation", 5)  // 그림자의 흐림 정도 조절
+            .attr("result", "blur");
+
+        // 그림자의 위치 조절
+        dropShadowFilter.append("feOffset")
+            .attr("in", "blur")
+            .attr("dx", 5)  // 수평 거리 조절
+            .attr("dy", 5)  // 수직 거리 조절
+            .attr("result", "offsetBlur");
+
+        // 그림자의 색상 및 투명도 조절
+        dropShadowFilter.append("feFlood")
+            .attr("flood-color", "black")
+            .attr("flood-opacity", 0.5)
+            .attr("result", "offsetColor");
+        dropShadowFilter.append("feComposite")
+            .attr("in", "offsetColor")
+            .attr("in2", "offsetBlur")
+            .attr("operator", "in")
+            .attr("result", "offsetBlur");
+
+        // 원본 그래픽과 그림자 병합
+        const feMerge = dropShadowFilter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "offsetBlur")
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
+
+        // 범례의 크기와 위치 계산하여 네모 테두리 추가 및 그림자 적용
+        const legendBox = legend.node().getBBox();
+        legend.append("rect")
+            .attr("x", legendBox.x - 5)
+            .attr("y", legendBox.y - 5)
+            .attr("width", legendBox.width + 15)
+            .attr("height", legendBox.height + 15)
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
     }
 
     function avg(data) {
@@ -1080,7 +1727,7 @@ function middles(data) {
         const container = d3.select("#middles-avg"); // 수정된 부분
         const width = 300;
         const height = 200;
-        const margin = { top: 20, right: 50, bottom: 30, left: 150 };
+        const margin = { top: 0, right: 50, bottom: 30, left: 120 };
         container.select("svg").remove(); // 수정된 부분
 
 
