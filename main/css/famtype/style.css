@@ -37,8 +37,6 @@
 }
 
 
-
-
 /* */
 .legend-text {
     font-size: 18px;
@@ -99,7 +97,8 @@
 }
 
 #dataSelect input[type="button"].active {
-    background-color: #008080;
+    background-color: #f6cc51;
+    color: #3e3838;
 }
 
 #dataSelect input[type="button"] {
@@ -108,7 +107,7 @@
     margin-right: 10px;
     margin-bottom: 10px;
     padding: 10px 20px;
-    background-color: #20B2AA;
+    background-color: #008080;
     color: white;
     border: none;
     border-radius: 5px;
@@ -121,7 +120,8 @@
 }
 
 #dataSelect input[type="button"]:hover {
-    background-color: #6A5ACD;
+    background-color: #f6cc51;
+    color: #3e3838;
 }
 
 #loadingScreen {
@@ -135,14 +135,3 @@
     pointer-events: none;
     transition: opacity 1s ease;
 }
-
-/*           <div class="container">
-            <div id="chart-container" class "graph-stacked">
-              <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
-              <div id="data-container-fam"></div>
-            </div>
-            <div id="chart-container" class "graph-avg">
-              <p class="title-avg">특성별 한부모 가정 자녀의 혼자 있는 시간 평균</p>
-              <div id="data-container-avg"></div>
-            </div>
-          </div> */
