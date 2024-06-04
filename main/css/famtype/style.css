@@ -99,7 +99,7 @@
 }
 
 #dataSelect input[type="button"].active {
-    background-color: #6A5ACD;
+    background-color: #008080;
 }
 
 #dataSelect input[type="button"] {
@@ -108,7 +108,7 @@
     margin-right: 10px;
     margin-bottom: 10px;
     padding: 10px 20px;
-    background-color: #483d84;
+    background-color: #20B2AA;
     color: white;
     border: none;
     border-radius: 5px;
