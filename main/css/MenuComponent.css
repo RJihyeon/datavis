@@ -24,7 +24,7 @@
 .fst_button {
   padding: 12px 8px 12px 14px;
   display: block;
-  width: 100%;
+  width: 90%;
   color: #fff;
   background: #313e79;
   white-space: nowrap;
@@ -33,7 +33,7 @@
   text-align: center;
   font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
+  /* cursor: pointer; */
   border-radius: 10px 10px 0 0;
 }
 
@@ -53,6 +53,11 @@
   cursor: pointer;
   font-size: 18px;
   
+}
+
+.sub_button.active {
+  background: #008080;
+  color: #fff;
 }
 
 

@@ -63,7 +63,7 @@
 }
 
 /* Switch .csv file Button */
-button {
+#famtype-container button {
     font-size: 17px;
     font-weight: bold;
     margin-right: 10px;
@@ -77,15 +77,17 @@ button {
     transition: background-color 0.3s;
 }
 
-button.active {
+#famtype-container button.active {
+    color: white;
     background-color: #20B2AA;
 }
 
-button:last-child {
+#famtype-container button:last-child {
     margin-right: 0;
 }
 
-button:hover {
+#famtype-container button:hover {
+    color: white;
     background-color: #20B2AA;
 }
 

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const exp = document.createElement("script");
         exp.src = "js/runaway/bar.js";
         contentArea.appendChild(exp);
-
+        break; // 추가
       case "family-type":
         contentArea.innerHTML = `
         <div id="famtype-container">
@@ -145,7 +145,17 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
   }
+
   document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("sub_button")) {
+      // 모든 sub_button에서 active 클래스 제거
+      document.querySelectorAll(".sub_button").forEach(function (button) {
+        button.classList.remove("active");
+      });
+      // 클릭된 요소에 active 클래스 추가
+      event.target.classList.add("active");
+    }
+
     if (
       event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")

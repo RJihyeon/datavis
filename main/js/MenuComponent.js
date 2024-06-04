@@ -5,7 +5,7 @@ function renderMenuComponent() {
       <p class="menu_title">가출 청소년 잠재적 원인 분석</p>
       <ul>
         <li class="side-nav__list on">
-          <button class="menu fst_button">청소년 가출 현황</button>
+          <div class="menu fst_button">청소년 가출 현황</div>
           <ul class="sub_menu">
             <li>
               <div class="sub_button click" id="runaway" onclick="setActiveComponent('runaway')">- 가출 여부</div>
@@ -15,7 +15,7 @@ function renderMenuComponent() {
       </ul>
       <ul>
         <li class="side-nav__list on">
-          <button class="menu fst_button">잠재적 원인 관련 데이터</button>
+          <div class="menu fst_button">잠재적 원인 관련 데이터</div>
           <ul class="sub_menu">
             <li>
               <div class="sub_button click" id="famtype" onclick="setActiveComponent('family-type')">- 한부모 가정</div>
@@ -31,7 +31,7 @@ function renderMenuComponent() {
       </ul>
       <ul>
         <li class="side-nav__list on">
-          <button class="menu fst_button">인프라 데이터</button>
+          <div class="menu fst_button">인프라 데이터</div>
           <ul class="sub_menu">
             <li>
               <div class="sub_button click" id="social-infra" onclick="setActiveComponent('social-infra')">- 사회복지 인프라</div>
