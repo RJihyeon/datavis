@@ -212,29 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
   }
-  document.addEventListener("click", function (event) {
-    if (
-      event.target.closest("#famtype-container")
-    ) {
-      // family-type 관련 로직
-      const buttons = document.querySelectorAll("#famtype-container button");
-      buttons.forEach((button) => button.classList.remove("active"));
-      event.target.classList.add("active");
-      
-      const groups = event.target.getAttribute("data-groups").split(",");
-      const groupSelect = document.getElementById("groupSelect");
-
-      groupSelect.innerHTML = "";
-      groups.forEach((group) => {
-        const button = document.createElement("button");
-        button.textContent = group;
-        button.setAttribute("data-group", group);
-        groupSelect.appendChild(button);
-      });
-      const dataSrc = event.target.getAttribute("data-src");
-      loadAndRenderChart(dataSrc);
-    } 
-  });
 
   renderMenuComponent();
   renderActiveComponent("dom-violence"); // Default component
