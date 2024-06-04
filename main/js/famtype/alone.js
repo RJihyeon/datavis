@@ -91,8 +91,14 @@ function kids(data) {
             .domain([0, 100])
             .range([height, 0]);
 
+        const yAxis = d3.axisLeft(yScale)
+            // .tickValues([0, 50, 100]); // 0, 50, 100만 표시
+
+        const yAxisGroup = svg.append("g")
+            .call(yAxis)
+            .attr("class", "yAxis-style");
+
         const xAxis = d3.axisBottom(xScale);
-        const yAxis = d3.axisLeft(yScale);
 
         // x축을 추가하고 xAxisGroup 변수에 저장
         const xAxisGroup = svg.append("g")
@@ -104,11 +110,7 @@ function kids(data) {
             .style("text-anchor", "end")
             .attr("transform", "rotate(-45)")
             .attr("class", "xAxis-style");
-
-        const yAxisGroup = svg.append("g")
-            .call(yAxis)
-            .attr("class", "yAxis-style");
-
+            
         svg.append("text")
             .attr("x", -margin.left + 100)
             .attr("y", -15)
@@ -593,7 +595,7 @@ function kids(data) {
             .padding(0.2);
 
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.평균)])
+            .domain([0, 5])
             .range([0, width]);
 
         const yAxis = d3.axisLeft(yScale);
@@ -1222,7 +1224,7 @@ function elements(data) {
             .padding(0.2);
 
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.평균)])
+            .domain([0, 5])
             .range([0, width]);
 
         const yAxis = d3.axisLeft(yScale);
@@ -1850,7 +1852,7 @@ function middles(data) {
             .padding(0.2);
 
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.평균)])
+            .domain([0, 5])
             .range([0, width]);
 
         const yAxis = d3.axisLeft(yScale);
