@@ -1,9 +1,9 @@
 // 데이터 로드 및 처리
 Promise.all([
-  d3.csv("data/domestic_violence/2019_report.csv"),
-  d3.csv("data/domestic_violence/2020_report.csv"),
-  d3.csv("data/domestic_violence/2021_report.csv"),
-  d3.csv("data/domestic_violence/2022_report.csv"),
+  d3.csv("./data/domestic_violence/2019_report.csv"),
+  d3.csv("./data/domestic_violence/2020_report.csv"),
+  d3.csv("./data/domestic_violence/2021_report.csv"),
+  d3.csv("./data/domestic_violence/2022_report.csv"),
 ])
   .then(function (files) {
     const data = {};
@@ -108,22 +108,23 @@ function drawChart(data, year) {
     .text((d) => d.기소율);
 }
 
+//권역별로 그룹화해서 다시 표시하기 (수정!!! )
 function drawHeatmap(data) {
-  const margin = { top: 50, right: 0, bottom: 100, left: 70 },
-    width = 800 - margin.left - margin.right,
-    height = 400;
+  const margin = { top: 50, right: 0, bottom: 100, left: 100 },
+    width = 1000 - margin.left - margin.right,
+    height = 500;
   (gridSize = Math.floor(width / 24)),
-    (legendElementWidth = gridSize * 2),
+    (legendElementWidth = gridSize * 2 + 10),
     (buckets = 9),
     (colors = [
-      "#ffffd9",
-      "#edf8b1",
-      "#c7e9b4",
-      "#7fcdbb",
-      "#41b6c4",
-      "#1d91c0",
-      "#225ea8",
-      "#253494",
+      "#FFFFB3",
+      "#DEF375",
+      "#9FDB7F",
+      "#87C96E",
+      "#3CBECF",
+      "#0092D1",
+      "#136CE0",
+      "#2A3BD5",
       "#081d58",
     ]), // ColorBrewer 색상
     (years = [...new Set(data.map((d) => d.year))]), // 모든 연도 추출
@@ -147,7 +148,7 @@ function drawHeatmap(data) {
     .scaleBand()
     .domain(data.map((d) => d.시도청).sort((a, b) => a.localeCompare(b, "ko"))) // 한글 정렬
     .range([0, height])
-    .padding(0.05);
+    .padding(0.5);
 
   // 축 추가
   svg
@@ -156,18 +157,19 @@ function drawHeatmap(data) {
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(xScale))
     .selectAll("text")
-    .style("font-size", "15px"); // X축 폰트 크기 조정
+    .style("font-size", "20px"); // X축 폰트 크기 조정
 
   svg
     .append("g")
     .attr("class", "heatmap-y-axis")
     .call(d3.axisLeft(yScale))
     .selectAll("text")
-    .style("font-size", "15px"); // X축 폰트 크기 조정
-
+    .style("font-size", "20px"); // y축 폰트 크기 조정
+  // 0 1400 2800 4200 5600 7000 8400 9800 11200 12674
+  //    .domain([0, d3.max(data, (d) => d.검거건수)])
   const colorScale = d3
     .scaleQuantile()
-    .domain([0, d3.max(data, (d) => d.검거건수)])
+    .domain([0, 1500, 3000, 4500, 6000, 7500, 9000, 10500, 12000, 12674])
     .range(colors);
 
   svg
@@ -196,20 +198,29 @@ function drawHeatmap(data) {
   cards
     .enter()
     .append("rect")
+    .on("click", (event, d) => {
+      // Call your function and pass the 시도청 information
+      updateChart(d.year);
+      console.log(d.시도청);
+    })
     .attr("x", (d) => xScale(d.year))
     .attr("y", (d) => yScale(d.시도청))
     .attr("class", "heatSquare bordered")
     .attr("width", xScale.bandwidth())
-    .attr("height", yScale.bandwidth())
+    .attr("height", yScale.bandwidth() + 10)
     .style("fill", colors[0])
     .merge(cards)
     .transition()
     .duration(1000)
     .style("fill", (d) => colorScale(d.검거건수));
 
+  cards;
+
   cards.exit().remove();
   // 범례 생성
-  const legendData = [0].concat(colorScale.quantiles());
+  const maxDataValue = 12674; // 최대값 설정
+  const legendData = [0].concat(colorScale.quantiles()); // 최대값을 범례 데이터에 추가
+
   const legendWidth = legendElementWidth * legendData.length;
   const legendX = (width - legendWidth) / 2; // 범례를 중앙에 위치
 
@@ -223,20 +234,50 @@ function drawHeatmap(data) {
       "transform",
       (d, i) => `translate(${legendX + i * legendElementWidth}, ${height + 40})`
     );
-
   legend
     .append("rect")
     .attr("width", legendElementWidth)
-    .attr("height", gridSize / 2 + 10)
-    .style("fill", (d, i) => colors[i]);
+    .attr("height", gridSize / 2)
+    .style("fill", (d, i) => colors[i])
+    .attr("y", 20);
 
   legend
     .append("text")
-    .attr("class", "mono")
-    .text((d) => `   ${Math.round(d)}건`)
+    .attr("class", "hi")
+    .text((d) => `이상______미만`)
+    .style("font-size", "10px")
     .attr("x", legendElementWidth / 2)
-    .attr("y", gridSize / 2 + 30) // 조금 더 아래에 텍스트 위치
+    .attr("y", gridSize / 2) // 조금 더 아래에 텍스트 위치
     .attr("text-anchor", "middle"); // 텍스트를 사각형의 중앙에 위치
+
+  legend.each(function (d, i) {
+    //각 범례 항목에 대한 데이터 확인
+    const group = d3.select(this);
+
+    // 각 범례 항목에 시작 값 표시, 마지막 요소는 시작 값 표시를 생략
+    if (i < legendData.length) {
+      group
+        .append("text")
+        .attr("class", "mono")
+        .text(`${Math.round(d)}건`)
+        .attr("x", 0) // 사각형의 왼쪽 끝
+        .attr("y", gridSize / 2 + 35)
+        .attr("text-anchor", "start") // 텍스트를 왼쪽 정렬
+        .style("font-size", "10px");
+    }
+
+    // 마지막 범례 항목에 최대값 표시
+    if (i === legendData.length - 1) {
+      group
+        .append("text")
+        .attr("class", "mono")
+        .text(`12674건`)
+        .attr("x", legendElementWidth) // 마지막 사각형의 오른쪽 끝
+        .attr("y", gridSize / 2 + 35)
+        .attr("text-anchor", "end") // 마지막 텍스트 오른쪽 정렬
+        .style("font-size", "10px");
+    }
+  });
 
   // 셀 그리기
 
