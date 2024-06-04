@@ -44,4 +44,13 @@ function renderMenuComponent() {
             </li>              
     </div>
   `;
+  
+  // Attach event listeners to all sub_buttons
+  const subButtons = document.querySelectorAll('.sub_button');
+  subButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      subButtons.forEach(btn => btn.classList.remove('active')); // Remove 'active' class from all buttons
+      this.classList.add('active'); // Add 'active' class to the clicked button
+    });
+  });
 }

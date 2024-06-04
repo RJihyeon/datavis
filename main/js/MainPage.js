@@ -145,22 +145,16 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
   }
-
   document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("sub_button")) {
-      // 모든 sub_button에서 active 클래스 제거
-      document.querySelectorAll(".sub_button").forEach(function (button) {
-        button.classList.remove("active");
-      });
-      // 클릭된 요소에 active 클래스 추가
-      event.target.classList.add("active");
-    }
-
     if (
       event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")
     ) {
       // family-type 관련 로직
+      const buttons = document.querySelectorAll("#famtype-container button");
+      buttons.forEach((button) => button.classList.remove("active"));
+      event.target.classList.add("active");
+      
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
 
@@ -178,6 +172,10 @@ document.addEventListener("DOMContentLoaded", function () {
       event.target.closest("#school-violence-container")
     ) {
       // school-violence 관련 로직
+      const buttons = document.querySelectorAll("#school-violence-container button");
+      buttons.forEach((button) => button.classList.remove("active"));
+      event.target.classList.add("active");
+      
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
 
