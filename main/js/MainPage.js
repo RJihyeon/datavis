@@ -33,15 +33,15 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="sub-title">"자녀가 혼자 있는 시간이 있다"고 응답한 비율 (%)</p>
 
         <div class="container">
-          <div id="chart-container1" class="chart-graph">
+          <div id="chart1" class="chart-graph">
             <p class="chart-title">미취학 자녀</p>
             <div id="kids-compare"></div>
           </div>
-          <div id="chart-container2" class="chart-graph">
+          <div id="chart2" class="chart-graph">
             <p class="chart-title">초등학생 자녀</p>
             <div id="elements-compare"></div>
           </div>
-          <div id="chart-container3" class="chart-graph">
+          <div id="chart3" class="chart-graph">
             <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-compare"></div>
           </div>
@@ -50,15 +50,15 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="sub-title">자녀의 혼자 있는 시간 비율 (%)</p>
 
         <div class="container">
-          <div id="chart-container4" class="chart-graph">
+          <div id="char4" class="chart-graph">
             <p class="chart-title">미취학 자녀</p>
             <div id="kids-hours"></div>
           </div>
-          <div id="chart-container5" class="chart-graph">
+          <div id="chart5" class="chart-graph">
             <p class="chart-title">초등학생 자녀</p>
             <div id="elements-hours"></div>
           </div>
-          <div id="chart-container6" class="chart-graph">
+          <div id="chart6" class="chart-graph">
             <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-hours"></div>
           </div>
@@ -67,15 +67,15 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="sub-title">한부모 가정 특성별 자녀의 혼자 있는 평균 시간 (시간)</p>
 
         <div class="container">
-          <div id="chart-container7" class="chart-graph">
+          <div id="char7" class="chart-graph">
             <p class="chart-title">미취학 자녀</p>
             <div id="kids-avg"></div>
           </div>
-          <div id="chart-container8" class="chart-graph">
+          <div id="chart8" class="chart-graph">
             <p class="chart-title">초등학생 자녀</p>
             <div id="elements-avg"></div>
           </div>
-          <div id="chart-container9" class="chart-graph">
+          <div id="chart9" class="chart-graph">
             <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-avg"></div>
           </div>
@@ -93,13 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
       case "dom-violence":
         contentArea.innerHTML = `
 
-        <div id="chart-container" class="graph-report">
+        <div id="chart-container1" class="graph-report">
         <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거건수 히트맵</p>
         <div id="heatmap-report"></div>
         <div id="report-tooltip" style="opacity:0; position: absolute;"></div>
     </div>
     
-        <div id="chart-container" class="graph-report">
+        <div id="chart-container2" class="graph-report">
         <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거 및 조치 현황</p>
         <div id="report-buttons">
             <button onclick="updateChart(2019)">2019</button>
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
   
-    <div id="chart-container" class="graph-perpetrator">
+    <div id="chart-container3" class="graph-perpetrator">
     <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
     <div id="perpetrator-chart"></div>
 </div>
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
       case "violence-infra":
         contentArea.innerHTML = `
         <div class="container1"> 
-        <div id="chart-container" class="graph-vioinfra">
+        <div id="chart-container4" class="graph-vioinfra">
             <p class="vioinfra-title">가정폭력/아동학대 예방교육 여부 및 도움 정도</p>
             <div class="button-container">
             <button class="group-btn" data-group="전체">전체</button>
