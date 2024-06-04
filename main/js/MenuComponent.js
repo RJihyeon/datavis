@@ -18,7 +18,7 @@ function renderMenuComponent() {
           <div class="menu fst_button">잠재적 원인 관련 데이터</div>
           <ul class="sub_menu">
             <li>
-              <div class="sub_button click" id="famtype" onclick="setActiveComponent('family-type')">- 한부모 가정</div>
+              <div class="sub_button click" id="famtype" onclick="setActiveComponent('family-type')">- 한부모 가정 자녀</div>
             </li>
             <li>
               <div class="sub_button click" id="domviolence" onclick="setActiveComponent('dom-violence')">- 가정폭력</div>
