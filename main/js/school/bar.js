@@ -13,7 +13,7 @@ function initialize(csvFile, defaultGroup) {
                 help_exp_no: +d.help_exp_no,
                 help_exp_yes: +d.help_exp_yes
             });
-            console.log("bar.js groupedData",groupedData[group])
+
         });
 
         

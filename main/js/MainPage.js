@@ -172,7 +172,35 @@ document.addEventListener("DOMContentLoaded", function () {
         scriptschool.src = "js/school/stacked.js";
         contentArea.appendChild(scriptschool);
         break;
-      default:
+      
+      case "after-school-bully":
+        contentArea.innerHTML = `
+          <div id="after-bully-container">
+            <div>
+                  <button class="data-btn" data-groups="초4,초5,초6,중1,중2,중3,고1,고2,고3" data-src="./data/school/after_bully_grade.csv">학년별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="남자,여자" data-src="./data/school/after_bully_sex.csv">성별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="남학교,여학교,남녀공학" data-src="./data/school/after_bully_type.csv">학교유형별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="초등학교,중학교,고등학교" data-src="./data/school/after_bully_step.csv">진학단계별 학교폭력 피해지원</button>
+            </div>
+            <form id="groupSelect">
+                  <!-- 버튼 클릭 시 여기에 data-group 값이 표시됩니다 -->
+            </form>
+            <canvas id="chart"></canvas>
+          </div>
+          `;
+
+          const script_after_bully = document.createElement("script");
+          script_after_bully.src = "js/school/bar.js";
+          contentArea.appendChild(script_after_bully);
+          console.log("after-bully-container", contentArea);
+          
+          const scriptTreemap = document.createElement("script");
+          scriptTreemap.src = "js/school/treemap.js";
+          document.body.appendChild(scriptTreemap);
+
+          break;
+
+        default:
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
   }
@@ -197,39 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       const dataSrc = event.target.getAttribute("data-src");
       loadAndRenderChart(dataSrc);
-    } else if (
-      event.target.hasAttribute("data-src") &&
-      event.target.closest("#school-violence-container")
-    ) {
-      // school-violence 관련 로직
-      const buttons = document.querySelectorAll("#school-violence-container button");
-      buttons.forEach((button) => button.classList.remove("active"));
-      event.target.classList.add("active");
-      
-      const groups = event.target.getAttribute("data-groups").split(",");
-      const groupSelect = document.getElementById("groupSelect");
-
-      groupSelect.innerHTML = "";
-      groups.forEach((group) => {
-        const button = document.createElement("button");
-        button.textContent = group;
-        button.setAttribute("data-group", group);
-        groupSelect.appendChild(button);
-      });
-
-      const dataSrc = event.target.getAttribute("data-src");
-
-      // 그룹 버튼 클릭 이벤트 핸들러 추가
-      d3.selectAll("#groupSelect button").on("click", function () {
-        d3.selectAll("#groupSelect button").classed("active", false);
-        d3.select(this).classed("active", true);
-
-        const group = d3.select(this).attr("data-group");
-        console.log("Selected Group (school-violence):", group); // 선택된 그룹 출력
-        loadAndRenderChartSchoolViolence(dataSrc, group); // school-violence 관련 차트 로드 함수 호출
-      });
-      groupSelect.style.display = "block";
-    }
+    } 
   });
 
   renderMenuComponent();
