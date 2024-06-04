@@ -43,7 +43,8 @@
 }
 .chart-title {
     padding-top: 15px;
-    margin-left: 130px;
+    margin-left: 125px;
+    margin-right: 100px;
     font-size: 20px;
     font-weight: bold;
     color: #6e7176;
@@ -83,9 +84,11 @@
     flex-direction: column;
     align-items: flex-start;
     position: fixed;
+    top: 200px;
     background-color: white;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.35),
     0 4px 6px -4px rgba(0, 0, 0, 0.35);
+    gap: 5px;
 }
 
 #dataSelect input[type="button"] {
@@ -111,6 +114,15 @@
 #dataSelect input[type="button"].active {
     background-color: #008080;
     color: white;
+}
+
+.button-title{
+    padding: 15px;
+    margin-left: 20px;
+    text-align: center;
+    font-size: 19px;
+    font-weight: bold;
+    color: #313e79;
 }
 
 #loadingScreen {

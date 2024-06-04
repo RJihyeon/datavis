@@ -33,10 +33,10 @@ Promise.all([loadKidsData, loadElementsData, loadMiddlesData]).then((results) =>
         groupedData_middles[group].push(d);
     });
 
-    d3.select("#dataSelect input[type='button'][data-group='g1']").classed('active', true); // 초기 버튼 활성화
-    kids(groupedData_kids["한부모 연령별"]); // 초기 차트 표시
-    elements(groupedData_elements["한부모 연령별"]); // 초기 차트 표시
-    middles(groupedData_middles["한부모 연령별"]); // 초기 차트 표시
+    d3.select("#dataSelect input[type='button'][data-group='g4']").classed('active', true); // 초기 버튼 활성화
+    kids(groupedData_kids["가구 구성별"]); // 초기 차트 표시
+    elements(groupedData_elements["가구 구성별"]); // 초기 차트 표시
+    middles(groupedData_middles["가구 구성별"]); // 초기 차트 표시
 
     d3.selectAll("#dataSelect input[type='button']")
         .on("click", function () {
@@ -283,17 +283,32 @@ function kids(data) {
 
             xScale.domain(data.map(d => d.구분));
 
+            svg.selectAll(".bar-2018")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분));
+
             svg.selectAll(".bar-2021")
                 .data(data, d => d.구분)
                 .transition()
                 .duration(1000)
                 .attr("x", d => xScale(d.구분) + barWidth);
 
-            svg.selectAll(".bar-2018")
-                .data(data, d => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("x", d => xScale(d.구분));
+            svg.selectAll(".text-2018")
+                .data(data, d => d.구분) // key 함수를 사용하여 데이터 바인딩
+                .transition() // 위치 변경을 위한 트랜지션
+                .duration(1000) // 트랜지션 지속 시간
+                .attr("x", d => xScale(d.구분) + barWidth / 2) // 정렬된 데이터에 따라 x 위치 업데이트
+                .attr("y", d => yScale(d["2018"])); // 정렬된 데이터에 따라 y 위치 업데이트
+
+            svg.selectAll(".text-2021")
+                .data(data, d => d.구분) // key 함수를 사용하여 데이터 바인딩
+                .transition() // 위치 변경을 위한 트랜지션
+                .duration(1000) // 트랜지션 지속 시간
+                .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 정렬된 데이터에 따라 x 위치 업데이트
+                .attr("y", d => yScale(d["2021"])); // 정렬된 데이터에 따라 y 위치 업데이트
+            
 
             xAxisGroup.transition()
                 .duration(1000)
@@ -602,12 +617,12 @@ function kids(data) {
         const xAxis = d3.axisBottom(xScale);
 
         const yAxisGroup = svg.append("g")
-            .style("font-size", "16px")
+            .attr("class", "xAxis-style")
             .call(yAxis);
 
         const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .attr("class", "xAxis-style")
+            .style("font-size", "16px")
             .call(xAxis);
 
         svg.append("text")
@@ -910,17 +925,31 @@ function elements(data) {
 
             xScale.domain(data.map(d => d.구분));
 
+            svg.selectAll(".bar-2018")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분));
+
             svg.selectAll(".bar-2021")
                 .data(data, d => d.구분)
                 .transition()
                 .duration(1000)
                 .attr("x", d => xScale(d.구분) + barWidth);
 
-            svg.selectAll(".bar-2018")
-                .data(data, d => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("x", d => xScale(d.구분));
+            svg.selectAll(".text-2018")
+                .data(data, d => d.구분) // key 함수를 사용하여 데이터 바인딩
+                .transition() // 위치 변경을 위한 트랜지션
+                .duration(1000) // 트랜지션 지속 시간
+                .attr("x", d => xScale(d.구분) + barWidth / 2) // 정렬된 데이터에 따라 x 위치 업데이트
+                .attr("y", d => yScale(d["2018"])); // 정렬된 데이터에 따라 y 위치 업데이트
+
+            svg.selectAll(".text-2021")
+                .data(data, d => d.구분) // key 함수를 사용하여 데이터 바인딩
+                .transition() // 위치 변경을 위한 트랜지션
+                .duration(1000) // 트랜지션 지속 시간
+                .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 정렬된 데이터에 따라 x 위치 업데이트
+                .attr("y", d => yScale(d["2021"])); // 정렬된 데이터에 따라 y 위치 업데이트
 
             xAxisGroup.transition()
                 .duration(1000)
@@ -1231,12 +1260,12 @@ function elements(data) {
         const xAxis = d3.axisBottom(xScale);
 
         const yAxisGroup = svg.append("g")
-            .style("font-size", "16px")
+            .attr("class", "xAxis-style")
             .call(yAxis);
 
         const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .attr("class", "xAxis-style")
+            .style("font-size", "16px")
             .call(xAxis);
 
         svg.append("text")
@@ -1540,17 +1569,31 @@ function middles(data) {
 
             xScale.domain(data.map(d => d.구분));
 
+            svg.selectAll(".bar-2018")
+                .data(data, d => d.구분)
+                .transition()
+                .duration(1000)
+                .attr("x", d => xScale(d.구분));
+
             svg.selectAll(".bar-2021")
                 .data(data, d => d.구분)
                 .transition()
                 .duration(1000)
                 .attr("x", d => xScale(d.구분) + barWidth);
 
-            svg.selectAll(".bar-2018")
-                .data(data, d => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("x", d => xScale(d.구분));
+            svg.selectAll(".text-2018")
+                .data(data, d => d.구분) // key 함수를 사용하여 데이터 바인딩
+                .transition() // 위치 변경을 위한 트랜지션
+                .duration(1000) // 트랜지션 지속 시간
+                .attr("x", d => xScale(d.구분) + barWidth / 2) // 정렬된 데이터에 따라 x 위치 업데이트
+                .attr("y", d => yScale(d["2018"])); // 정렬된 데이터에 따라 y 위치 업데이트
+
+            svg.selectAll(".text-2021")
+                .data(data, d => d.구분) // key 함수를 사용하여 데이터 바인딩
+                .transition() // 위치 변경을 위한 트랜지션
+                .duration(1000) // 트랜지션 지속 시간
+                .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 정렬된 데이터에 따라 x 위치 업데이트
+                .attr("y", d => yScale(d["2021"])); // 정렬된 데이터에 따라 y 위치 업데이트
 
             xAxisGroup.transition()
                 .duration(1000)
@@ -1859,12 +1902,12 @@ function middles(data) {
         const xAxis = d3.axisBottom(xScale);
 
         const yAxisGroup = svg.append("g")
-            .style("font-size", "16px")
+            .attr("class", "xAxis-style")
             .call(yAxis);
 
         const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .attr("class", "xAxis-style")
+            .style("font-size", "16px")
             .call(xAxis);
 
         svg.append("text")
