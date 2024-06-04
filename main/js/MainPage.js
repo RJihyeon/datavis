@@ -11,17 +11,13 @@ document.addEventListener("DOMContentLoaded", function () {
         exp.src = "js/runaway/bar.js";
         contentArea.appendChild(exp);
         break; // 추가
+
       case "family-type":
         contentArea.innerHTML = `
       <div id="famtype-container">
         <h1>한부모 가정 자녀의 혼자 있는 시간 (2021)</h1> <style>h1{text-align: center;}</style>
-          <div class="file-buttons">
-            <button data-src="./data/famtype/kids_alone.csv">미취학 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/famtype/element_alone.csv">초등학생 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/famtype/middle_alone.csv">중학생 이상 자녀가 혼자 있는 시간</button>
-          </div>
 
-          <form id="dataSelect">
+        <form id="dataSelect">
           <input type="button" data-group="g1" value="한부모 연령별">
           <input type="button" data-group="g2" value="한부모 기관유형별">
           <input type="button" data-group="g3" value="혼인 상태별">
@@ -31,21 +27,54 @@ document.addEventListener("DOMContentLoaded", function () {
           <input type="button" data-group="g7" value="정부 지원 유형별">
           <input type="button" data-group="g8" value="소득 수준별">
           <input type="button" data-group="g9" value="한부모가된 기간별">
-          </form>
+        </form>
 
-          <div id="data-container-ox"></div> <style> #data-container-ox {margin: 0 auto;} </style>
-        
-          <div class="container">
-            <div id="chart-container" class "graph-stacked">
-              <p class="title-stacked">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
-              <div id="data-container-fam"></div>
-            </div>
-            <div id="chart-container" class "graph-avg">
-              <p class="title-avg">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
-              <div id="data-container-avg"></div>
+        <div class="container">
+          <div id="chart-container1" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
+            <div id="kids-compare"></div>
+          </div>
+          <div id="chart-container2" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <div id="elements-compare"></div>
+          </div>
+          <div id="chart-container3" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <div id="middles-compare"></div>
           </div>
         </div>
-      </div>
+
+        <div class="container">
+          <div id="chart-container4" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
+            <div id="kids-hours"></div>
+          </div>
+          <div id="chart-container5" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <div id="elements-hours"></div>
+          </div>
+          <div id="chart-container6" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <div id="middles-hours"></div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div id="chart-container7" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
+            <div id="kids-avg"></div>
+          </div>
+          <div id="chart-container8" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <div id="elements-avg"></div>
+          </div>
+          <div id="chart-container9" class="chart-graph">
+            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <div id="middles-avg"></div>
+          </div>
+        </div>
+
+        </div>
         `;
         // Append script dynamically
         const scriptFamtype_1 = document.createElement("script");
@@ -149,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   document.addEventListener("click", function (event) {
     if (
-      event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")
     ) {
       // family-type 관련 로직
