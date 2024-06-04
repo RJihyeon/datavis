@@ -1,7 +1,7 @@
 // Data Loading
-const loadKidsData = d3.csv("./data/famtype/kids_alone.csv");
-const loadElementsData = d3.csv("./data/famtype/elements_alone.csv");
-const loadMiddlesData = d3.csv("./data/famtype/middles_alone.csv");
+let loadKidsData = d3.csv("./data/famtype/kids_alone.csv");
+let loadElementsData = d3.csv("./data/famtype/elements_alone.csv");
+let loadMiddlesData = d3.csv("./data/famtype/middles_alone.csv");
 
 Promise.all([loadKidsData, loadElementsData, loadMiddlesData]).then((results) => {
     const [kidsData, elementsData, middlesData] = results;
