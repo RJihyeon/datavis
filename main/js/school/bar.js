@@ -13,6 +13,7 @@ function initialize(csvFile, defaultGroup) {
                 help_exp_no: +d.help_exp_no,
                 help_exp_yes: +d.help_exp_yes
             });
+            console.log("bar.js groupedData",groupedData[group])
         });
 
         
@@ -40,6 +41,7 @@ function initialize(csvFile, defaultGroup) {
 }
 
 function showBarChart(data) {
+    console.log("data in show bar chart",data);
   const margin = {top: 10, right: 30, bottom: 40, left: 50};
 
   const svgContainer = d3.select("#after-bully-container");
@@ -87,10 +89,9 @@ function showBarChart(data) {
       .enter().append("g")
       .attr("class", "category-group")
       .attr("transform", d => `translate(${x0(d.year)},0)`);
-
   // 막대 생성
   categoryGroup.selectAll(".bar")
-    .data(d => categories.map(key => ({ key: key, value: d[key] })))
+    .data(d => categories.map(key => ({ key: key, value: d[key], year: d.year, group: d.group})))
     .enter().append("rect")
     .attr("class", "bar")
     .attr("x", d => x1(d.key))
@@ -98,6 +99,13 @@ function showBarChart(data) {
     .attr("width", x1.bandwidth())
     .attr("height", 0) // 초기 height를 0으로 설정
     .attr("fill", d => color(d.key))
+    .on("click", function(event, d) { // 막대 클릭 이벤트 리스너 추가
+        if (d.key === 'help_exp_yes') {
+            
+            showDetails(d.year, d.key, d.group);
+            console.log("showDetails", d);
+        }
+    })
     .transition() // 애니메이션 시작
     .duration(1000) // 애니메이션 지속 시간 (밀리초 단위)
     .attr("y", d => y(d.value))
@@ -116,7 +124,6 @@ function showBarChart(data) {
           });
       }
     });
-  
   // x축 추가
   g.append("g")
       .attr("class", "axis")
@@ -158,7 +165,14 @@ function showBarChart(data) {
       .attr("dy", "0.32em")
       .text(d => d);
 }
-
+function showDetails(year, key, group) {
+    const detailsContainer = document.getElementById('after-bully-care-container');
+    console.log("showDetails");
+  
+    // 트리맵 데이터를 불러올 파일 경로 생성
+    const dataFilePath = `./data/school/treemap_${year}_${key}.csv`;
+    showTreemap(dataFilePath,group); // 트리맵 함수 호출
+  }
 // 데이터 버튼 클릭 이벤트 추가
 document.getElementById('after-bully-container').addEventListener('click', function(event) {
     if (event.target.closest('.data-btn') && event.target.hasAttribute('data-groups')) {

@@ -3,37 +3,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const contentArea = document.getElementById("content-area");
     contentArea.innerHTML = ""; // Clear previous content
     switch (activeComponent) {
-      case "runaway":
-        contentArea.innerHTML = `
-      <div></div>`;
-
-        const exp = document.createElement("script");
-        exp.src = "js/runaway/bar.js";
-        contentArea.appendChild(exp);
-
       case "family-type":
         contentArea.innerHTML = `
         <div id="famtype-container">
-        <h1>한부모 가정 자녀의 혼자 있는 시간</h1> <style>h1{text-align: center;}</style>
-          <div class="file-buttons">
-            <button data-src="./data/famtype/kids_alone.csv">미취학 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/famtype/element_alone.csv">초등학생 자녀가 혼자 있는 시간</button>
-            <button data-src="./data/famtype/middle_alone.csv">중학생 이상 자녀가 혼자 있는 시간</button>
+          <div>
+            <button data-src="./data/famtype/kids_alone(o).csv">미취학 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/element_alone(o).csv">초등학생 자녀가 혼자 있는 시간</button>
+            <button data-src="./data/famtype/middle_alone(o).csv">중학생 이상 자녀가 혼자 있는 시간</button>
           </div>
-          <div id="data-container-ox"></div> <style> #data-container-ox {margin: 0 auto;} </style>
+
           <div class="container">
-          <div id="chart-container" class "graph-stacked">
-            <p class="title-stacked">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
-            <div id="data-container-fam"></div>
+            <div id="chart-container" class "graph-stacked">
+              <p class="title-stacked">한부모 가정 자녀의 혼자 있는 시간</p>
+              <div id="data-container-fam"></div>
+            </div>
+            <div id="chart-container" class "graph-avg">
+              <p class="title-avg">특성별 한부모 가정 자녀의 혼자 있는 시간 평균</p>
+              <div id="data-container-avg"></div>
+            </div>
           </div>
-          <div id="chart-container" class "graph-avg">
-            <p class="title-avg">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
-            <div id="data-container-avg"></div>
-          </div>
-        </div>
+
           <form id="dataSelect">
             <input type="button" data-group="g1" value="한부모 연령별">
-            <input type="button" data-group="g2" value="한부모 기관유형별">
+            <input type="button" data-group="g2" value="한부모 학력별">
             <input type="button" data-group="g3" value="혼인 상태별">
             <input type="button" data-group="g4" value="가구 구성별">
             <input type="button" data-group="g5" value="가장 어린 자녀별">
@@ -46,42 +38,36 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         // Append script dynamically
         const scriptFamtype_1 = document.createElement("script");
-        scriptFamtype_1.src = "js/famtype/alone.js";
+        scriptFamtype_1.src = "js/famtype/stacked.js";
         contentArea.appendChild(scriptFamtype_1);
+
+        const scriptFamtype_2 = document.createElement("script");
+        scriptFamtype_2.src = "js/famtype/avg.js";
+        contentArea.appendChild(scriptFamtype_2);
         break;
 
       // 가정폭력 케이스
       case "dom-violence":
         contentArea.innerHTML = `
         <div class="container1">
-        <!-- 경찰청 가정폭력 피해자 보호조치 현황 -->
-        <div id="chart-container" class="graph-protection">
-            <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
-            <div id="chart"></div> 
-        </div>
-      
-        <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
-        <div id="chart-container" class="graph-violenceExp">
-            <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
-            <div id="violenceExp-chart"></div>
-        </div>
-      
-      
-        </div>
-      
-        <div class="container2"> 
-        <div id="chart-container" class="graph-perpetrator">
-            <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
-            <div id="perpetrator-chart"></div>
-        </div>
-      
-        <div id="chart-container" class="graph-report">
-        <p class="report-title">가정폭력 시도청별 신고건수</p>
-        <div id="report-chart"></div>
-        </div>
-        </div>
+  <!-- 경찰청 가정폭력 피해자 보호조치 현황 -->
+  <div id="chart-container" class="graph-protection">
+      <p class="protection-title">경찰청 가정폭력 피해자 보호조치 현황</p>
+      <div id="chart"></div> 
+  </div>
 
+  <!-- 만 18세 이전 보호자로부터의 폭력 피해 경험 -->
+  <div id="chart-container" class="graph-violenceExp">
+      <p class="violenceExp-title">만 18세 이전 보호자로부터의 폭력 피해 경험</p>
+      <div id="violenceExp-chart"></div>
+  </div>
+  </div>
 
+  <div class="container2"> 
+  <div id="chart-container" class="graph-perpetrator">
+      <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
+      <div id="perpetrator-chart"></div>
+  </div>
   `;
 
         // 보호조치 현황 차트 스크립트 로드
@@ -112,34 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         document.body.appendChild(script3);
 
-        //신고건수 차트 스크립트 로드
-        const report = document.createElement("script");
-        report.src = "js/violence/report.js";
-        contentArea.appendChild(report);
-
-        break;
-
-      //가정폭력 인프라 케이스
-      case "violence-infra":
-        contentArea.innerHTML = `
-        <div class="container1"> 
-        <div id="chart-container" class="graph-vioinfra">
-            <p class="vioinfra-title">가정폭력/아동학대 예방교육 여부 및 도움 정도</p>
-            <div class="button-container">
-            <button class="group-btn" data-group="전체">전체</button>
-            <button class="group-btn" data-group="성별">성별</button>
-            <button class="group-btn" data-group="연령">연령</button>
-            <button class="group-btn" data-group="기관유형">기관유형</button>
-            </div>
-            <div id="groupSelect"></div>
-
-            <div id="vioinfra-chart"></div>
-        </div>
-      `; // Replace with actual HTML content
-
-        const scriptViolenceInfra = document.createElement("script");
-        scriptViolenceInfra.src = "js/violence/infra.js";
-        contentArea.appendChild(scriptViolenceInfra);
         break;
 
       case "school-violence":
@@ -163,6 +121,38 @@ document.addEventListener("DOMContentLoaded", function () {
         scriptschool.src = "js/school/stacked.js";
         contentArea.appendChild(scriptschool);
         break;
+      case "after-school-bully":
+          console.log("after-school-bully click");
+      
+          contentArea.innerHTML = `
+          <div id="after-bully-container">
+            <div>
+                  <button class="data-btn" data-groups="초4,초5,초6,중1,중2,중3,고1,고2,고3" data-src="./data/school/after_bully_grade.csv">학년별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="남자,여자" data-src="./data/school/after_bully_sex.csv">성별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="남학교,여학교,남녀공학" data-src="./data/school/after_bully_type.csv">학교유형별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="초등학교,중학교,고등학교" data-src="./data/school/after_bully_step.csv">진학단계별 학교폭력 피해지원</button>
+            </div>
+            <form id="groupSelect">
+                  <!-- 버튼 클릭 시 여기에 data-group 값이 표시됩니다 -->
+            </form>
+            <canvas id="chart"></canvas>
+          </div>
+          `;
+          console.log("after-bully-container", contentArea);
+      
+          const script_after_bully = document.createElement("script");
+          script_after_bully.src = "js/school/bar.js";
+          contentArea.appendChild(script_after_bully);
+          console.log("after-bully-container", contentArea);
+          
+          const scriptTreemap = document.createElement("script");
+          scriptTreemap.src = "js/school/treemap.js";
+          document.body.appendChild(scriptTreemap);
+          break;
+      
+
+      
+
       default:
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
@@ -172,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
       event.target.hasAttribute("data-src") &&
       event.target.closest("#famtype-container")
     ) {
+
       // family-type 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
@@ -189,9 +180,11 @@ document.addEventListener("DOMContentLoaded", function () {
       event.target.hasAttribute("data-src") &&
       event.target.closest("#school-violence-container")
     ) {
+
       // school-violence 관련 로직
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
+      console.log("groupSelect", groupSelect);
       groupSelect.innerHTML = "";
       groups.forEach((group) => {
         const button = document.createElement("button");
@@ -199,24 +192,26 @@ document.addEventListener("DOMContentLoaded", function () {
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
       });
-  } else if (
+      let scriptLoaded = false; 
+    } else if (
       event.target.hasAttribute("data-src") &&
       event.target.closest("#after-bully-container")
-  ) {
+    ) {
       const groups = event.target.getAttribute("data-groups").split(",");
       const groupSelect = document.getElementById("groupSelect");
       console.log("groupSelect", groupSelect);
       groupSelect.innerHTML = "";
       groups.forEach((group) => {
-      const button = document.createElement("button");
-      button.textContent = group;
-      button.setAttribute("data-group", group);
+        const button = document.createElement("button");
+        button.textContent = group;
+        button.setAttribute("data-group", group);
 
-      groupSelect.appendChild(button);
+        groupSelect.appendChild(button);
       });
       console.log("groups1", groups);
   }
-  });
+});
+
 
   renderMenuComponent();
   renderActiveComponent("dom-violence"); // Default component
@@ -227,3 +222,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.setActiveComponent = setActiveComponent; // Expose to global scope for menu to use
 });
+
