@@ -42,17 +42,19 @@
   padding-left: 15px;
   display: block;
   width: 100%;
-  color: #868e96;
+  color: #7a7a7a;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  background: #fff;
+  background: #ffffff;
   text-align: left;
   font-weight: bold;
   border: 1px solid #e9ecef;
   cursor: pointer;
   font-size: 18px;
+  
 }
+
 
 .side-nav__list {
   position: relative;
