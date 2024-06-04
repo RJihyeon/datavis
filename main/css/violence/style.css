@@ -179,3 +179,25 @@
   color: #6e7176;
   margin: 0px;
 }
+
+/* 검찰청 조치현황 report */
+
+.graph-report {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+#report-tooltip {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  border-radius: 5px;
+  pointer-events: none; /* 툴팁이 마우스 이벤트를 방해하지 않도록 함 */
+}

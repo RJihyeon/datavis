@@ -53,23 +53,37 @@ document.addEventListener("DOMContentLoaded", function () {
       // 가정폭력 케이스
       case "dom-violence":
         contentArea.innerHTML = `
-        <div id="chart-container" class="graph-perpetrator">
-        <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
-        <div id="perpetrator-chart"></div>
+
+        <div id="heatmap-container" class="graph-report">
+        <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거건수 히트맵</p>
+        <div id="heatmap-report"></div>
+        <div id="report-tooltip" style="opacity:0; position: absolute;"></div>
     </div>
+    
+        <div id="chart-container" class="graph-report">
+        <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거 및 조치 현황</p>
+        <div id="report-buttons">
+            <button onclick="updateChart(2019)">2019</button>
+            <button onclick="updateChart(2020)">2020</button>
+            <button onclick="updateChart(2021)">2021</button>
+            <button onclick="updateChart(2022)">2022</button>
+        </div>
+        <div id="report-chart"></div>
+    </div>
+
+    
   
+    <div id="chart-container" class="graph-perpetrator">
+    <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
+    <div id="perpetrator-chart"></div>
+</div>
 
   `;
 
         // 보호조치 현황 차트 스크립트 로드
         const script1 = document.createElement("script");
-        script1.src = "js/violence/ProtectionChart.js";
-        script1.onload = () => {
-          const protectionChart = new ProtectionChart();
-          const chartContainer = document.getElementById("chart");
-          chartContainer.appendChild(protectionChart.render());
-        };
-        document.body.appendChild(script1);
+        script1.src = "js/violence/report.js";
+        contentArea.appendChild(script1);
 
         //폭력 목격 경험 차트 스크립트 로드
         const script3 = document.createElement("script");
