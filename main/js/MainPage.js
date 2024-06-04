@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = `
       <div id="famtype-container">
         <h1>한부모 가정 자녀의 혼자 있는 시간 (2021)</h1> <style>h1{text-align: center;}</style>
-
+        
         <form id="dataSelect">
           <input type="button" data-group="g1" value="한부모 연령별">
           <input type="button" data-group="g2" value="한부모 기관유형별">
@@ -31,14 +31,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         <div class="container">
           <div id="chart-container1" class="chart-graph">
+            <h3>미취학 자녀</h3>
             <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
             <div id="kids-compare"></div>
           </div>
           <div id="chart-container2" class="chart-graph">
+            <h3>초등학생 자녀</h3>
             <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
             <div id="elements-compare"></div>
           </div>
           <div id="chart-container3" class="chart-graph">
+            <h3>중학생 이상 자녀</h3>
             <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
             <div id="middles-compare"></div>
           </div>

@@ -125,9 +125,9 @@ function kids(data) {
             .enter().append("rect")
             .attr("class", "bar-2018")
             .attr("x", d => xScale(d.구분))
-            .attr("y", d => yScale(+d["2018"]))
+            .attr("y", d => yScale(0)) // 초기 y 위치를 0
             .attr("width", barWidth)
-            .attr("height", d => height - yScale(+d["2018"]))
+            .attr("height", 0) // 초기 높이를 0으로 설정
             .attr("fill", "#FFDAB9")
             .on("mouseover", (event, d) => {
                 d3.select("#tooltip")
@@ -135,9 +135,9 @@ function kids(data) {
                     .style("left", `${event.pageX}px`)
                     .style("top", `${event.pageY}px`)
                     .html(`
-        <div class="tooltip-label">
-            <div>${d.구분}: ${d["2018"]}${" %"}</div>
-        </div>`);
+    <div class="tooltip-label">
+        <div>${d.구분}: ${d["2018"]}${" %"}</div>
+    </div>`);
             })
             .on("mousemove", (event) => {
                 d3.select("#tooltip")
@@ -146,7 +146,15 @@ function kids(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2018"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2018"])); // 높이를 데이터 값에 맞게 조정
+
 
         // 막대 위에 데이터 값 표기
         svg.selectAll(".text-2018")
@@ -154,11 +162,18 @@ function kids(data) {
             .enter().append("text")
             .attr("class", "text-2018")
             .attr("x", d => xScale(d.구분) + barWidth / 2) // 막대의 중앙에 위치
-            .attr("y", d => yScale(+d["2018"]) - 5) // 막대의 상단보다 조금 위에 위치
+            .attr("y", d => yScale(0)) // 막대의 상단보다 조금 위에 위치
             .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
             .text(d => `${d["2018"]}`) // 표시할 텍스트
             .attr("fill", "black") // 텍스트 색상
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2018"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2018"]) - 5); // 높이를 데이터 값에 맞게 조정
 
         // Draw bars for 2021
         svg.selectAll(".bar-2021")
@@ -166,9 +181,9 @@ function kids(data) {
             .enter().append("rect")
             .attr("class", "bar-2021")
             .attr("x", d => xScale(d.구분) + barWidth)
-            .attr("y", d => yScale(+d["2021"]))
+            .attr("y", d => yScale(0))
             .attr("width", barWidth)
-            .attr("height", d => height - yScale(+d["2021"]))
+            .attr("height", 0)
             .attr("fill", "#3CB371")
             .on("mouseover", (event, d) => {
                 d3.select("#tooltip")
@@ -187,7 +202,14 @@ function kids(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2021"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2021"])); // 높이를 데이터 값에 맞게 조정
 
         // 2021 데이터에 대한 막대 위에 데이터 값을 표시
         svg.selectAll(".text-2021")
@@ -195,11 +217,18 @@ function kids(data) {
             .enter().append("text")
             .attr("class", "text-2021")
             .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 막대의 중앙에 위치
-            .attr("y", d => yScale(+d["2021"]) - 10) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
+            .attr("y", d => yScale(0)) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
             .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
             .text(d => `${d["2021"]}`) // 표시할 텍스트
             .attr("fill", "black")
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2021"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2021"]) ); // 높이를 데이터 값에 맞게 조정
 
         // LEGEND
         const legend = svg.append("g")
@@ -395,8 +424,8 @@ function kids(data) {
             .enter()
             .append("rect")
             .attr("x", d => xScale(d.data.구분))
-            .attr("y", d => yScale(d[1]))
-            .attr("height", d => yScale(d[0]) - yScale(d[1]))
+            .attr("y", d => yScale(0))
+            .attr("height", 0)
             .attr("width", xScale.bandwidth())
             .attr("data-xLabel", d => d.data.구분)
             .on("mouseover", (event, d) => {
@@ -414,7 +443,14 @@ function kids(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i, nodes) => {
+                return (i / nodes.length) * 100; // nodes.length를 사용해 현재 그룹의 막대 수를 기준으로 delay 계산
+            })
+            .attr("height", d => yScale(d[0]) - yScale(d[1])) // 올바른 높이 계산
+            .attr("y", d => yScale(d[1])); // 막대의 최종 위치
 
 
         // LEGEND
@@ -718,9 +754,9 @@ function elements(data) {
             .enter().append("rect")
             .attr("class", "bar-2018")
             .attr("x", d => xScale(d.구분))
-            .attr("y", d => yScale(+d["2018"]))
+            .attr("y", d => yScale(0))
             .attr("width", barWidth)
-            .attr("height", d => height - yScale(+d["2018"]))
+            .attr("height", 0)
             .attr("fill", "#FFDAB9")
             .on("mouseover", (event, d) => {
                 d3.select("#tooltip")
@@ -739,7 +775,14 @@ function elements(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2018"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2018"])); // 높이를 데이터 값에 맞게 조정
 
         // 막대 위에 데이터 값 표기
         svg.selectAll(".text-2018")
@@ -747,11 +790,18 @@ function elements(data) {
             .enter().append("text")
             .attr("class", "text-2018")
             .attr("x", d => xScale(d.구분) + barWidth / 2) // 막대의 중앙에 위치
-            .attr("y", d => yScale(+d["2018"]) - 5) // 막대의 상단보다 조금 위에 위치
+            .attr("y", d => yScale(0)) // 막대의 상단보다 조금 위에 위치
             .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
             .text(d => `${d["2018"]}`) // 표시할 텍스트
             .attr("fill", "black")
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2018"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2018"]) - 5); // 높이를 데이터 값에 맞게 조정
 
         // Draw bars for 2021
         svg.selectAll(".bar-2021")
@@ -759,9 +809,9 @@ function elements(data) {
             .enter().append("rect")
             .attr("class", "bar-2021")
             .attr("x", d => xScale(d.구분) + barWidth)
-            .attr("y", d => yScale(+d["2021"]))
+            .attr("y", d => yScale(0))
             .attr("width", barWidth)
-            .attr("height", d => height - yScale(+d["2021"]))
+            .attr("height",0)
             .attr("fill", "#3CB371")
             .on("mouseover", (event, d) => {
                 d3.select("#tooltip")
@@ -780,18 +830,32 @@ function elements(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2021"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2021"])); // 높이를 데이터 값에 맞게 조정
 
         svg.selectAll(".text-2021")
             .data(data)
             .enter().append("text")
             .attr("class", "text-2021")
             .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 막대의 중앙에 위치
-            .attr("y", d => yScale(+d["2021"]) - 10) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
+            .attr("y", d => yScale(0)) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
             .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
             .text(d => `${d["2021"]}`) // 표시할 텍스트
             .attr("fill", "black")
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2021"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2021"]) - 10); // 높이를 데이터 값에 맞게 조정
 
         // LEGEND
         const legend = svg.append("g")
@@ -990,8 +1054,8 @@ function elements(data) {
             .enter()
             .append("rect")
             .attr("x", d => xScale(d.data.구분))
-            .attr("y", d => yScale(d[1]))
-            .attr("height", d => yScale(d[0]) - yScale(d[1]))
+            .attr("y", d => yScale(0))
+            .attr("height", 0)
             .attr("width", xScale.bandwidth())
             .attr("data-xLabel", d => d.data.구분)
             .on("mouseover", (event, d) => {
@@ -1009,7 +1073,14 @@ function elements(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i, nodes) => {
+                return (i / nodes.length) * 100; // nodes.length를 사용해 현재 그룹의 막대 수를 기준으로 delay 계산
+            })
+            .attr("height", d => yScale(d[0]) - yScale(d[1])) // 올바른 높이 계산
+            .attr("y", d => yScale(d[1])); // 막대의 최종 위치
 
 
         // LEGEND
@@ -1312,9 +1383,9 @@ function middles(data) {
             .enter().append("rect")
             .attr("class", "bar-2018")
             .attr("x", d => xScale(d.구분))
-            .attr("y", d => yScale(+d["2018"]))
+            .attr("y", d => yScale(0))
             .attr("width", barWidth)
-            .attr("height", d => height - yScale(+d["2018"]))
+            .attr("height", 0)
             .attr("fill", "#FFDAB9")
             .on("mouseover", (event, d) => {
                 d3.select("#tooltip")
@@ -1333,7 +1404,14 @@ function middles(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2018"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2018"])); // 높이를 데이터 값에 맞게 조정
 
         // 막대 위에 데이터 값 표기
         svg.selectAll(".text-2018")
@@ -1341,11 +1419,18 @@ function middles(data) {
             .enter().append("text")
             .attr("class", "text-2018")
             .attr("x", d => xScale(d.구분) + barWidth / 2) // 막대의 중앙에 위치
-            .attr("y", d => yScale(+d["2018"]) - 5) // 막대의 상단보다 조금 위에 위치
+            .attr("y", d => yScale(0)) // 막대의 상단보다 조금 위에 위치
             .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
             .text(d => `${d["2018"]}`) // 표시할 텍스트
             .attr("fill", "black")
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2018"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2018"]) - 5); // 높이를 데이터 값에 맞게 조정
 
         // Draw bars for 2021
         svg.selectAll(".bar-2021")
@@ -1353,9 +1438,9 @@ function middles(data) {
             .enter().append("rect")
             .attr("class", "bar-2021")
             .attr("x", d => xScale(d.구분) + barWidth)
-            .attr("y", d => yScale(+d["2021"]))
+            .attr("y", d => yScale(0))
             .attr("width", barWidth)
-            .attr("height", d => height - yScale(+d["2021"]))
+            .attr("height", 0)
             .attr("fill", "#3CB371")
             .on("mouseover", (event, d) => {
                 d3.select("#tooltip")
@@ -1374,18 +1459,32 @@ function middles(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2021"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2021"])); // 높이를 데이터 값에 맞게 조정
 
         svg.selectAll(".text-2021")
             .data(data)
             .enter().append("text")
             .attr("class", "text-2021")
             .attr("x", d => xScale(d.구분) + barWidth * 1.5) // 막대의 중앙에 위치
-            .attr("y", d => yScale(+d["2021"]) - 10) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
+            .attr("y", d => yScale(0)) // 막대의 상단보다 조금 위에 위치, 차트 바깥쪽을 향해 더 많은 간격 제공
             .attr("text-anchor", "middle") // 텍스트를 중앙 정렬
             .text(d => `${d["2021"]}`) // 표시할 텍스트
             .attr("fill", "black")
-            .style("font-size", "12px");
+            .style("font-size", "12px")
+            .transition()
+            .duration(500)
+            .delay((d, i) => {
+                return (i / data.length) * 100;
+            })
+            .attr("y", d => yScale(d["2021"])) // y 위치를 데이터 값에 맞게 조정
+            .attr("height", d => yScale(0) - yScale(d["2021"]) - 10); // 높이를 데이터 값에 맞게 조정
 
 
         // LEGEND
@@ -1583,8 +1682,8 @@ function middles(data) {
             .enter()
             .append("rect")
             .attr("x", d => xScale(d.data.구분))
-            .attr("y", d => yScale(d[1]))
-            .attr("height", d => yScale(d[0]) - yScale(d[1]))
+            .attr("y", d => yScale(0))
+            .attr("height", 0)
             .attr("width", xScale.bandwidth())
             .attr("data-xLabel", d => d.data.구분)
             .on("mouseover", (event, d) => {
@@ -1602,7 +1701,14 @@ function middles(data) {
             })
             .on("mouseleave", () => {
                 d3.select("#tooltip").style("display", "none");
-            });
+            })
+            .transition()
+            .duration(500)
+            .delay((d, i, nodes) => {
+                return (i / nodes.length) * 100; // nodes.length를 사용해 현재 그룹의 막대 수를 기준으로 delay 계산
+            })
+            .attr("height", d => yScale(d[0]) - yScale(d[1])) // 올바른 높이 계산
+            .attr("y", d => yScale(d[1])); // 막대의 최종 위치
 
 
         // LEGEND
