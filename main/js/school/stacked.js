@@ -1,5 +1,6 @@
 let groupedData = {};
-console.log("stacked");
+
+
 // 데이터 초기화 함수
 function initialize(csvFile, defaultGroup) {
     d3.csv(csvFile).then((data) => {
@@ -13,7 +14,6 @@ function initialize(csvFile, defaultGroup) {
         });
         
         if (groupedData[defaultGroup]) {
-            
             showStackedBarChart(groupedData[defaultGroup]); // 초기 차트 표시
             d3.select(`#groupSelect button[data-group='${defaultGroup}']`).classed('active', true); // 초기 버튼 활성화
         } else {
@@ -24,7 +24,6 @@ function initialize(csvFile, defaultGroup) {
                 event.preventDefault();
                 d3.selectAll("#groupSelect button").classed('active', false);
                 d3.select(this).classed('active', true);
-
                 const group = d3.select(this).attr("data-group");
                  if (groupedData[group]) {
                     showStackedBarChart(groupedData[group]);
@@ -43,6 +42,7 @@ function showStackedBarChart(data) {
     const margin = { top: 40, right: 30, bottom: 50, left: 60 };
     const legendHeight = 50;
     d3.select("#school-violence-container svg").remove(); // 기존 SVG 제거
+    
 
     // COLOR
     const customColors = ["#87CEFA", "#4169E1"];
@@ -173,6 +173,7 @@ setTimeout(() => drawTrendLine(data), 100);
 }
 document.getElementById('school-violence-container').addEventListener('click', function(event) {
     if (event.target.closest('.data-btn') && event.target.hasAttribute('data-groups')) {
+        
         const groups = event.target.getAttribute('data-groups').split(',');
         const src = event.target.getAttribute('data-src');
         const groupSelect = document.getElementById('groupSelect');
@@ -187,6 +188,7 @@ document.getElementById('school-violence-container').addEventListener('click', f
             groupSelect.appendChild(input);
         });
 
+        
         initialize(src, groups[0]);  // 초기 그룹 설정
     }
 });
@@ -195,6 +197,7 @@ document.getElementById('groupSelect').addEventListener('click', function(event)
     if (event.target.tagName === 'BUTTON' && event.target.hasAttribute('data-group')) {
         const src = event.target.getAttribute('data-src');
         const group = event.target.getAttribute('data-group');
+        
         showStackedBarChart(groupedData[group]);  // 선택된 그룹에 맞게 차트 업데이트
     }
 });
