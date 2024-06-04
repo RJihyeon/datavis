@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="title">한부모 가정 자녀의 혼자 있는 시간 (2021)</p>
         
         <form id="dataSelect">
+          <div class="button-title">한부모 특성별</div>
           <input type="button" data-group="g4" value="가구 구성별">
           <input type="button" data-group="g5" value="가장 어린 자녀별">
           <input type="button" data-group="g8" value="소득 수준별">
