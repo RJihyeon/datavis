@@ -6,10 +6,13 @@
 }
 
 .menu_div {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 40;
   height: 100%;
   overflow: hidden;
-  background-color: transparent;
+  background-color: white;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
   font-family: "NotoSans";

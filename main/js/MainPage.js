@@ -15,64 +15,67 @@ document.addEventListener("DOMContentLoaded", function () {
       case "family-type":
         contentArea.innerHTML = `
       <div id="famtype-container">
-        <h1>한부모 가정 자녀의 혼자 있는 시간 (2021)</h1> <style>h1{text-align: center;}</style>
+        <p class="title">한부모 가정 자녀의 혼자 있는 시간 (2021)</p>
         
         <form id="dataSelect">
-          <input type="button" data-group="g1" value="한부모 연령별">
-          <input type="button" data-group="g2" value="한부모 기관유형별">
-          <input type="button" data-group="g3" value="혼인 상태별">
           <input type="button" data-group="g4" value="가구 구성별">
           <input type="button" data-group="g5" value="가장 어린 자녀별">
-          <input type="button" data-group="g6" value="종사상 지위별">
-          <input type="button" data-group="g7" value="정부 지원 유형별">
           <input type="button" data-group="g8" value="소득 수준별">
+          <input type="button" data-group="g7" value="정부 지원 유형별">
+          <input type="button" data-group="g6" value="종사상 지위별">
+          <input type="button" data-group="g2" value="한부모 기관유형별">
+          <input type="button" data-group="g1" value="한부모 연령별">
           <input type="button" data-group="g9" value="한부모가된 기간별">
+          <input type="button" data-group="g3" value="혼인 상태별">
         </form>
+
+        <p class="sub-title">"자녀가 혼자 있는 시간이 있다"고 응답한 비율 (%)</p>
 
         <div class="container">
           <div id="chart-container1" class="chart-graph">
-            <h3>미취학 자녀</h3>
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
+            <p class="chart-title">미취학 자녀</p>
             <div id="kids-compare"></div>
           </div>
           <div id="chart-container2" class="chart-graph">
-            <h3>초등학생 자녀</h3>
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <p class="chart-title">초등학생 자녀</p>
             <div id="elements-compare"></div>
           </div>
           <div id="chart-container3" class="chart-graph">
-            <h3>중학생 이상 자녀</h3>
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-compare"></div>
           </div>
         </div>
 
+        <p class="sub-title">자녀의 혼자 있는 시간 비율 (%)</p>
+
         <div class="container">
           <div id="chart-container4" class="chart-graph">
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
+            <p class="chart-title">미취학 자녀</p>
             <div id="kids-hours"></div>
           </div>
           <div id="chart-container5" class="chart-graph">
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <p class="chart-title">초등학생 자녀</p>
             <div id="elements-hours"></div>
           </div>
           <div id="chart-container6" class="chart-graph">
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-hours"></div>
           </div>
         </div>
 
+        <p class="sub-title">한부모 가정 특성별 자녀의 혼자 있는 평균 시간 (시간)</p>
+
         <div class="container">
           <div id="chart-container7" class="chart-graph">
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간</p>
+            <p class="chart-title">미취학 자녀</p>
             <div id="kids-avg"></div>
           </div>
           <div id="chart-container8" class="chart-graph">
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <p class="chart-title">초등학생 자녀</p>
             <div id="elements-avg"></div>
           </div>
           <div id="chart-container9" class="chart-graph">
-            <p class="chart-title">한부모 가정 특성별 자녀의 혼자 있는 시간 평균</p>
+            <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-avg"></div>
           </div>
         </div>
