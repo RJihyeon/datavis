@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
       case "dom-violence":
         contentArea.innerHTML = `
 
-        <div id="heatmap-container" class="graph-report">
+        <div id="chart-container" class="graph-report">
         <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거건수 히트맵</p>
         <div id="heatmap-report"></div>
         <div id="report-tooltip" style="opacity:0; position: absolute;"></div>
@@ -116,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const script1 = document.createElement("script");
         script1.src = "js/violence/report.js";
         contentArea.appendChild(script1);
+
 
         //폭력 목격 경험 차트 스크립트 로드
         const script3 = document.createElement("script");
