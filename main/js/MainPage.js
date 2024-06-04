@@ -84,9 +84,11 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         `;
         // Append script dynamically
-        const scriptFamtype_1 = document.createElement("script");
-        scriptFamtype_1.src = "js/famtype/alone.js";
-        contentArea.appendChild(scriptFamtype_1);
+        if (!document.querySelector('script[src="js/famtype/alone.js"]')) {
+          const scriptFamtype_1 = document.createElement("script");
+          scriptFamtype_1.src = "js/famtype/alone.js";
+          contentArea.appendChild(scriptFamtype_1);
+        }
         break;
 
       // 가정폭력 케이스
