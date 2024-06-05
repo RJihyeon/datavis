@@ -1,15 +1,18 @@
 .menu_body {
-  flex: 10%;
+  flex: 15%;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
 }
 .menu_wrpper {
   overflow: hidden;
 }
 
 .menu_div {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 40;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   background-color: white;

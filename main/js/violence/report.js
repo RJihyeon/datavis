@@ -134,8 +134,15 @@ function drawHeatmap(data) {
     .select("#heatmap-report")
     .html("")
     .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr(
+      "viewBox",
+      `0 0 ${width + margin.left + margin.right} ${
+        height + margin.top + margin.bottom
+      }`
+    )
+    .attr("preserveAspectRatio", "xMinYMin meet")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -205,7 +212,7 @@ function drawHeatmap(data) {
     })
     .attr("x", (d) => xScale(d.year))
     .attr("y", (d) => yScale(d.시도청))
-    .attr("class", "heatSquare bordered")
+    .attr("class", "heatSquare")
     .attr("width", xScale.bandwidth())
     .attr("height", yScale.bandwidth() + 10)
     .style("fill", colors[0])

@@ -6,8 +6,8 @@
 }
 
 .content-area {
-  flex: 95%;
-  width: 60%;
+  flex: 85%;
+  width: 85%;
 }
 
 button {
@@ -26,7 +26,7 @@ button {
 
 button.active {
   color: white;
-  background-color: #20B2AA;
+  background-color: #20b2aa;
 }
 
 button:last-child {
@@ -35,5 +35,5 @@ button:last-child {
 
 button:hover {
   color: white;
-  background-color: #20B2AA;
+  background-color: #20b2aa;
 }

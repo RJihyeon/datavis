@@ -201,3 +201,24 @@
   border-radius: 5px;
   pointer-events: none; /* 툴팁이 마우스 이벤트를 방해하지 않도록 함 */
 }
+
+#heatmap-report {
+  width: 100%;
+  height: auto;
+  position: relative;
+  padding-top: 50%; /* 50%는 2:1 비율입니다. 원하는 비율에 맞게 조정하세요. */
+  margin-right: 10px;
+}
+
+#heatmap-report svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: auto;
+}
+
+.heatSquare:hover {
+  border: 1px solid #000;
+  cursor: pointer;
+}
