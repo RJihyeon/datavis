@@ -127,7 +127,9 @@ function drawChart(data, year, city, chartClass, sortOrder, highlight = false) {
 
   const cityData = data[city];
   const xValues = ["기소_구속", "기소_불구속", "불기소", "가정보호", "기타"];
-  const yValues = xValues.map((x) => cityData[x + "_" + year]);
+  const yValues = xValues.map((x) =>
+    Math.round((cityData[x + "_" + year] / cityData["검거건수_" + year]) * 100)
+  );
 
   const dataToPlot = xValues.map((x, i) => ({
     category: x,

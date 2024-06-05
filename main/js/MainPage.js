@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         <div id="chart-container2" class="graph-report1">
         <p class="report-title">검찰청 가정폭력 조치 현황</p>
+        <p class="report-title1">검거 100건 당 조치 건수, 단위(건)</p>
         <div class="report-wrapper">
         <div class="chart-wrapper">
     <p class="chart-title" id="chart-title-2019"></p>
