@@ -34,29 +34,52 @@ Promise.all([
     );
 
     //update logic
-    window.updateChart = function (year) {
-      drawChart(data, year);
+    window.updateChart = function (year, city) {
+      drawChart(data, year, city);
     };
 
     // 초기 차트는 2019년 데이터로 설정
-    updateChart(2019);
+    updateChart(2019, "서울");
     drawHeatmap(data_heatmap);
   })
   .catch(function (error) {
     console.error("Error loading the CSV files:", error);
   });
 
-function drawChart(data, year) {
+function drawChart(data, year, city) {
+  // 버튼 요소들을 선택합니다.
+  const yearButtons = document.querySelectorAll(".year-button");
+
+  // 각 버튼에 이벤트를 추가합니다.
+  yearButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      // 버튼이 클릭되면 해당 버튼의 data-year 속성 값을 읽어와서 updateChart() 함수를 호출합니다.
+      const year = parseInt(this.getAttribute("data-year"));
+      updateChart(year, city);
+    });
+  });
+
+  // city-title id를 가진 p 태그 선택
+  const cityTitle = document.getElementById("city-title");
+  // city로 내용 변경{
+  cityTitle.innerText = `${year}, ${city}`;
+  const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+    width = 900 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
   const svg = d3
     .select("#report-chart")
     .html("")
     .append("svg")
-    .attr("width", 800)
-    .attr("height", 400);
-
-  const margin = { top: 20, right: 30, bottom: 40, left: 90 },
-    width = 800 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr(
+      "viewBox",
+      `0 0 ${width + margin.left + margin.right} ${
+        height + margin.top + margin.bottom
+      }`
+    )
+    .attr("preserveAspectRatio", "xMinYMin meet");
 
   const x = d3.scaleBand().range([0, width]).padding(0.1);
   const y = d3.scaleLinear().range([height, 0]);
@@ -65,47 +88,64 @@ function drawChart(data, year) {
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
+  console.log(data);
   // 준비된 데이터를 바탕으로 동적으로 차트 업데이트
-  const processedData = Object.keys(data).map((key) => ({
-    시도청: key,
-    기소율: data[key][`기소율_${year}`],
-  }));
 
-  x.domain(processedData.map((d) => d.시도청));
-  y.domain([0, d3.max(processedData, (d) => d.기소율)]);
+  // 해당 도시의 데이터만 추출
+  const cityData = data[city];
+
+  // x축에 들어갈 항목들
+  const xValues = ["기소_구속", "기소_불구속", "불기소", "가정보호", "기타"];
+
+  // x축 항목에 해당하는 값들을 추출하여 배열로 저장
+  const yValues = xValues.map((x) => cityData[x + "_" + year]);
+
+  // x축과 y축의 scale 설정
+  const xScale = d3.scaleBand().domain(xValues).range([0, width]).padding(0.3); // x축의 범위 설정
+  console.log(yValues);
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(yValues)])
+    .nice() // y축의 범위 설정
+    .range([height, 0]);
 
   // x축과 y축 그리기
+  // x축 그리기
   g.append("g")
-    .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    .attr("transform", "translate(-10,0)rotate(-45)")
-    .style("text-anchor", "end");
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale))
+    .style("font-size", "24px")
+    .style("font-weight", "bold");
 
-  g.append("g").call(d3.axisLeft(y));
+  // y축 그리기
+  g.append("g")
+    .call(d3.axisLeft(yScale))
+    .style("font-size", "25px")
+    .style("font-weight", "bold");
 
   // 바 차트의 바 생성
   g.selectAll(".bar")
-    .data(processedData)
+    .data(xValues) // xValues를 데이터로 사용
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .attr("x", (d) => x(d.시도청))
-    .attr("width", x.bandwidth())
-    .attr("y", (d) => y(d.기소율))
-    .attr("height", (d) => height - y(d.기소율))
-    .attr("fill", "steelblue"); // 바의 색상 설정
+    .attr("x", (d) => xScale(d)) // x값에 xValues의 항목을 사용
+    .attr("width", xScale.bandwidth())
+    .attr("y", (d, i) => yScale(yValues[i])) // y값에 yValues의 값들을 사용
+    .attr("height", (d, i) => height - yScale(yValues[i]))
+    .attr("fill", "#20B2AA"); // 바의 색상 설정
 
   // 각 바 위에 데이터 값을 표시하는 텍스트 추가
   g.selectAll(".text")
-    .data(processedData)
+    .data(cityData)
     .enter()
     .append("text")
     .attr("class", "label")
-    .attr("x", (d) => x(d.시도청) + x.bandwidth() / 2)
-    .attr("y", (d) => y(d.기소율) - 5)
+    .attr("x", (d) => x(d.xValues) + x.bandwidth() / 2)
+    .attr("y", (d) => y(d.yValues) - 5)
     .attr("text-anchor", "middle")
-    .text((d) => d.기소율);
+    .attr("font-size", "50px")
+    .text((d) => d.yValues);
 }
 
 //권역별로 그룹화해서 다시 표시하기 (수정!!! )
@@ -205,14 +245,15 @@ function drawHeatmap(data) {
   cards
     .enter()
     .append("rect")
-    .on("click", (event, d) => {
-      // Call your function and pass the 시도청 information
-      updateChart(d.year);
-      console.log(d.시도청);
-    })
     .attr("x", (d) => xScale(d.year))
     .attr("y", (d) => yScale(d.시도청))
     .attr("class", "heatSquare")
+    .on("click", (event, d) => {
+      // Call your function and pass the 시도청 information
+      let currentCity = d.시도청;
+      updateChart(d.year, d.시도청);
+      console.log(d.시도청);
+    })
     .attr("width", xScale.bandwidth())
     .attr("height", yScale.bandwidth() + 10)
     .style("fill", colors[0])

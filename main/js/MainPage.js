@@ -95,21 +95,24 @@ document.addEventListener("DOMContentLoaded", function () {
       case "dom-violence":
         contentArea.innerHTML = `
 
+        <div id="chart-container" class="report-container">
         <div id="chart-container1" class="graph-report">
         <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거건수 히트맵</p>
         <div id="heatmap-report"></div>
         <div id="report-tooltip" style="opacity:0; position: absolute;"></div>
     </div>
     
-        <div id="chart-container2" class="graph-report">
-        <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거 및 조치 현황</p>
-        <div id="report-buttons">
-            <button onclick="updateChart(2019)">2019</button>
-            <button onclick="updateChart(2020)">2020</button>
-            <button onclick="updateChart(2021)">2021</button>
-            <button onclick="updateChart(2022)">2022</button>
-        </div>
+        <div id="chart-container2" class="graph-report1">
+        <p class="perpetrator-title">검찰청 가정폭력 조치 현황</p>
+        <p id="city-title" ></p>
         <div id="report-chart"></div>
+        <div id="report-buttons">
+            <button class="year-button" data-year="2019">2019</button>
+            <button class="year-button" data-year="2020">2020</button>
+            <button class="year-button" data-year="2021">2021</button>
+            <button class="year-button" data-year="2022">2022</button>
+        </div>
+    </div>
     </div>
 
     
@@ -125,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const script1 = document.createElement("script");
         script1.src = "js/violence/report.js";
         contentArea.appendChild(script1);
-
 
         //폭력 목격 경험 차트 스크립트 로드
         const script3 = document.createElement("script");
@@ -182,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
         scriptschool.src = "js/school/stacked.js";
         contentArea.appendChild(scriptschool);
         break;
-      
+
       case "after-school-bully":
         contentArea.innerHTML = `
           <div id="after-bully-container">
@@ -199,18 +201,18 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           `;
 
-          const script_after_bully = document.createElement("script");
-          script_after_bully.src = "js/school/bar.js";
-          contentArea.appendChild(script_after_bully);
-          console.log("after-bully-container", contentArea);
-          
-          const scriptTreemap = document.createElement("script");
-          scriptTreemap.src = "js/school/treemap.js";
-          document.body.appendChild(scriptTreemap);
+        const script_after_bully = document.createElement("script");
+        script_after_bully.src = "js/school/bar.js";
+        contentArea.appendChild(script_after_bully);
+        console.log("after-bully-container", contentArea);
 
-          break;
+        const scriptTreemap = document.createElement("script");
+        scriptTreemap.src = "js/school/treemap.js";
+        document.body.appendChild(scriptTreemap);
 
-        default:
+        break;
+
+      default:
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
   }
