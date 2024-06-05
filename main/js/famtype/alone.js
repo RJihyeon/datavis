@@ -72,8 +72,8 @@ function kids(data) {
         const container = d3.select("#kids-compare");
         container.selectAll("svg").remove();
 
-        const width = 300;
-        const height = 200;
+        const width = 100;
+        const height = 50;
         const margin = { top: 30, right: 50, bottom: 90, left: 120 };
 
         const svg = container.append("svg")
@@ -718,8 +718,8 @@ function elements(data) {
         const container = d3.select("#elements-compare");
         container.selectAll("svg").remove();
 
-        const width = 300;
-        const height = 200;
+        const width = 200;
+        const height = 100;
         const margin = { top: 30, right: 50, bottom: 90, left: 120 };
 
         const svg = container.append("svg")
@@ -1361,8 +1361,8 @@ function middles(data) {
         const container = d3.select("#middles-compare");
         container.selectAll("svg").remove();
 
-        const width = 300;
-        const height = 200;
+        const width = 200;
+        const height = 100;
         const margin = { top: 30, right: 50, bottom: 90, left: 120 };
 
         const svg = container.append("svg")
