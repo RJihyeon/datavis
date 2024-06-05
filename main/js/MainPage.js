@@ -97,29 +97,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
         <div id="chart-container" class="report-container">
         <div id="chart-container1" class="graph-report">
-        <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 검거건수 히트맵</p>
+        <p class="perpetrator-title">2019-2022 검찰청 전국 가정폭력 </br>검거건수 히트맵</p>
         <div id="heatmap-report"></div>
         <div id="report-tooltip" style="opacity:0; position: absolute;"></div>
     </div>
     
         <div id="chart-container2" class="graph-report1">
-        <p class="perpetrator-title">검찰청 가정폭력 조치 현황</p>
-        <p id="city-title" ></p>
-        <div id="report-chart"></div>
-        <div id="report-buttons">
-            <button class="year-button" data-year="2019">2019</button>
-            <button class="year-button" data-year="2020">2020</button>
-            <button class="year-button" data-year="2021">2021</button>
-            <button class="year-button" data-year="2022">2022</button>
-        </div>
+        <p class="report-title">검찰청 가정폭력 조치 현황</p>
+        <div class="report-wrapper">
+        <div class="chart-wrapper">
+    <p class="chart-title" id="chart-title-2019"></p>
+    <div id="report-chart-2019" class="report-chart" data-year="2019"></div>
+    <button class="sort-button" data-year="2019">정렬</button>
+  </div>
+  <div class="chart-wrapper">
+    <p class="chart-title" id="chart-title-2020"></p>
+    <div id="report-chart-2020" class="report-chart" data-year="2020"></div>
+    <button class="sort-button" data-year="2020">정렬</button>
+  </div>
+  </div>
+  <div class="report-wrapper">
+  <div class="chart-wrapper">
+    <p class="chart-title" id="chart-title-2021"></p>
+    <div id="report-chart-2021" class="report-chart" data-year="2021"></div>
+    <button class="sort-button" data-year="2021">정렬</button>
+  </div>
+  <div class="chart-wrapper">
+    <p class="chart-title" id="chart-title-2022"></p>
+    <div id="report-chart-2022" class="report-chart" data-year="2022"></div>
+    <button class="sort-button" data-year="2022">정렬</button>
+    </div>
+
+  </div>
+  <button
+  <button class="sort-button1" data-sort="all">전체 정렬</button>
     </div>
     </div>
 
     
   
-    <div id="chart-container3" class="graph-perpetrator">
-    <p class="perpetrator-title">만 18세 이전 폭력 목격 경험 및 주가해자</p>
-    <div id="perpetrator-chart"></div>
+    
 </div>
 
   `;
