@@ -116,10 +116,11 @@
 
 .perpetrator-title {
   padding-top: 15px;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   color: #6e7176;
   margin: 0px;
+  text-align: center;
 }
 
 .perpetrator-x-text {
@@ -167,7 +168,7 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  width: 50%;
+  width: 60%;
 }
 
 .report-title {
@@ -185,8 +186,9 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  width: 50%;
+  width: 40%;
   padding-bottom: 0;
+  margin-left: 10px;
 }
 
 #report-tooltip {
@@ -201,7 +203,7 @@
   width: 100%;
   height: auto;
   position: relative;
-  padding-top: 60%; /* 50%는 2:1 비율입니다. 원하는 비율에 맞게 조정하세요. */
+  padding-top: 120%; /* 50%는 2:1 비율입니다. 원하는 비율에 맞게 조정하세요. */
   margin-bottom: 0;
 }
 
@@ -209,12 +211,12 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 90%;
+  width: 100%;
   height: auto;
   padding-right: 0;
 }
 
-.heatSquare:hover {
+.cell:hover {
   border: 1px solid #000;
   cursor: pointer;
 }
@@ -224,6 +226,7 @@
   flex-direction: row;
   margin-top: 0px;
   justify-content: space-around;
+  height: 100%;
 }
 
 #report-chart {
@@ -246,4 +249,35 @@
   font-weight: bold;
   color: #6e7176;
   margin-top: 4px;
+}
+
+.report-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.chart-title {
+  padding: 0;
+  margin: 0;
+}
+
+.report-title {
+  padding-top: 15px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #6e7176;
+  margin-bottom: 20px;
+}
+
+.chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sort-button {
+  width: 50%;
+  height: 20px;
+  font-size: 13px;
+  padding: 0;
 }
