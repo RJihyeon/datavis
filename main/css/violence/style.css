@@ -177,7 +177,7 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  width: 120%;
+  width: 110%;
   height: auto;
 }
 .chart-wrapper {
@@ -185,14 +185,6 @@
   flex-direction: column;
   align-items: center;
   margin-right: 50px;
-}
-
-.report-title {
-  padding-top: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #6e7176;
-  margin: 0px;
 }
 
 /* 검찰청 조치현황 report */
@@ -270,6 +262,7 @@
 .report-wrapper {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .chart-title {
@@ -279,10 +272,11 @@
 
 .report-title {
   padding-top: 15px;
+  padding-bottom: 0px;
+  margin: 0px;
   font-size: 25px;
   font-weight: bold;
   color: #6e7176;
-  margin-bottom: 20px;
 }
 
 .sort-button {
@@ -290,4 +284,15 @@
   height: 20px;
   font-size: 13px;
   padding: 0;
+  margin-top: 10px;
+}
+
+.report-title1 {
+  margin-top: 3px;
+  padding-top: 3px;
+  padding-bottom: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #6e7176;
+  margin: 0px;
 }
