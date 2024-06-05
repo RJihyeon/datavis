@@ -102,7 +102,7 @@ function drawChart(data, year, city, chartClass, sortOrder, highlight = false) {
     chartTitle.innerText = `${year}년 ${city} 데이터`;
   }
 
-  const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+  const margin = { top: 30, right: 30, bottom: 40, left: 90 },
     width = 800 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
