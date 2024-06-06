@@ -1,3 +1,7 @@
+* {
+    cursor: pointer; /* 또는 다른 원하는 커서 스타일로 대체 */
+}
+
 .title{
     text-align: center;
     font-weight: bold;
