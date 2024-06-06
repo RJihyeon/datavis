@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
       case "family-type":
         contentArea.innerHTML = `
       <div id="famtype-container">
-        <p class="title">한부모 가정 자녀의 혼자 있는 시간 (2021)</p>
+        <p class="title">한부모 가정 자녀의 연령대별 혼자 있는 시간 (2021)</p>
         
         <form id="dataSelect">
           <div class="button-title">한부모 특성별</div>
@@ -31,52 +31,46 @@ document.addEventListener("DOMContentLoaded", function () {
         </form>
 
         <p class="sub-title">"자녀가 혼자 있는 시간이 있다"고 응답한 비율 (%)</p>
+        <p class="explain">범례(2018, 2011)를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</class>
 
         <div class="container">
           <div id="chart1" class="chart-graph">
-            <p class="chart-title">미취학 자녀</p>
             <div id="kids-compare"></div>
           </div>
           <div id="chart2" class="chart-graph">
-            <p class="chart-title">초등학생 자녀</p>
             <div id="elements-compare"></div>
           </div>
           <div id="chart3" class="chart-graph">
-            <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-compare"></div>
           </div>
         </div>
 
         <p class="sub-title">자녀의 혼자 있는 시간 비율 (%)</p>
+        <p class="explain">범례(1~3시간, 4~6시간, 6시간 이상)를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</class>
 
         <div class="container">
           <div id="char4" class="chart-graph">
-            <p class="chart-title">미취학 자녀</p>
             <div id="kids-hours"></div>
           </div>
           <div id="chart5" class="chart-graph">
-            <p class="chart-title">초등학생 자녀</p>
             <div id="elements-hours"></div>
           </div>
           <div id="chart6" class="chart-graph">
-            <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-hours"></div>
           </div>
         </div>
 
         <p class="sub-title">한부모 가정 특성별 자녀의 혼자 있는 평균 시간 (시간)</p>
+        <p class="explain">막대를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</class>
 
         <div class="container">
           <div id="char7" class="chart-graph">
-            <p class="chart-title">미취학 자녀</p>
             <div id="kids-avg"></div>
           </div>
           <div id="chart8" class="chart-graph">
-            <p class="chart-title">초등학생 자녀</p>
             <div id="elements-avg"></div>
           </div>
           <div id="chart9" class="chart-graph">
-            <p class="chart-title">중학생 이상 자녀</p>
             <div id="middles-avg"></div>
           </div>
         </div>
