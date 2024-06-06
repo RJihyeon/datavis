@@ -44,7 +44,6 @@ function renderMenuComponent() {
             </li>              
     </div>
   `;
-  
   // Attach event listeners to all sub_buttons
   const subButtons = document.querySelectorAll('.sub_button');
   subButtons.forEach(button => {

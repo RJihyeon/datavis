@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </form>
 
         <p class="sub-title">"자녀가 혼자 있는 시간이 있다"고 응답한 비율 (%)</p>
-        <p class="explain">범례(2018, 2011)를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</class>
+        <p class="explain">범례(2018, 2011)를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</p>
 
         <div class="container">
           <div id="chart1" class="chart-graph">
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
 
         <p class="sub-title">자녀의 혼자 있는 시간 비율 (%)</p>
-        <p class="explain">범례(1~3시간, 4~6시간, 6시간 이상)를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</class>
+        <p class="explain">범례(1~3시간, 4~6시간, 6시간 이상)를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</p>
 
         <div class="container">
           <div id="char4" class="chart-graph">
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
 
         <p class="sub-title">한부모 가정 특성별 자녀의 혼자 있는 평균 시간 (시간)</p>
-        <p class="explain">막대를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</class>
+        <p class="explain">막대를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</p>
 
         <div class="container">
           <div id="char7" class="chart-graph">
@@ -103,24 +103,24 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="chart-wrapper">
     <p class="chart-title" id="chart-title-2019"></p>
     <div id="report-chart-2019" class="report-chart" data-year="2019"></div>
-    <button class="sort-button" data-year="2019">정렬</button>
-  </div>
+    <button type="button" class="sort-button" data-year="2019">정렬</button>
+    </div>
   <div class="chart-wrapper">
     <p class="chart-title" id="chart-title-2020"></p>
     <div id="report-chart-2020" class="report-chart" data-year="2020"></div>
-    <button class="sort-button" data-year="2020">정렬</button>
-  </div>
+    <button type="button" class="sort-button" data-year="2020">정렬</button>
+    </div>
   </div>
   <div class="report-wrapper">
   <div class="chart-wrapper">
     <p class="chart-title" id="chart-title-2021"></p>
     <div id="report-chart-2021" class="report-chart" data-year="2021"></div>
-    <button class="sort-button" data-year="2021">정렬</button>
-  </div>
+    <button type="button" class="sort-button" data-year="2021">정렬</button>
+    </div>
   <div class="chart-wrapper">
     <p class="chart-title" id="chart-title-2022"></p>
     <div id="report-chart-2022" class="report-chart" data-year="2022"></div>
-    <button class="sort-button" data-year="2022">정렬</button>
+    <button type="button" class="sort-button" data-year="2022">정렬</button>
     </div>
 
   </div>
