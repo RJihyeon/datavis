@@ -1,7 +1,4 @@
-alone();
-function alone(){
-
-    // Data Loading
+// Data Loading
 const loadKidsData = d3.csv("./data/famtype/kids_alone.csv");
 const loadElementsData = d3.csv("./data/famtype/elements_alone.csv");
 const loadMiddlesData = d3.csv("./data/famtype/middles_alone.csv");
@@ -36,55 +33,55 @@ Promise.all([loadKidsData, loadElementsData, loadMiddlesData]).then((results) =>
         groupedData_middles[group].push(d);
     });
 
-    d3.selectAll("#dataSelect input[type='button'][data-group='g4']")
-        .on("mouseover", function () {
-            // 버튼 위에 마우스를 올렸을 때 실행될 코드
-            const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
-            const tooltip = d3.select("#tooltip");
-            const tooltipWidth = tooltip.node().offsetWidth;
-            const tooltipHeight = tooltip.node().offsetHeight;
-
-            const tooltipLeft = dataSelectRect.left + dataSelectRect.width / 2 - tooltipWidth / 2;
-            const tooltipTop = dataSelectRect.top - tooltipHeight - 10; // 위에 여백을 줄 수 있습니다.
-
-            tooltip
-                .classed("category", true)
-                .style("display", "block")
-                .html("'기타'는 부, 모, 자녀를 제외한 기타 가족 구성원을 의미한다.")
-                .style("left", `${tooltipLeft + 50}px`)
-                .style("top", `${tooltipTop + 60}px`);
-        })
-        .on("mouseout", function () {
-            // 버튼에서 마우스를 제거했을 때 실행될 코드
-            d3.select("#tooltip")
-                .style("display", "none")
-                .classed("category", false);
-        });
+d3.selectAll("#dataSelect input[type='button'][data-group='g4']")
+    .on("mouseover", function() {
+        // 버튼 위에 마우스를 올렸을 때 실행될 코드
+        const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
+        const tooltip = d3.select("#tooltip");
+        const tooltipWidth = tooltip.node().offsetWidth;
+        const tooltipHeight = tooltip.node().offsetHeight;
+        
+        const tooltipLeft = dataSelectRect.left + dataSelectRect.width / 2 - tooltipWidth / 2;
+        const tooltipTop = dataSelectRect.top - tooltipHeight - 10; // 위에 여백을 줄 수 있습니다.
+        
+        tooltip
+            .classed("category", true)
+            .style("display", "block")
+            .html("'기타'는 부, 모, 자녀를 제외한 기타 가족 구성원을 의미한다.")
+            .style("left", `${tooltipLeft + 50}px`)
+            .style("top", `${tooltipTop + 60}px`);
+    })
+    .on("mouseout", function() {
+        // 버튼에서 마우스를 제거했을 때 실행될 코드
+        d3.select("#tooltip")
+            .style("display", "none")
+            .classed("category", false);
+    });
 
     d3.selectAll("#dataSelect input[type='button'][data-group='g5']")
-        .on("mouseover", function () {
-            // 버튼 위에 마우스를 올렸을 때 실행될 코드
-            const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
-            const tooltip = d3.select("#tooltip");
-            const tooltipWidth = tooltip.node().offsetWidth;
-            const tooltipHeight = tooltip.node().offsetHeight;
-
-            const tooltipLeft = dataSelectRect.left + dataSelectRect.width / 2 - tooltipWidth / 2;
-            const tooltipTop = dataSelectRect.top - tooltipHeight - 10; // 위에 여백을 줄 수 있습니다.
-
-            tooltip
-                .classed("category", true)
-                .style("display", "block")
-                .html("각 차트의 데이터는 한부모 가정 내 가장 나이가 많은 자녀를 기준으로 수합하였다.")
-                .style("left", `${tooltipLeft + 50}px`)
-                .style("top", `${tooltipTop + 100}px`);
-        })
-        .on("mouseout", function () {
-            // 버튼에서 마우스를 제거했을 때 실행될 코드
-            d3.select("#tooltip")
-                .style("display", "none")
-                .classed("category", false);
-        });
+    .on("mouseover", function() {
+        // 버튼 위에 마우스를 올렸을 때 실행될 코드
+        const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
+        const tooltip = d3.select("#tooltip");
+        const tooltipWidth = tooltip.node().offsetWidth;
+        const tooltipHeight = tooltip.node().offsetHeight;
+        
+        const tooltipLeft = dataSelectRect.left + dataSelectRect.width / 2 - tooltipWidth / 2;
+        const tooltipTop = dataSelectRect.top - tooltipHeight - 10; // 위에 여백을 줄 수 있습니다.
+        
+        tooltip
+            .classed("category", true)
+            .style("display", "block")
+            .html("각 차트의 데이터는 한부모 가정 내 가장 나이가 많은 자녀를 기준으로 수합하였다.")
+            .style("left", `${tooltipLeft + 50}px`)
+            .style("top", `${tooltipTop + 100}px`);
+    })
+    .on("mouseout", function() {
+        // 버튼에서 마우스를 제거했을 때 실행될 코드
+        d3.select("#tooltip")
+            .style("display", "none")
+            .classed("category", false);
+    });
 
     d3.select("#dataSelect input[type='button'][data-group='g4']").classed('active', true); // 초기 버튼 활성화
     kids(groupedData_kids["가구 구성별"]); // 초기 차트 표시
@@ -116,9 +113,6 @@ Promise.all([loadKidsData, loadElementsData, loadMiddlesData]).then((results) =>
 // KIDS
 function kids(data) {
     compare(data);
-    hours(data);
-    avg(data);
-
     function compare(data) {
         if (!data || data.length === 0) {
             return;
@@ -137,7 +131,7 @@ function kids(data) {
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        svg.append("text")
+            svg.append("text")
             .attr("x", width / 2)
             .attr("y", -40)
             .attr("text-anchor", "middle")
@@ -182,7 +176,7 @@ function kids(data) {
             .style("font-size", "14px")
             .style("fill", "black")
             .text("%");
-
+        
         const barWidth = xScale.bandwidth() / 2;
 
         // Draw bars for 2018
@@ -434,373 +428,11 @@ function kids(data) {
         }
 
     }
-
-    function hours(data) {
-        if (!data || data.length === 0) {
-            return;
-        }
-        const container = d3.select("#kids-hours"); // 수정된 부분
-        const width = 250;
-        const height = 150;
-        const margin = { top: 80, right: 50, bottom: 90, left: 120 };
-        const legendHeight = 50;
-        container.select("svg").remove(); // 수정된 부분
-
-        // COLOR
-        const customColors = ["#8CE889", "#3CB371", "#135731"];
-        const color = d3.scaleOrdinal(d3.schemeCategory10)
-            .domain(["1~3시간", "4~6시간", "7시간 이상"])
-            .range(customColors);
-
-
-        // SVG
-        const svg = d3.select("#kids-hours")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", -60)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text("미취학 자녀");
-
-        const xScale = d3.scaleBand()
-            .domain(data.map(d => d.구분))
-            .range([0, width])
-            .padding(0.2);
-
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => +d["1~3시간"] + +d["4~6시간"] + +d["7시간 이상"])])
-            .range([height, 0]);
-
-        const xAxis = d3.axisBottom(xScale);
-        const yAxis = d3.axisLeft(yScale)
-            .ticks(5);
-
-        const xAxisGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .call(xAxis);
-
-        xAxisGroup.selectAll("text")
-            .style("text-anchor", "end")
-            .attr("transform", "rotate(-45)")
-            .attr("class", "xAxis-style");
-
-        const yAxisGroup = svg.append("g")
-            .attr("class", "yAxis-style")
-            .call(yAxis);
-
-        svg.append("text")
-            .attr("x", width / 24 - 20)
-            .attr("y", -15)
-            .style("text-anchor", "end")
-            .style("font-size", "14px")
-            .style("fill", "black")
-            .text("%");
-
-
-        const stack = d3.stack()
-            .keys(["1~3시간", "4~6시간", "7시간 이상"]);
-
-        const stackedData = stack(data);
-
-        svg.selectAll(".layer")
-            .data(stackedData)
-            .enter()
-            .append("g")
-            .attr("class", "layer")
-            .attr("fill", d => color(d.key))
-            .selectAll("rect")
-            .data(d => d)
-            .enter()
-            .append("rect")
-            .attr("x", d => xScale(d.data.구분))
-            .attr("y", d => yScale(0))
-            .attr("height", 0)
-            .attr("width", xScale.bandwidth())
-            .attr("data-xLabel", d => d.data.구분)
-            .on("mouseover", (event, d) => {
-                d3.select("#tooltip")
-                    .style("display", "block")
-                    .html(`
-                    <div class="tooltip-label">
-                        <div>${d3.select(event.target.parentNode).datum().key}: ${Math.floor(d[1] - d[0])}${" %"}</div>
-                    </div>`);
-            })
-            .on("mousemove", (event) => {
-                d3.select("#tooltip")
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseleave", () => {
-                d3.select("#tooltip").style("display", "none");
-            })
-            .transition()
-            .duration(500)
-            .delay((d, i, nodes) => {
-                return (i / nodes.length) * 100; // nodes.length를 사용해 현재 그룹의 막대 수를 기준으로 delay 계산
-            })
-            .attr("height", d => yScale(d[0]) - yScale(d[1])) // 올바른 높이 계산
-            .attr("y", d => yScale(d[1])); // 막대의 최종 위치
-
-
-        // LEGEND
-        const legendWidth = color.domain().length * 100;
-        const legendX = (width - legendWidth) / 2;
-
-        const legend = svg.append("g")
-            .attr("transform", `translate(0,-55)`);
-
-        const legendItem = legend.selectAll(".legend")
-            .data(color.domain())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${i * 80}, 0)`);
-
-        legendItem.append("rect")
-            .attr("x", 5)
-            .attr("y", 11)
-            .attr("width", 15)
-            .attr("height", 15)
-            .style("fill", color)
-            .style("cursor", "pointer")
-            .on("click", (event, d) => {
-                sortBars(d);
-            });
-
-        legendItem.append("text")
-            .attr("x", 24)
-            .attr("y", 19)
-            .attr("dy", ".35em")
-            .text(d => d)
-            .attr("class", "legend-text")
-            .style("cursor", "pointer")
-            .on("click", (event, d) => {
-                sortBars(d);
-            });
-
-        const defs = svg.append("defs");
-
-        const dropShadowFilter = defs.append("filter")
-            .attr("id", "drop-shadow")
-            .attr("height", "125%")  // 필터 높이를 적절히 조절하여 그림자의 범위를 조정
-            .attr("width", "125%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
-
-        // 가우시안 블러로 그림자 부드러움 조절
-        dropShadowFilter.append("feGaussianBlur")
-            .attr("in", "SourceAlpha")
-            .attr("stdDeviation", 3)  // 그림자의 흐림 정도를 적절히 조절
-            .attr("result", "blur");
-
-        // 그림자의 위치 조절
-        dropShadowFilter.append("feOffset")
-            .attr("in", "blur")
-            .attr("dx", 2)  // 수평 거리를 적절히 조절
-            .attr("dy", 3)  // 수직 거리를 적절히 조절
-            .attr("result", "offsetBlur");
-
-        // 그림자의 색상 및 투명도 조절
-        dropShadowFilter.append("feFlood")
-            .attr("flood-color", "rgba(0, 0, 0, 0.1)") // 그림자의 색상을 조절하고 투명도를 높임
-            .attr("flood-opacity", 1)
-            .attr("result", "offsetColor");
-        dropShadowFilter.append("feComposite")
-            .attr("in", "offsetColor")
-            .attr("in2", "offsetBlur")
-            .attr("operator", "in")
-            .attr("result", "offsetBlur");
-
-        // 원본 그래픽과 그림자 병합
-        const feMerge = dropShadowFilter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "offsetBlur")
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
-
-        const legendBox = legend.node().getBBox();
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 7)
-            .attr("width", width + 3)
-            .attr("height", legendBox.height + 10)
-            .attr("stroke", "gray")
-            .attr("stroke-width", 1.5) // 테두리의 두께를 설정
-            .attr("rx", 7)  // 라운드 코너 반지름을 설정하여 네모를 라운딩
-            .attr("ry", 7)
-            .attr("fill", "none")
-            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
-
-        // SORTING
-        let sortDescending = false;
-        let sortCategory = "";
-
-        function sortBars(category) {
-            if (sortCategory === category) {
-                sortDescending = !sortDescending;
-            } else {
-                sortDescending = false;
-            }
-            sortCategory = category;
-
-            data.sort((a, b) => {
-                return sortDescending ? b[category] - a[category] : a[category] - b[category];
-            });
-
-            xScale.domain(data.map(d => d.구분));
-
-            svg.selectAll(".layer")
-                .selectAll("rect")
-                .data(d => d)
-                .transition()
-                .duration(1000)
-                .attr("x", d => xScale(d.data.구분));
-
-            xAxisGroup.transition()
-                .duration(1000)
-                .call(xAxis);
-        }
-    }
-
-    function avg(data) {
-        if (!data || data.length === 0) {
-            return;
-        }
-        const container = d3.select("#kids-avg"); // 수정된 부분
-        const width = 220;
-        const height = 150;
-        const margin = { top: 40, right: 50, bottom: 30, left: 120 };
-        container.select("svg").remove(); // 수정된 부분
-
-
-        const svg = d3.select("#kids-avg")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", -20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text("미취학 자녀");
-
-        const yScale = d3.scaleBand()
-            .domain(data.map(d => d.구분))
-            .range([0, height])
-            .padding(0.2);
-
-        const xScale = d3.scaleLinear()
-            .domain([0, 5])
-            .range([0, width]);
-
-        const yAxis = d3.axisLeft(yScale)
-        const xAxis = d3.axisBottom(xScale)
-            .ticks(5);
-
-
-        const yAxisGroup = svg.append("g")
-            .attr("class", "xAxis-style")
-            .call(yAxis);
-
-        const xAxisGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .style("font-size", "14px")
-            .call(xAxis);
-
-        svg.append("text")
-            .attr("x", width + 25)
-            .attr("y", height + margin.bottom / 2 - 5)
-            .style("text-anchor", "middle")
-            .style("font-size", "14px")
-            .style("fill", "black")
-            .text("시간");
-
-        // Bar 추가
-        const bars = svg
-            .selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("fill", "#3CB371")
-            .attr("y", d => yScale(d.구분))
-            .attr("x", 0)
-            .attr("width", 0)
-            .attr("height", yScale.bandwidth())
-            .attr("data-xLabel", d => d.구분)
-            .on("click", () => {
-                sortBars();
-            })
-            .transition()
-            .attr("width", d => xScale(d.평균))
-            .duration(500)
-            .delay((d, i) => { // ** 첫 번째부터 순차적으로 나오게 순서별 delay를 줌. 각각 시작 시간 다르게
-                return (i / data.length) * 100;
-            });
-
-        // 각 막대의 데이터 값을 텍스트로 추가
-        svg.selectAll(".bar-label")
-            .data(data)
-            .enter()
-            .append("text")
-            .attr("class", "bar-label")
-            .attr("x", d => xScale(d.평균))
-            .attr("y", d => yScale(d.구분) + yScale.bandwidth() / 2)
-            .attr("dx", 5)
-            .attr("dy", "0.35em")
-            .style("font-size", "14px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text(d => d.평균 + " 시간");
-
-
-        // SORTING
-        let sortDescending = false;
-
-        function sortBars() {
-
-            data.sort((a, b) => {
-                return sortDescending ? b.평균 - a.평균 : a.평균 - b.평균;
-            });
-
-            yScale.domain(data.map((d) => d.구분));
-
-            svg
-                .selectAll("rect")
-                .data(data, (d) => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("y", (d) => yScale(d.구분));
-
-            svg
-                .selectAll(".bar-label")
-                .data(data, (d) => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("x", (d) => xScale(d.평균))
-                .attr("y", (d) => yScale(d.구분) + yScale.bandwidth() / 2);
-
-            yAxisGroup.transition().duration(1000).call(yAxis);
-            sortDescending = !sortDescending;
-        }
-
-    }
 }
 
 // ELEMENTS
 function elements(data) {
     compare(data);
-    hours(data);
-    avg(data);
 
     function compare(data) {
         if (!data || data.length === 0) {
@@ -821,7 +453,7 @@ function elements(data) {
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        svg.append("text")
+            svg.append("text")
             .attr("x", width / 2)
             .attr("y", -40)
             .attr("text-anchor", "middle")
@@ -1117,371 +749,11 @@ function elements(data) {
 
     }
 
-
-    function hours(data) {
-        if (!data || data.length === 0) {
-            return;
-        }
-        const container = d3.select("#elements-hours"); // 수정된 부분
-        const width = 250;
-        const height = 150;
-        const margin = { top: 80, right: 70, bottom: 90, left: 70 };
-        const legendHeight = 50;
-        container.select("svg").remove(); // 수정된 부분
-
-        // COLOR
-        const customColors = ["#8CE889", "#3CB371", "#135731"];
-        const color = d3.scaleOrdinal(d3.schemeCategory10)
-            .domain(["1~3시간", "4~6시간", "7시간 이상"])
-            .range(customColors);
-
-
-        // SVG
-        const svg = d3.select("#elements-hours")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", -60)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text("초등학생 자녀");
-
-        const xScale = d3.scaleBand()
-            .domain(data.map(d => d.구분))
-            .range([0, width])
-            .padding(0.2);
-
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => +d["1~3시간"] + +d["4~6시간"] + +d["7시간 이상"])])
-            .range([height, 0]);
-
-        const xAxis = d3.axisBottom(xScale);
-        const yAxis = d3.axisLeft(yScale)
-            .ticks(5);
-
-        const xAxisGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .attr("class", "xAxis-style")
-            .call(xAxis);
-
-        xAxisGroup.selectAll("text")
-            .style("text-anchor", "end")
-            .attr("transform", "rotate(-45)")
-            .attr("class", "xAxis-style");
-
-        const yAxisGroup = svg.append("g")
-            .attr("class", "yAxis-style")
-            .call(yAxis);
-
-        svg.append("text")
-            .attr("x", width / 24 - 20)
-            .attr("y", -15)
-            .style("text-anchor", "end")
-            .style("font-size", "14px")
-            .style("fill", "black")
-            .text("%");
-
-
-        const stack = d3.stack()
-            .keys(["1~3시간", "4~6시간", "7시간 이상"]);
-
-        const stackedData = stack(data);
-
-        svg.selectAll(".layer")
-            .data(stackedData)
-            .enter()
-            .append("g")
-            .attr("class", "layer")
-            .attr("fill", d => color(d.key))
-            .selectAll("rect")
-            .data(d => d)
-            .enter()
-            .append("rect")
-            .attr("x", d => xScale(d.data.구분))
-            .attr("y", d => yScale(0))
-            .attr("height", 0)
-            .attr("width", xScale.bandwidth())
-            .attr("data-xLabel", d => d.data.구분)
-            .on("mouseover", (event, d) => {
-                d3.select("#tooltip")
-                    .style("display", "block")
-                    .html(`
-                    <div class="tooltip-label">
-                        <div>${d3.select(event.target.parentNode).datum().key}: ${Math.floor(d[1] - d[0])}${" %"}</div>
-                    </div>`);
-            })
-            .on("mousemove", (event) => {
-                d3.select("#tooltip")
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseleave", () => {
-                d3.select("#tooltip").style("display", "none");
-            })
-            .transition()
-            .duration(500)
-            .delay((d, i, nodes) => {
-                return (i / nodes.length) * 100; // nodes.length를 사용해 현재 그룹의 막대 수를 기준으로 delay 계산
-            })
-            .attr("height", d => yScale(d[0]) - yScale(d[1])) // 올바른 높이 계산
-            .attr("y", d => yScale(d[1])); // 막대의 최종 위치
-
-        // LEGEND
-        const legendWidth = color.domain().length * 100;
-        const legendX = (width - legendWidth) / 2;
-
-        const legend = svg.append("g")
-            .attr("transform", `translate(0,-55)`);
-
-        const legendItem = legend.selectAll(".legend")
-            .data(color.domain())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${i * 80}, 0)`);
-
-        legendItem.append("rect")
-            .attr("x", 5)
-            .attr("y", 11)
-            .attr("width", 15)
-            .attr("height", 15)
-            .style("fill", color)
-            .style("cursor", "pointer")
-            .on("click", (event, d) => {
-                sortBars(d);
-            });
-
-        legendItem.append("text")
-            .attr("x", 24)
-            .attr("y", 19)
-            .attr("dy", ".35em")
-            .text(d => d)
-            .attr("class", "legend-text")
-            .style("cursor", "pointer")
-            .on("click", (event, d) => {
-                sortBars(d);
-            });
-
-        const defs = svg.append("defs");
-
-        const dropShadowFilter = defs.append("filter")
-            .attr("id", "drop-shadow")
-            .attr("height", "125%")  // 필터 높이를 적절히 조절하여 그림자의 범위를 조정
-            .attr("width", "125%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
-
-        // 가우시안 블러로 그림자 부드러움 조절
-        dropShadowFilter.append("feGaussianBlur")
-            .attr("in", "SourceAlpha")
-            .attr("stdDeviation", 3)  // 그림자의 흐림 정도를 적절히 조절
-            .attr("result", "blur");
-
-        // 그림자의 위치 조절
-        dropShadowFilter.append("feOffset")
-            .attr("in", "blur")
-            .attr("dx", 2)  // 수평 거리를 적절히 조절
-            .attr("dy", 3)  // 수직 거리를 적절히 조절
-            .attr("result", "offsetBlur");
-
-        // 그림자의 색상 및 투명도 조절
-        dropShadowFilter.append("feFlood")
-            .attr("flood-color", "rgba(0, 0, 0, 0.1)") // 그림자의 색상을 조절하고 투명도를 높임
-            .attr("flood-opacity", 1)
-            .attr("result", "offsetColor");
-        dropShadowFilter.append("feComposite")
-            .attr("in", "offsetColor")
-            .attr("in2", "offsetBlur")
-            .attr("operator", "in")
-            .attr("result", "offsetBlur");
-
-        // 원본 그래픽과 그림자 병합
-        const feMerge = dropShadowFilter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "offsetBlur")
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
-
-        const legendBox = legend.node().getBBox();
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 7)
-            .attr("width", width + 3)
-            .attr("height", legendBox.height + 10)
-            .attr("stroke", "gray")
-            .attr("stroke-width", 1.5) // 테두리의 두께를 설정
-            .attr("rx", 7)  // 라운드 코너 반지름을 설정하여 네모를 라운딩
-            .attr("ry", 7)
-            .attr("fill", "none")
-            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
-        // SORTING
-        let sortDescending = false;
-        let sortCategory = "";
-
-        function sortBars(category) {
-            if (sortCategory === category) {
-                sortDescending = !sortDescending;
-            } else {
-                sortDescending = false;
-            }
-            sortCategory = category;
-
-            data.sort((a, b) => {
-                return sortDescending ? b[category] - a[category] : a[category] - b[category];
-            });
-
-            xScale.domain(data.map(d => d.구분));
-
-            svg.selectAll(".layer")
-                .selectAll("rect")
-                .data(d => d)
-                .transition()
-                .duration(1000)
-                .attr("x", d => xScale(d.data.구분));
-
-            xAxisGroup.transition()
-                .duration(1000)
-                .call(xAxis);
-        }
-
-    }
-
-    function avg(data) {
-        if (!data || data.length === 0) {
-            return;
-        }
-        const container = d3.select("#elements-avg"); // 수정된 부분
-        const width = 220;
-        const height = 150;
-        const margin = { top: 40, right: 50, bottom: 30, left: 120 };
-        container.select("svg").remove(); // 수정된 부분
-
-
-        const svg = d3.select("#elements-avg")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", -20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text("초등학생 자녀");
-
-        const yScale = d3.scaleBand()
-            .domain(data.map(d => d.구분))
-            .range([0, height])
-            .padding(0.2);
-
-        const xScale = d3.scaleLinear()
-            .domain([0, 5])
-            .range([0, width]);
-
-        const yAxis = d3.axisLeft(yScale);
-        const xAxis = d3.axisBottom(xScale)
-            .ticks(5);
-
-        const yAxisGroup = svg.append("g")
-            .attr("class", "xAxis-style")
-            .call(yAxis);
-
-        const xAxisGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .style("font-size", "14px")
-            .call(xAxis);
-
-        svg.append("text")
-            .attr("x", width + 25)
-            .attr("y", height + margin.bottom / 2 - 5)
-            .style("text-anchor", "middle")
-            .style("font-size", "14px")
-            .style("fill", "black")
-            .text("시간");
-
-        // Bar 추가
-        const bars = svg
-            .selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("fill", "#3CB371")
-            .attr("y", d => yScale(d.구분))
-            .attr("x", 0)
-            .attr("width", 0)
-            .attr("height", yScale.bandwidth())
-            .attr("data-xLabel", d => d.구분)
-            .on("click", () => {
-                sortBars();
-            })
-            .transition()
-            .attr("width", d => xScale(d.평균))
-            .duration(500)
-            .delay((d, i) => { // ** 첫 번째부터 순차적으로 나오게 순서별 delay를 줌. 각각 시작 시간 다르게
-                return (i / data.length) * 100;
-            });
-        // 각 막대의 데이터 값을 텍스트로 추가
-        svg.selectAll(".bar-label")
-            .data(data)
-            .enter()
-            .append("text")
-            .attr("class", "bar-label")
-            .attr("x", d => xScale(d.평균))
-            .attr("y", d => yScale(d.구분) + yScale.bandwidth() / 2)
-            .attr("dx", 5)
-            .attr("dy", "0.35em")
-            .style("font-size", "14px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text(d => d.평균 + " 시간");
-
-
-        // SORTING
-        let sortDescending = false;
-
-        function sortBars() {
-
-            data.sort((a, b) => {
-                return sortDescending ? b.평균 - a.평균 : a.평균 - b.평균;
-            });
-
-            yScale.domain(data.map((d) => d.구분));
-
-            svg
-                .selectAll("rect")
-                .data(data, (d) => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("y", (d) => yScale(d.구분));
-
-            svg
-                .selectAll(".bar-label")
-                .data(data, (d) => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("x", (d) => xScale(d.평균))
-                .attr("y", (d) => yScale(d.구분) + yScale.bandwidth() / 2);
-
-            yAxisGroup.transition().duration(1000).call(yAxis);
-            sortDescending = !sortDescending;
-        }
-
-    }
 }
 
 // MIDDLES
 function middles(data) {
     compare(data);
-    hours(data);
-    avg(data);
 
     function compare(data) {
         if (!data || data.length === 0) {
@@ -1501,7 +773,7 @@ function middles(data) {
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        svg.append("text")
+            svg.append("text")
             .attr("x", width / 2)
             .attr("y", -40)
             .attr("text-anchor", "middle")
@@ -1795,367 +1067,6 @@ function middles(data) {
                 .call(xAxis);
         }
     }
-
-
-    function hours(data) {
-        if (!data || data.length === 0) {
-            return;
-        }
-        const container = d3.select("#middles-hours"); // 수정된 부분
-        const width = 250;
-        const height = 150;
-        const margin = { top: 80, right: 30, bottom: 90, left: 70 };
-        const legendHeight = 50;
-        container.select("svg").remove(); // 수정된 부분
-
-        // COLOR
-        const customColors = ["#8CE889", "#3CB371", "#135731"];
-        const color = d3.scaleOrdinal(d3.schemeCategory10)
-            .domain(["1~3시간", "4~6시간", "7시간 이상"])
-            .range(customColors);
-
-
-        // SVG
-        const svg = d3.select("#middles-hours")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", -60)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text("중학생 이상 자녀");
-
-        const xScale = d3.scaleBand()
-            .domain(data.map(d => d.구분))
-            .range([0, width])
-            .padding(0.2);
-
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => +d["1~3시간"] + +d["4~6시간"] + +d["7시간 이상"])])
-            .range([height, 0]);
-
-        const xAxis = d3.axisBottom(xScale);
-        const yAxis = d3.axisLeft(yScale)
-            .ticks(5);
-
-        const xAxisGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .attr("class", "xAxis-style")
-            .call(xAxis);
-
-        xAxisGroup.selectAll("text")
-            .style("text-anchor", "end")
-            .attr("transform", "rotate(-45)")
-            .attr("class", "xAxis-style");
-
-        const yAxisGroup = svg.append("g")
-            .attr("class", "yAxis-style")
-            .call(yAxis);
-
-        svg.append("text")
-            .attr("x", width / 24 - 20)
-            .attr("y", -15)
-            .style("text-anchor", "end")
-            .style("font-size", "14px")
-            .style("fill", "black")
-            .text("%");
-
-        const stack = d3.stack()
-            .keys(["1~3시간", "4~6시간", "7시간 이상"]);
-
-        const stackedData = stack(data);
-
-        svg.selectAll(".layer")
-            .data(stackedData)
-            .enter()
-            .append("g")
-            .attr("class", "layer")
-            .attr("fill", d => color(d.key))
-            .selectAll("rect")
-            .data(d => d)
-            .enter()
-            .append("rect")
-            .attr("x", d => xScale(d.data.구분))
-            .attr("y", d => yScale(0))
-            .attr("height", 0)
-            .attr("width", xScale.bandwidth())
-            .attr("data-xLabel", d => d.data.구분)
-            .on("mouseover", (event, d) => {
-                d3.select("#tooltip")
-                    .style("display", "block")
-                    .html(`
-                        <div class="tooltip-label">
-                            <div>${d3.select(event.target.parentNode).datum().key}: ${Math.floor(d[1] - d[0])}${" %"}</div>
-                        </div>`);
-            })
-            .on("mousemove", (event) => {
-                d3.select("#tooltip")
-                    .style("left", event.pageX + 10 + "px")
-                    .style("top", event.pageY + 10 + "px");
-            })
-            .on("mouseleave", () => {
-                d3.select("#tooltip").style("display", "none");
-            })
-            .transition()
-            .duration(500)
-            .delay((d, i, nodes) => {
-                return (i / nodes.length) * 100; // nodes.length를 사용해 현재 그룹의 막대 수를 기준으로 delay 계산
-            })
-            .attr("height", d => yScale(d[0]) - yScale(d[1])) // 올바른 높이 계산
-            .attr("y", d => yScale(d[1])); // 막대의 최종 위치
-
-
-        // LEGEND
-        const legendWidth = color.domain().length * 100;
-        const legendX = (width - legendWidth) / 2;
-
-        const legend = svg.append("g")
-            .attr("transform", `translate(0,-55)`);
-
-        const legendItem = legend.selectAll(".legend")
-            .data(color.domain())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(${i * 80}, 0)`);
-
-        legendItem.append("rect")
-            .attr("x", 5)
-            .attr("y", 11)
-            .attr("width", 15)
-            .attr("height", 15)
-            .style("fill", color)
-            .style("cursor", "pointer")
-            .on("click", (event, d) => {
-                sortBars(d);
-            });
-
-        legendItem.append("text")
-            .attr("x", 24)
-            .attr("y", 19)
-            .attr("dy", ".35em")
-            .text(d => d)
-            .attr("class", "legend-text")
-            .style("cursor", "pointer")
-            .on("click", (event, d) => {
-                sortBars(d);
-            });
-
-        const defs = svg.append("defs");
-
-        const dropShadowFilter = defs.append("filter")
-            .attr("id", "drop-shadow")
-            .attr("height", "125%")  // 필터 높이를 적절히 조절하여 그림자의 범위를 조정
-            .attr("width", "125%");  // 필터 너비 또한 그림자의 범위를 조정하기 위해 조절
-
-        // 가우시안 블러로 그림자 부드러움 조절
-        dropShadowFilter.append("feGaussianBlur")
-            .attr("in", "SourceAlpha")
-            .attr("stdDeviation", 3)  // 그림자의 흐림 정도를 적절히 조절
-            .attr("result", "blur");
-
-        // 그림자의 위치 조절
-        dropShadowFilter.append("feOffset")
-            .attr("in", "blur")
-            .attr("dx", 2)  // 수평 거리를 적절히 조절
-            .attr("dy", 3)  // 수직 거리를 적절히 조절
-            .attr("result", "offsetBlur");
-
-        // 그림자의 색상 및 투명도 조절
-        dropShadowFilter.append("feFlood")
-            .attr("flood-color", "rgba(0, 0, 0, 0.1)") // 그림자의 색상을 조절하고 투명도를 높임
-            .attr("flood-opacity", 1)
-            .attr("result", "offsetColor");
-        dropShadowFilter.append("feComposite")
-            .attr("in", "offsetColor")
-            .attr("in2", "offsetBlur")
-            .attr("operator", "in")
-            .attr("result", "offsetBlur");
-
-        // 원본 그래픽과 그림자 병합
-        const feMerge = dropShadowFilter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "offsetBlur")
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
-
-        const legendBox = legend.node().getBBox();
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("y", 7)
-            .attr("width", width + 3)
-            .attr("height", legendBox.height + 10)
-            .attr("stroke", "gray")
-            .attr("stroke-width", 1.5) // 테두리의 두께를 설정
-            .attr("rx", 7)  // 라운드 코너 반지름을 설정하여 네모를 라운딩
-            .attr("ry", 7)
-            .attr("fill", "none")
-            .style("filter", "url(#drop-shadow)");  // 여기에 그림자 필터 적용
-
-        // SORTING
-        let sortDescending = false;
-        let sortCategory = "";
-
-        function sortBars(category) {
-            if (sortCategory === category) {
-                sortDescending = !sortDescending;
-            } else {
-                sortDescending = false;
-            }
-            sortCategory = category;
-
-            data.sort((a, b) => {
-                return sortDescending ? b[category] - a[category] : a[category] - b[category];
-            });
-
-            xScale.domain(data.map(d => d.구분));
-
-            svg.selectAll(".layer")
-                .selectAll("rect")
-                .data(d => d)
-                .transition()
-                .duration(1000)
-                .attr("x", d => xScale(d.data.구분));
-
-            xAxisGroup.transition()
-                .duration(1000)
-                .call(xAxis);
-        }
-
-    }
-
-    function avg(data) {
-        if (!data || data.length === 0) {
-            return;
-        }
-        const container = d3.select("#middles-avg"); // 수정된 부분
-        const width = 220;
-        const height = 150;
-        const margin = { top: 40, right: 50, bottom: 30, left: 120 };
-        container.select("svg").remove(); // 수정된 부분
-
-
-        const svg = d3.select("#middles-avg")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", -20)
-            .attr("text-anchor", "middle")
-            .style("font-size", "18px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text("중학생 이상 자녀");
-
-        const yScale = d3.scaleBand()
-            .domain(data.map(d => d.구분))
-            .range([0, height])
-            .padding(0.2);
-
-        const xScale = d3.scaleLinear()
-            .domain([0, 5])
-            .range([0, width]);
-
-        const yAxis = d3.axisLeft(yScale);
-        const xAxis = d3.axisBottom(xScale)
-            .ticks(5);
-
-        const yAxisGroup = svg.append("g")
-            .attr("class", "xAxis-style")
-            .call(yAxis);
-
-        const xAxisGroup = svg.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .style("font-size", "14px")
-            .call(xAxis);
-
-        svg.append("text")
-            .attr("x", width + 25)
-            .attr("y", height + margin.bottom / 2 - 5)
-            .style("text-anchor", "middle")
-            .style("font-size", "14px")
-            .style("fill", "black")
-            .text("시간");
-
-        // Bar 추가
-        const bars = svg
-            .selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("fill", "#3CB371")
-            .attr("y", d => yScale(d.구분))
-            .attr("x", 0)
-            .attr("width", 0)
-            .attr("height", yScale.bandwidth())
-            .attr("data-xLabel", d => d.구분)
-            .on("click", () => {
-                sortBars();
-            })
-            .transition()
-            .attr("width", d => xScale(d.평균))
-            .duration(500)
-            .delay((d, i) => { // ** 첫 번째부터 순차적으로 나오게 순서별 delay를 줌. 각각 시작 시간 다르게
-                return (i / data.length) * 100;
-            });
-
-        // 각 막대의 데이터 값을 텍스트로 추가
-        svg.selectAll(".bar-label")
-            .data(data)
-            .enter()
-            .append("text")
-            .attr("class", "bar-label")
-            .attr("x", d => xScale(d.평균))
-            .attr("y", d => yScale(d.구분) + yScale.bandwidth() / 2)
-            .attr("dx", 5)
-            .attr("dy", "0.35em")
-            .style("font-size", "14px")
-            .style("fill", "gray")
-            .style("font-weight", "bold")
-            .text(d => d.평균 + " 시간");
-
-
-        // SORTING
-        let sortDescending = false;
-
-        function sortBars() {
-
-            data.sort((a, b) => {
-                return sortDescending ? b.평균 - a.평균 : a.평균 - b.평균;
-            });
-
-            yScale.domain(data.map((d) => d.구분));
-
-            svg
-                .selectAll("rect")
-                .data(data, (d) => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("y", (d) => yScale(d.구분));
-
-            svg
-                .selectAll(".bar-label")
-                .data(data, (d) => d.구분)
-                .transition()
-                .duration(1000)
-                .attr("x", (d) => xScale(d.평균))
-                .attr("y", (d) => yScale(d.구분) + yScale.bandwidth() / 2);
-
-            yAxisGroup.transition().duration(1000).call(yAxis);
-            sortDescending = !sortDescending;
-        }
-
-    }
 }
 
 d3.select("body").append("div")
@@ -2168,4 +1079,3 @@ d3.select("body").append("div")
     .style("padding", "10px")
     .style("display", "none");
 
-}
