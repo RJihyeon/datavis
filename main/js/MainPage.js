@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <button class="group-btn" data-group="기관유형">기관유형</button>
             </div>
             <div id="groupSelect"></div>
-
+            <div id="education-pie-chart"></div> <!-- 파이 차트를 위한 div 추가 -->
             <div id="vioinfra-chart"></div>
         </div>
       `; // Replace with actual HTML content
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   renderMenuComponent();
-  renderActiveComponent("dom-violence"); // Default component
+  renderActiveComponent("violence-infra"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);
