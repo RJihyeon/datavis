@@ -211,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <canvas id="chart"></canvas>
           </div>
           `;
-
         const script_after_bully = document.createElement("script");
         script_after_bully.src = "js/school/bar.js";
         contentArea.appendChild(script_after_bully);
@@ -220,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const scriptTreemap = document.createElement("script");
         scriptTreemap.src = "js/school/treemap.js";
         document.body.appendChild(scriptTreemap);
+        
 
         break;
 
@@ -241,7 +241,8 @@ document.addEventListener("DOMContentLoaded", function () {
       button.textContent = group;
       button.setAttribute("data-group", group);
       groupSelect.appendChild(button);
-    });
+    })
+    ;
 } else if (
     event.target.hasAttribute("data-src") &&
     event.target.closest("#after-bully-container")
@@ -254,8 +255,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const button = document.createElement("button");
     button.textContent = group;
     button.setAttribute("data-group", group);
-
     groupSelect.appendChild(button);
+    });
+
+}
+});
+ groupSelect.appendChild(button);
     });
     console.log("groups1", groups);
 }
