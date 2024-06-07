@@ -1,7 +1,3 @@
-let groupedData = {};
-let originalData = []; 
-let isAscending = true; // 정렬 상태를 저장할 변수
-
 // 데이터 초기화 함수
 function initialize(csvFile, defaultGroup) {
     d3.csv(csvFile).then((data) => {
@@ -13,16 +9,33 @@ function initialize(csvFile, defaultGroup) {
             }
             groupedData[group].push(d);
         });
-        
+        // 그룹 버튼 생성
+        const groupSelect = document.getElementById('groupSelect');
+        groupSelect.innerHTML = ''; // 기존 내용을 지움
+        const groups = Object.keys(groupedData);
+        groups.forEach(group => {
+            const button = document.createElement('button');
+            button.textContent = group;
+            button.setAttribute('data-group', group);
+            button.addEventListener('click', function() {
+                // 모든 버튼에서 'active' 클래스 제거
+                document.querySelectorAll('#groupSelect button').forEach(btn => btn.classList.remove('active'));
+                // 클릭된 버튼에 'active' 클래스 추가
+                button.classList.add('active');
+                // 해당 그룹의 데이터 표시
+                showStackedBarChart(groupedData[group]);
+            });
+            groupSelect.appendChild(button);
+        });
         if (groupedData[defaultGroup]) {
             originalData = [...groupedData[defaultGroup]];
             showStackedBarChart(groupedData[defaultGroup]); // 초기 차트 표시
-            d3.select(`#groupSelect button[data-group='${defaultGroup}']`).classed('active', true); // 초기 버튼 활성화
+            d3.select(`#groupSelect button[data-group='${defaultGroup}']`).classed('active', false ); // 초기 버튼 활성화
         } else {
         d3.selectAll("#groupSelect button")
             .on("click", function (event) {
                 event.preventDefault();
-                d3.selectAll("#groupSelect button").classed('active', false);
+                d3.selectAll("#groupSelect button").classed('active', true);
                 d3.select(this).classed('active', true);
                 const group = d3.select(this).attr("data-group");
                  if (groupedData[group]) {
@@ -53,7 +66,7 @@ function showStackedBarChart(data) {
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .style("border", "1px solid black") // 테두리 추가
+        .attr("style", "position: absolute; left: 350px;") // 왼쪽으로 붙이기
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -149,12 +162,21 @@ function showStackedBarChart(data) {
         .attr("r", 5)
         .attr("fill", "red");
     }
-    const buttonContainer = d3.select("#school-violence-container")
-    .append("div")
-    .attr("id", "sort-buttons")
-    .style("text-align", "left") // 버튼을 왼쪽으로 정렬
-    .style("margin-top", "10px");
+    const svgHeight = height + margin.top + margin.bottom-150;
+    console.log("svgHeight", svgHeight);
+    const buttonTop = svgHeight + 100; // SVG 하단 아래 20px에 버튼 배치
 
+    const buttonContainer = d3.select("#school-violence-container")
+        .append("div")
+        .attr("id", "sort-buttons")
+        .style("text-align", "left") // 버튼을 왼쪽으로 정렬
+        .style("margin-top", "10px")
+        .style("position", "relative")
+        .style("top", `${svgHeight}px`); // SVG 바로 아래에 위치시키기 
+
+    
+    // SVG의 실제 높이를 계산하여 버튼 위치를 조정
+    
     buttonContainer.selectAll("button")
         .data(["오름차순 정렬", "내림차순 정렬"])
         .enter()
@@ -199,7 +221,6 @@ document.getElementById('school-violence-container').addEventListener('click', f
 document.getElementById('groupSelect').addEventListener('click', function(event) {
     if (event.target.tagName === 'BUTTON' && event.target.hasAttribute('data-group')) {
         event.preventDefault();  // 페이지 초기화를 막음
-        const src = event.target.getAttribute('data-src');
         const group = event.target.getAttribute('data-group');
         showStackedBarChart(groupedData[group]);  // 선택된 그룹에 맞게 차트 업데이트
     }
