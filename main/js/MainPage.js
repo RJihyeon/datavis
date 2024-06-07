@@ -260,11 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 }
 });
- groupSelect.appendChild(button);
-    });
-    console.log("groups1", groups);
-}
-});
   renderMenuComponent();
   renderActiveComponent("violence-infra"); // Default component
 
