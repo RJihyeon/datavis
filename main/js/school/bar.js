@@ -1,4 +1,4 @@
-let groupedData = {};
+// 데이터 초기화 함수
 function initialize(csvFile, defaultGroup) {
     d3.csv(csvFile).then((data) => {
         groupedData = {};
@@ -41,9 +41,7 @@ function initialize(csvFile, defaultGroup) {
 }
 
 function showBarChart(data) {
-    
-
-  const margin = { top: 10, right: 30, bottom: 80, left: 50 }; 
+  const margin = { top: 100, right: 30, bottom: 80, left: 50 }; 
 
   const svgContainer = d3.select("#after-bully-container");
 
@@ -54,14 +52,13 @@ function showBarChart(data) {
       .attr("width", 800)
       .attr("height", 500)
       .attr("transform", `translate(10, 20)`);
+
   svg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", 800)
     .attr("height", 500)
-    .style("stroke", "red")
-    .style("fill", "none")
-    .style("stroke-width", "2");
+    .style("fill", "none"); // 테두리 추가;
 
   const width = +svg.attr("width") - margin.left - margin.right;
   const height = +svg.attr("height") - margin.top - margin.bottom;
@@ -130,7 +127,7 @@ function showBarChart(data) {
               .attr("x", x1(dd.key) + x1.bandwidth() / 2)
               .attr("y", y(dd.value) - 5)
               .attr("text-anchor", "middle")
-              .text(dd.value.toFixed(2));
+              .text(dd.value.toFixed(2)+"%");
           });
       }
     });
@@ -141,7 +138,7 @@ function showBarChart(data) {
       .attr("transform", `translate(0,${height})`)
       .call(d3.axisBottom(x0).tickSizeOuter(0))
       .selectAll("text")
-      .style("font-size", "1.5em"); // 폰트 크기 조정
+      .style("font-size", "14px"); // 폰트 크기 조정
 
 
   // 값 표시
@@ -150,7 +147,18 @@ function showBarChart(data) {
     // y축 추가
   g.append("g")
       .attr("class", "axis")
-      .call(d3.axisLeft(y).ticks(10));
+      .call(d3.axisLeft(y).ticks(10))
+      .selectAll("text")
+      .style("font-size", "14px")
+      ;
+
+  svg.append("text")
+      .attr("x", (width + margin.left + margin.right) / 2)
+      .attr("y", height + margin.top + margin.bottom -450)
+      .attr("text-anchor", "middle")
+      .style("font-size", "25px")
+      .style("font-weight", "bold")
+      .text(`(Group : ${data[0].group})의 연도별 피해후 기관 도움 유무 비율`);
 
   // 범례 추가
   const legendData = ["피해 후 기관도움 유", "피해 후 기관도움 무"];
@@ -161,7 +169,7 @@ function showBarChart(data) {
       .selectAll("g")
       .data(legendData)
       .enter().append("g")
-      .attr("transform", (d, i) => `translate(0,${i * 20})`);
+      .attr("transform", (d, i) => `translate(0,${i * 20-20})`);
 
   legend.append("rect")
       .attr("x", width - 19)
@@ -170,7 +178,7 @@ function showBarChart(data) {
       .attr("fill", d => color(d));
 
   legend.append("text")
-      .attr("x", width - 24)
+      .attr("x", width -19)
       .attr("y", 9.5)
       .attr("dy", "0.32em")
       .text(d => d);
@@ -182,7 +190,7 @@ function showBarChart(data) {
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
     .style("font-weight", "bold")
-    .text("짙은 색은 피해 후 기관도움을 받은 학생을 나타냅니다. 클릭하면 상세 정보를 확인할 수 있습니다.");
+    .text("짙은 색 그래프는 피해 후 기관도움을 받은 학생의 비율을 나타냅니다. 클릭하면 상세 정보를 확인할 수 있습니다.");
 }
 function showDetails(year, key, group) {
     const detailsContainer = document.getElementById('after-bully-care-container');

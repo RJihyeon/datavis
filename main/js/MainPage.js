@@ -200,7 +200,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <form id="groupSelect">
                   <!-- 버튼 클릭 시 여기에 data-group 값이 표시됩니다 -->
             </form>
-            <canvas id="chart"></canvas>
+            <div id="chart-container">
+              <canvas id="chart"></canvas>
+            </div>
           </div>
           `;
         const script_after_bully = document.createElement("script");
@@ -233,12 +235,12 @@ document.addEventListener("DOMContentLoaded", function () {
       button.textContent = group;
       button.setAttribute("data-group", group);
       groupSelect.appendChild(button);
-    })
-    ;
+    });
 } else if (
     event.target.hasAttribute("data-src") &&
     event.target.closest("#after-bully-container")
 ) {
+  // school-violence-a 로직
     const groups = event.target.getAttribute("data-groups").split(",");
     const groupSelect = document.getElementById("groupSelect");
     console.log("groupSelect", groupSelect);

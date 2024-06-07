@@ -71,8 +71,7 @@ function showTreemap(dataFilePath, group) {
       .append("svg")
       .attr("width", width)
       .attr("height", height)
-      .style("font", "10px sans-serif")
-      .style("border", "1px solid red"); // 테두리 추가
+      .style("font", "10px sans-serif");
     
     // 제목 추가
     const years = [...new Set(formattedData.map(d => d.parent).filter(d => d !== null))]; // unique year values
@@ -164,7 +163,6 @@ function showTreemap(dataFilePath, group) {
     parent.append("button")
       .text("메인 화면으로 이동하기")
       .on("click", function() {
-        console.log("빡칠때마다 1번씩 클릭하기");
       });
     parent.select("button").on("click", function() {
       window.history.back();
