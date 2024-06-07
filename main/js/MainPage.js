@@ -227,7 +227,39 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
   }
+  document.addEventListener("click", function (event) {
+  if (
+    event.target.hasAttribute("data-src") &&
+    event.target.closest("#school-violence-container")
+  ) {
+    // school-violence 로직
+    const groups = event.target.getAttribute("data-groups").split(",");
+    const groupSelect = document.getElementById("groupSelect");
+    groupSelect.innerHTML = "";
+    groups.forEach((group) => {
+      const button = document.createElement("button");
+      button.textContent = group;
+      button.setAttribute("data-group", group);
+      groupSelect.appendChild(button);
+    });
+} else if (
+    event.target.hasAttribute("data-src") &&
+    event.target.closest("#after-bully-container")
+) {
+    const groups = event.target.getAttribute("data-groups").split(",");
+    const groupSelect = document.getElementById("groupSelect");
+    console.log("groupSelect", groupSelect);
+    groupSelect.innerHTML = "";
+    groups.forEach((group) => {
+    const button = document.createElement("button");
+    button.textContent = group;
+    button.setAttribute("data-group", group);
 
+    groupSelect.appendChild(button);
+    });
+    console.log("groups1", groups);
+}
+});
   renderMenuComponent();
   renderActiveComponent("violence-infra"); // Default component
 
