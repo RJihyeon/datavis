@@ -233,7 +233,6 @@ document.addEventListener("DOMContentLoaded", function () {
     event.target.closest("#school-violence-container")
   ) {
     // school-violence 로직
-    const buttonText = event.target.textContent; // 버튼의 텍스트 내용을 가져옴
     const groups = event.target.getAttribute("data-groups").split(",");
     const groupSelect = document.getElementById("groupSelect");
     groupSelect.innerHTML = "";
@@ -248,7 +247,6 @@ document.addEventListener("DOMContentLoaded", function () {
     event.target.hasAttribute("data-src") &&
     event.target.closest("#after-bully-container")
 ) {
-    const buttonText = event.target.textContent;
     const groups = event.target.getAttribute("data-groups").split(",");
     const groupSelect = document.getElementById("groupSelect");
     console.log("groupSelect", groupSelect);
@@ -262,7 +260,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 }
 });
-
+ groupSelect.appendChild(button);
+    });
+    console.log("groups1", groups);
+}
+});
   renderMenuComponent();
   renderActiveComponent("violence-infra"); // Default component
 
