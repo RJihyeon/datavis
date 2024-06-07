@@ -1,5 +1,6 @@
 let groupedData = {};
-
+let originalData = []; 
+let isAscending = true; // 정렬 상태를 저장할 변수
 
 // 데이터 초기화 함수
 function initialize(csvFile, defaultGroup) {
@@ -14,11 +15,10 @@ function initialize(csvFile, defaultGroup) {
         });
         
         if (groupedData[defaultGroup]) {
+            originalData = [...groupedData[defaultGroup]];
             showStackedBarChart(groupedData[defaultGroup]); // 초기 차트 표시
             d3.select(`#groupSelect button[data-group='${defaultGroup}']`).classed('active', true); // 초기 버튼 활성화
         } else {
-            
-        }
         d3.selectAll("#groupSelect button")
             .on("click", function (event) {
                 event.preventDefault();
@@ -26,35 +26,34 @@ function initialize(csvFile, defaultGroup) {
                 d3.select(this).classed('active', true);
                 const group = d3.select(this).attr("data-group");
                  if (groupedData[group]) {
+                    originalData = [...groupedData[group]];  // 원래 데이터를 저장
                     showStackedBarChart(groupedData[group]);
                 } else {
                     console.error("Selected group data not found:", group);
                 } // 선택된 그룹 출력
   
             });
-    });
+    }
+});
 }
 
 // 차트 렌더링 함수
 function showStackedBarChart(data) {
     const width = 800;
     const height = 500;
-    const margin = { top: 40, right: 30, bottom: 50, left: 60 };
-    const legendHeight = 50;
+    const margin = { top: 100, right: 30, bottom: 50, left: 60 };
+
     d3.select("#school-violence-container svg").remove(); // 기존 SVG 제거
-    
+    d3.select("#sort-buttons").remove(); // 기존 버튼 제거
 
     // COLOR
-    const customColors = ["#87CEFA", "#4169E1"];
-    const color = d3.scaleOrdinal()
-        .domain(["학폭피해경험 무", "학폭피해경험 유"])
-        .range(customColors);
-
-    // SVG
+    const color = "#87CEFA";
+    console.log("data", data);
     const svg = d3.select("#school-violence-container")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom + legendHeight)
+        .attr("height", height + margin.top + margin.bottom)
+        .style("border", "1px solid black") // 테두리 추가
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -64,113 +63,117 @@ function showStackedBarChart(data) {
         .padding(0.2);
 
     const yScale = d3.scaleLinear()
-        .domain([0, 100])
+        .domain([0, d3.max(data, d => +d["학폭피해경험 유"])])
         .range([height, 0]);
 
     const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale);
+    const yAxis = d3.axisLeft(yScale)
+        .tickFormat(d => d + '%'); 
 
-    const xAxisGroup = svg.append("g")
+    svg.append("g")
         .attr("transform", `translate(0, ${height})`)
-        .attr("class", "xAxis-style")
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+        .style("font-size", "14px"); // x축 글자 크기 키우기
 
-    const yAxisGroup = svg.append("g")
-        .attr("class", "yAxis-style")
-        .call(yAxis);
 
-    const stack = d3.stack()
-        .keys(["학폭피해경험 무", "학폭피해경험 유"]);
+    svg.append("g")
+        .call(yAxis)
+        .selectAll("text")
+        .style("font-size", "14px"); // y축 글자 크기 키우기
 
-    const stackedData = stack(data);
-
-    const layer = svg.selectAll(".layer")
-        .data(stackedData)
-        .enter()
-        .append("g")
-        .attr("class", "layer")
-        .attr("fill", d => color(d.key));
-
-    layer.selectAll("rect")
-        .data(d => d)
+    const bars = svg.selectAll(".bar")
+        .data(data)
         .enter()
         .append("rect")
-        .attr("x", d => xScale(d.data.year))
-        .attr("y", d => yScale(d[1]))
-        .attr("height", d => yScale(d[0]) - yScale(d[1]))
-        .attr("width", xScale.bandwidth());
-
+        .attr("class", "bar")
+        .attr("x", d => xScale(d.year))
+        .attr("y", d => yScale(d["학폭피해경험 유"]))
+        .attr("height", d => height - yScale(d["학폭피해경험 유"]))
+        .attr("width", xScale.bandwidth())
+        .attr("fill", color)
+        .on("click", function(event, d) {
+            const sortedData = [...data].sort((a, b) => a["학폭피해경험 유"] - b["학폭피해경험 유"]);
+            showStackedBarChart(sortedData);
+        });
     // 막대 그래프에 값 표시
-    layer.selectAll("text")
-        .data(d => d)
+    svg.selectAll(".label")
+        .data(data)
         .enter()
         .append("text")
-        .attr("x", d => xScale(d.data.year) + xScale.bandwidth() / 2)
-        .attr("y", d => {
-            if (d.key == "학폭피해경험 무") {
-                return yScale((d[0] + (d[1] - d[0]) / 2)); // 중간 위치
-            } else {
-                return yScale(d[0])-30; // 상단 위치
-            }
-        })
+        .attr("class", "label")
+        .attr("x", d => xScale(d.year) + xScale.bandwidth() / 2)
+        .attr("y", d => yScale(d["학폭피해경험 유"]) - 5)
         .attr("text-anchor", "middle")
-        .attr("fill", d => d.key === "학폭피해경험 무" ? "white" : "black")
-        .text(d => `${(d[1] - d[0]).toFixed(2)}%`);
+        .text(d => `${(+d["학폭피해경험 유"]).toFixed(2)}%`); // 숫자로 변환
 
-    // LEGEND
-    const legendWidth = color.domain().length * 150;
-    const legendX = (width - legendWidth) / 2;
+    //막대그래프의 제목달기
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -40) // 상단 여백을 줌
+        .attr("text-anchor", "middle")
+        .style("font-size", "25px")
+        .style("font-weight", "bold")
+        .text(`(Group : ${data[0].group})의 연도별 학교폭력 피해 경험 비율`);
+    
+    // 추세선 그리기
+    drawTrendLine(svg, xScale, yScale, data);
 
-    const legend = svg.append("g")
-        .attr("transform", `translate(${legendX}, ${height + margin.bottom})`);
+    // 학폭피해경험 유의 경우 추세선 그려주는 함수
+    function drawTrendLine(svg, xScale, yScale, data) {
+    const trendData = data.map(d => ({ year: d.year, value: +d["학폭피해경험 유"] }));
 
-    const legendItem = legend.selectAll(".legend")
-        .data(color.domain())
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", (d, i) => `translate(${i * 150}, 0)`);
+    const line = d3.line()
+        .x(d => xScale(d.year) + xScale.bandwidth() / 2)
+        .y(d => yScale(d.value))
+        .curve(d3.curveMonotoneX);
 
-    legendItem.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", color)
-        .style("cursor", "pointer");
+    svg.append("path")
+        .datum(trendData)
+        .attr("class", "trend-line")
+        .attr("d", line)
+        .style("fill", "none")
+        .style("stroke", "red")
+        .style("stroke-width", 2)
+        .style("opacity", 0)
+        .transition()
+        .duration(500)
+        .style("opacity", 1);
+        
+    svg.selectAll(".dot")
+        .data(trendData)
+        .enter().append("circle")
+        .attr("class", "dot")
+        .attr("cx", d => xScale(d.year) + xScale.bandwidth() / 2)
+        .attr("cy", d => yScale(d.value))
+        .attr("r", 5)
+        .attr("fill", "red");
+    }
+    const buttonContainer = d3.select("#school-violence-container")
+    .append("div")
+    .attr("id", "sort-buttons")
+    .style("text-align", "left") // 버튼을 왼쪽으로 정렬
+    .style("margin-top", "10px");
 
-    legendItem.append("text")
-        .attr("x", 24)
-        .attr("y", 9)
-        .attr("dy", ".35em")
+    buttonContainer.selectAll("button")
+        .data(["오름차순 정렬", "내림차순 정렬"])
+        .enter()
+        .append("button")
         .text(d => d)
-        .attr("class", "legend-text")
-        .style("cursor", "pointer");
-//학폭피해경험 유의 경우 추세선그리기
-    function drawTrendLine(data) {
-           
-            const trendData = data.map(d => ({ year: d.year, value: +d["학폭피해경험 무"] }));
-        
-            const line = d3.line()
-                .x(d => xScale(d.year) + xScale.bandwidth() / 2)
-                .y(d => yScale(d.value))
-                .curve(d3.curveMonotoneX);
-        
-            svg.append("path")
-                .datum(trendData)
-                .attr("class", "trend-line")
-                .attr("d", line)
-                .style("fill", "none")
-                .style("stroke", "red")
-                .style("stroke-width", 2)
-                .style("opacity", 0)
-                .transition()
-                .duration(500)
-                .style("opacity", 1);
-        }
-        
-setTimeout(() => drawTrendLine(data), 100);
+        .on("click", function(event, d) {
+            if (d === "오름차순 정렬") {
+                isAscending = true;
+                const sortedData = [...originalData].sort((a, b) => +a["학폭피해경험 유"] - +b["학폭피해경험 유"]); // 숫자로 변환
+                showStackedBarChart(sortedData);
+            } else if (d === "내림차순 정렬") {
+                isAscending = false;
+                const sortedData = [...originalData].sort((a, b) => +b["학폭피해경험 유"] - +a["학폭피해경험 유"]); // 숫자로 변환
+                showStackedBarChart(sortedData);
+            }
+        });
 
 }
+
 document.getElementById('school-violence-container').addEventListener('click', function(event) {
     if (event.target.closest('.data-btn') && event.target.hasAttribute('data-groups')) {
         
@@ -195,9 +198,9 @@ document.getElementById('school-violence-container').addEventListener('click', f
 
 document.getElementById('groupSelect').addEventListener('click', function(event) {
     if (event.target.tagName === 'BUTTON' && event.target.hasAttribute('data-group')) {
+        event.preventDefault();  // 페이지 초기화를 막음
         const src = event.target.getAttribute('data-src');
         const group = event.target.getAttribute('data-group');
-        
         showStackedBarChart(groupedData[group]);  // 선택된 그룹에 맞게 차트 업데이트
     }
 });
