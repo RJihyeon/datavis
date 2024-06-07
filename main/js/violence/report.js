@@ -1,7 +1,14 @@
-let data = {}; // 전역 변수로 선언
-let sortOrder = "desc"; // 초기 정렬 순서
+// 전역 변수 선언을 한번만 합니다.
+if (typeof data === "undefined") {
+  var data = {}; // 전역 변수로 선언
+}
+if (typeof sortOrder === "undefined") {
+  var sortOrder = "desc"; // 초기 정렬 순서
+}
+if (typeof years === "undefined") {
+  var years = [2019, 2020, 2021, 2022];
+}
 
-// 데이터 로드 및 처리
 Promise.all([
   d3.csv("./data/domestic_violence/2019_report.csv"),
   d3.csv("./data/domestic_violence/2020_report.csv"),
@@ -28,7 +35,6 @@ Promise.all([
       });
     });
 
-    const years = [2019, 2020, 2021, 2022];
     const data_heatmap = files.flatMap((file, index) =>
       file.map((row) => ({
         시도청: row.시도청,
@@ -37,34 +43,42 @@ Promise.all([
       }))
     );
 
-    const city = "서울"; // 초기 차트를 위해 설정된 city
-
-    // 초기 차트를 설정합니다.
+    // 초기 상태에 차트 대신 안내 문구를 표시합니다.
     years.forEach((year) => {
-      drawChart(data, year, city, `report-chart`, sortOrder);
+      const chartTitle = document.getElementById(`chart-title-${year}`);
+      const chartContainer = document.getElementById(`report-chart-${year}`);
+      if (chartTitle) {
+        chartTitle.innerText = `${year}`;
+      }
+      if (chartContainer) {
+        chartContainer.innerHTML = `<p class="loading-chart">히트맵을 클릭하면 차트가 로드됩니다.</p>`;
+      }
     });
 
     drawHeatmap(data_heatmap);
 
     // 정렬 버튼 이벤트 리스너 추가
-    document.querySelectorAll(".sort-button").forEach((button) => {
-      button.addEventListener("click", function () {
-        const year = this.getAttribute("data-year");
-        sortOrder = sortOrder === "asc" ? "desc" : "asc";
-        drawChart(
-          data,
-          year,
-          currentCity,
-          `report-chart`,
-          sortOrder,
-          highlightedYear === parseInt(year)
-        );
+    const sortButtons = document.querySelectorAll(".sort-button");
+    if (sortButtons.length > 0) {
+      sortButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          const year = this.getAttribute("data-year");
+          sortOrder = sortOrder === "asc" ? "desc" : "asc";
+          drawChart(
+            data,
+            year,
+            currentCity,
+            `report-chart`,
+            sortOrder,
+            highlightedYear === parseInt(year)
+          );
+        });
       });
-    });
+    }
 
-    document
-      .querySelector(".sort-button1")
-      .addEventListener("click", function () {
+    const sortButton1 = document.querySelector(".sort-button1");
+    if (sortButton1) {
+      sortButton1.addEventListener("click", function () {
         sortOrder = sortOrder === "asc" ? "desc" : "asc";
         years.forEach((year) => {
           drawChart(
@@ -77,12 +91,12 @@ Promise.all([
           );
         });
       });
+    }
   })
   .catch(function (error) {
     console.error("Error loading the CSV files:", error);
   });
 
-const years = [2019, 2020, 2021, 2022];
 function updateChart(year, city) {
   currentCity = city;
   highlightedYear = year;
@@ -92,6 +106,11 @@ function updateChart(year, city) {
 }
 
 function drawChart(data, year, city, chartClass, sortOrder, highlight = false) {
+  const chartContainer = document.getElementById(`${chartClass}-${year}`);
+  if (chartContainer) {
+    chartContainer.innerHTML = ""; // 기존 차트 초기화
+  }
+
   const cityTitle = document.getElementById("city-title");
   if (cityTitle) {
     cityTitle.innerText = `${city}`;
@@ -102,13 +121,12 @@ function drawChart(data, year, city, chartClass, sortOrder, highlight = false) {
     chartTitle.innerText = `${year}년 ${city} 데이터`;
   }
 
-  const margin = { top: 30, right: 30, bottom: 40, left: 90 },
+  const margin = { top: 50, right: 30, bottom: 40, left: 90 },
     width = 800 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
   const svg = d3
     .select(`#${chartClass}-${year}`)
-    .html("")
     .append("svg")
     .attr("width", "100%")
     .attr("height", "100%")
@@ -203,7 +221,7 @@ function drawChart(data, year, city, chartClass, sortOrder, highlight = false) {
     .text((d) => `${d.value}건`)
     .attr("fill", (d) => (highlight ? "#FF6347" : "#000000"));
 }
-//권역별로 그룹화해서 다시 표시하기 (수정!!! )
+
 function drawHeatmap(data) {
   const margin = { top: 50, right: 120, bottom: 100, left: 100 },
     width = 600 - margin.left - margin.right, // 폭을 좁게 조정
