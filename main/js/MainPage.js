@@ -211,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <canvas id="chart"></canvas>
           </div>
           `;
-
         const script_after_bully = document.createElement("script");
         script_after_bully.src = "js/school/bar.js";
         contentArea.appendChild(script_after_bully);
@@ -220,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const scriptTreemap = document.createElement("script");
         scriptTreemap.src = "js/school/treemap.js";
         document.body.appendChild(scriptTreemap);
+        
 
         break;
 
@@ -227,6 +227,41 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = "<div>기본 콘텐츠</div>"; // Replace with actual HTML content
     }
   }
+  document.addEventListener("click", function (event) {
+  if (
+    event.target.hasAttribute("data-src") &&
+    event.target.closest("#school-violence-container")
+  ) {
+    // school-violence 로직
+    const buttonText = event.target.textContent; // 버튼의 텍스트 내용을 가져옴
+    const groups = event.target.getAttribute("data-groups").split(",");
+    const groupSelect = document.getElementById("groupSelect");
+    groupSelect.innerHTML = "";
+    groups.forEach((group) => {
+      const button = document.createElement("button");
+      button.textContent = group;
+      button.setAttribute("data-group", group);
+      groupSelect.appendChild(button);
+    })
+    ;
+} else if (
+    event.target.hasAttribute("data-src") &&
+    event.target.closest("#after-bully-container")
+) {
+    const buttonText = event.target.textContent;
+    const groups = event.target.getAttribute("data-groups").split(",");
+    const groupSelect = document.getElementById("groupSelect");
+    console.log("groupSelect", groupSelect);
+    groupSelect.innerHTML = "";
+    groups.forEach((group) => {
+    const button = document.createElement("button");
+    button.textContent = group;
+    button.setAttribute("data-group", group);
+    groupSelect.appendChild(button);
+    });
+
+}
+});
 
   renderMenuComponent();
   renderActiveComponent("violence-infra"); // Default component
