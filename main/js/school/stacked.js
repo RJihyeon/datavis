@@ -194,6 +194,12 @@ function showStackedBarChart(data) {
             }
         });
 
+        // 버튼 컨테이너 아래에 텍스트 추가
+    buttonContainer.append("div")
+    .attr("id", "chart-info")
+    .style("margin-top", "10px")
+    .text("(출처: 여성가족부 「청소년매체이용및유해환경실태조사」 )");
+
 }
 
 document.getElementById('school-violence-container').addEventListener('click', function(event) {

@@ -183,14 +183,23 @@ function showBarChart(data) {
       .attr("dy", "0.32em")
       .text(d => d);
 
-    // 그래프 아래에 텍스트 추가
+    // 그래프 아래에 텍스트 추가 (첫 번째 줄)
     svg.append("text")
-    .attr("x", (width + margin.left + margin.right) / 2)
-    .attr("y", height + margin.top + margin.bottom -25) // 텍스트를 더 아래로 이동
+    .attr("x", (width + margin.left + margin.right) / 2+40)
+    .attr("y", height + margin.top + margin.bottom - 25) // 첫 번째 줄의 y 위치
     .attr("text-anchor", "middle")
     .style("font-size", "14px")
     .style("font-weight", "bold")
-    .text("짙은 색 그래프는 피해 후 기관도움을 받은 학생의 비율을 나타냅니다. 클릭하면 상세 정보를 확인할 수 있습니다.");
+    .text("짙은 색 그래프는 피해 후 기관도움을 받은 학생의 비율을 나타냅니다.");
+
+    // 그래프 아래에 텍스트 추가 (두 번째 줄)
+    svg.append("text")
+    .attr("x", (width + margin.left + margin.right) / 2+40)
+    .attr("y", height + margin.top + margin.bottom - 5) // 두 번째 줄의 y 위치
+    .attr("text-anchor", "middle")
+    .style("font-size", "14px")
+    .style("font-weight", "bold")
+    .text("클릭하면 상세 정보를 확인할 수 있습니다. (출처: 여성가족부 「청소년매체이용및유해환경실태조사」 )");
 }
 function showDetails(year, key, group) {
     const detailsContainer = document.getElementById('after-bully-care-container');

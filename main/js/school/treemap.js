@@ -126,6 +126,20 @@ function showTreemap(dataFilePath, group) {
       })
       .style("font-size", d => Math.min((d.x1 - d.x0) / 5, (d.y1 - d.y0) / 5) + "px"); // 크기를 셀에 비례하게 설정
 
+    treemapGroup.append("text")
+      .attr("x", treemapWidth / 2+120) // 중앙에 위치
+      .attr("y", treemapHeight + 27) // 트리맵 하단 아래에 배치
+      .attr("text-anchor", "middle")
+      .style("font-size", "20px")
+      .text("본 집계는 중복응답이 가능하였기에, 퍼센티지가 100을 초과할 수 있습니다.");
+
+    treemapGroup.append("text")
+      .attr("x", treemapWidth / 2+120) // 중앙에 위치
+      .attr("y", treemapHeight + 50) // 트리맵 하단 아래에 배치
+      .attr("text-anchor", "middle")
+      .style("font-size", "20px")
+      .text("(출처:여성가족부 「청소년매체이용및유해환경실태조사」 )");
+      
     // 범례 생성
    const legendData = root.leaves().map(d => ({
         name: d.data.name,
