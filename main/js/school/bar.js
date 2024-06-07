@@ -41,8 +41,9 @@ function initialize(csvFile, defaultGroup) {
 }
 
 function showBarChart(data) {
-    console.log("data in show bar chart",data);
-  const margin = {top: 10, right: 30, bottom: 40, left: 50};
+    
+
+  const margin = { top: 10, right: 30, bottom: 80, left: 50 }; 
 
   const svgContainer = d3.select("#after-bully-container");
 
@@ -51,7 +52,16 @@ function showBarChart(data) {
 
   const svg = svgContainer.append("svg")
       .attr("width", 800)
-      .attr("height", 500);
+      .attr("height", 500)
+      .attr("transform", `translate(10, 20)`);
+  svg.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", 800)
+    .attr("height", 500)
+    .style("stroke", "red")
+    .style("fill", "none")
+    .style("stroke-width", "2");
 
   const width = +svg.attr("width") - margin.left - margin.right;
   const height = +svg.attr("height") - margin.top - margin.bottom;
@@ -146,7 +156,7 @@ function showBarChart(data) {
   const legendData = ["피해 후 기관도움 유", "피해 후 기관도움 무"];
   const legend = g.append("g")
       .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
+      .attr("font-size", 14)
       .attr("text-anchor", "end")
       .selectAll("g")
       .data(legendData)
@@ -155,8 +165,8 @@ function showBarChart(data) {
 
   legend.append("rect")
       .attr("x", width - 19)
-      .attr("width", 19)
-      .attr("height", 19)
+      .attr("width", 20)
+      .attr("height", 20)
       .attr("fill", d => color(d));
 
   legend.append("text")
@@ -164,11 +174,18 @@ function showBarChart(data) {
       .attr("y", 9.5)
       .attr("dy", "0.32em")
       .text(d => d);
+
+    // 그래프 아래에 텍스트 추가
+    svg.append("text")
+    .attr("x", (width + margin.left + margin.right) / 2)
+    .attr("y", height + margin.top + margin.bottom -25) // 텍스트를 더 아래로 이동
+    .attr("text-anchor", "middle")
+    .style("font-size", "14px")
+    .style("font-weight", "bold")
+    .text("짙은 색은 피해 후 기관도움을 받은 학생을 나타냅니다. 클릭하면 상세 정보를 확인할 수 있습니다.");
 }
 function showDetails(year, key, group) {
     const detailsContainer = document.getElementById('after-bully-care-container');
-    console.log("showDetails");
-  
     // 트리맵 데이터를 불러올 파일 경로 생성
     const dataFilePath = `./data/school/treemap_${year}_${key}.csv`;
     showTreemap(dataFilePath,group); // 트리맵 함수 호출
@@ -179,9 +196,7 @@ document.getElementById('after-bully-container').addEventListener('click', funct
         const groups = event.target.getAttribute('data-groups').split(',');
         const src = event.target.getAttribute('data-src');
         const groupSelect = document.getElementById('groupSelect');
-       
         groupSelect.innerHTML = ''; // 기존 내용을 지움
-
         groups.forEach(group => {
             const input = document.createElement('input');
             input.type = 'button';
