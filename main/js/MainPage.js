@@ -78,10 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         `;
         // Append script dynamically
-          const scriptFamtype_1 = document.createElement("script");
-          scriptFamtype_1.src = "js/famtype/alone.js";
-          contentArea.appendChild(scriptFamtype_1);
-        
+        const scriptFamtype_1 = document.createElement("script");
+        scriptFamtype_1.src = "js/famtype/alone.js";
+        contentArea.appendChild(scriptFamtype_1);
+
         break;
 
       // 가정폭력 케이스
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div id="chart-container2" class="graph-report1">
         <p class="report-title">검찰청 가정폭력 조치 현황</p>
         <p class="report-title1">검거 100건 당 조치 건수, 단위(건)</p>
-        <div class="report-wrapper">
+        <div  class="report-wrapper">
         <div class="chart-wrapper">
     <p class="chart-title" id="chart-title-2019"></p>
     <div id="report-chart-2019" class="report-chart" data-year="2019"></div>
@@ -140,15 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
         script1.src = "js/violence/report.js";
         contentArea.appendChild(script1);
 
-        //폭력 목격 경험 차트 스크립트 로드
-        const script3 = document.createElement("script");
-        script3.src = "js/violence/perpetrator.js";
-        script3.onload = () => {
-          const perpetratorChart = new PerpetratorChart("perpetrator-chart");
-          perpetratorChart.render();
-        };
-        document.body.appendChild(script3);
-
         break;
 
       //가정폭력 인프라 케이스
@@ -156,7 +147,8 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = `
         <div class="container1"> 
         <div id="chart-container4" class="graph-vioinfra">
-            <p class="vioinfra-title">가정폭력/아동학대 예방교육 여부 및 도움 정도</p>
+            <p class="vioinfra-title">가정폭력/아동학대 예방교육 만족도</p>
+            <p class="vioinfra-title1">응답자 ___명 </p>
             <div class="button-container">
             <button class="group-btn" data-group="전체">전체</button>
             <button class="group-btn" data-group="성별">성별</button>
