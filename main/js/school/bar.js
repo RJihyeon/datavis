@@ -15,8 +15,6 @@ function initialize(csvFile, defaultGroup) {
             });
 
         });
-
-        
         if (groupedData[defaultGroup]) {
             
             showBarChart(groupedData[defaultGroup]); // 초기 차트 표시
@@ -24,22 +22,8 @@ function initialize(csvFile, defaultGroup) {
         } else {
             console.error("Default group data not found:", defaultGroup);
         }
-
-        d3.selectAll("#groupSelect button")
-            .on("click", function (event) {
-                event.preventDefault();
-                d3.selectAll("#groupSelect button").classed('active', false);
-                d3.select(this).classed('active', true);
-                const group = d3.select(this).attr("data-group");
-                if (groupedData[group]) {
-                    showBarChart(groupedData[group]);
-                } else {
-                    console.error("Selected group data not found:", group);
-                }
-            });
     });
 }
-
 function showBarChart(data) {
   const margin = { top: 100, right: 30, bottom: 80, left: 50 }; 
 
@@ -50,14 +34,14 @@ function showBarChart(data) {
 
   const svg = svgContainer.append("svg")
       .attr("width", 800)
-      .attr("height", 500)
-      .attr("transform", `translate(10, 20)`);
+      .attr("height", 700)
+      .attr("transform", `translate(10, -180)`);
 
   svg.append("rect")
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", 800)
-    .attr("height", 500)
+    .attr("height", 450)
     .style("fill", "none"); // 테두리 추가;
 
   const width = +svg.attr("width") - margin.left - margin.right;
@@ -87,8 +71,15 @@ function showBarChart(data) {
   const y = d3.scaleLinear()
       .domain([0, 100])
       .rangeRound([height, 0]);
-
-  
+    // 툴팁 생성
+  const tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("background", "white")
+      .style("border", "1px solid #ccc")
+      .style("padding", "10px")
+      .style("pointer-events", "none")
+      .style("opacity", 0);
 
   // 그룹 생성
   const categoryGroup = g.selectAll(".category-group")
@@ -106,6 +97,25 @@ function showBarChart(data) {
     .attr("width", x1.bandwidth())
     .attr("height", 0) // 초기 height를 0으로 설정
     .attr("fill", d => color(d.key))
+    .on("mouseover", function(event, d) { // 마우스 오버 이벤트 추가
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9);
+          if (d.key === "help_exp_yes") {
+            tooltip.html(`클릭을 통해 학생들이 피해 후 찾은 기관에 대하여 확인합니다. `)
+              .style("left", (event.pageX + 10) + "px")
+              .style("top", (event.pageY - 28) + "px");
+          } else {
+            tooltip.html(`클릭이 불가능합니다.`)
+              .style("left", (event.pageX + 10) + "px")
+              .style("top", (event.pageY - 28) + "px");
+          }
+      })
+    .on("mouseout", function(d) { // 마우스 아웃 이벤트 추가
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      })
     .on("click", function(event, d) { // 막대 클릭 이벤트 리스너 추가
         if (d.key === 'help_exp_yes') {
             
@@ -154,7 +164,7 @@ function showBarChart(data) {
 
   svg.append("text")
       .attr("x", (width + margin.left + margin.right) / 2)
-      .attr("y", height + margin.top + margin.bottom -450)
+      .attr("y", height + margin.top + margin.bottom -650)
       .attr("text-anchor", "middle")
       .style("font-size", "25px")
       .style("font-weight", "bold")

@@ -1,5 +1,10 @@
 
 function showTreemap(dataFilePath, group) {
+
+  //툴팁 초기화
+  d3.selectAll(".tooltip").remove();
+
+  //데이터 로딩
   d3.csv(dataFilePath).then(data => {
     const width = 1000; // 너비를 조정
     const height = 600;
@@ -114,16 +119,14 @@ function showTreemap(dataFilePath, group) {
       });
 
     // 텍스트 추가
+    const maxValue = d3.max(root.leaves(), d => d.data.value);
     cell.append("text")
       .attr("x", d => (d.x1 - d.x0) / 2) // 셀의 중앙에 위치
       .attr("y", d => (d.y1 - d.y0) / 2)
       .attr("text-anchor", "middle")
       .attr("dy", ".35em")
       .text(d => d.data.value !== null ? `${d.data.value}%` : "") // 값이 null이 아닐 때만 텍스트 표시
-      .style("fill", d => {
-        const value = d.data.value;
-        return value >= 50 ? "white" : "black";
-      })
+      .style("fill", d => d.data.value === maxValue ? "white" : "black") //Max값일 경우 색변경
       .style("font-size", d => Math.min((d.x1 - d.x0) / 5, (d.y1 - d.y0) / 5) + "px"); // 크기를 셀에 비례하게 설정
 
     treemapGroup.append("text")
@@ -173,13 +176,15 @@ function showTreemap(dataFilePath, group) {
     // SVG 요소를 포함하는 부모 요소를 선택
     const parent = d3.select("#after-bully-container");
 
-    // SVG 요소 아래에 버튼 추가
+    // SVG 요소 아래에 메인화면 버튼 추가
     parent.append("button")
       .text("메인 화면으로 이동하기")
+      .style("display", "block") // 블록으로 표시하여 새로운 줄에 배치
+      .style("margin-top", "10px") // SVG 아래에 약간의 간격 추가
+      .style("position", "relative")
+      .style("left", "50px") // 버튼을 오른쪽으로 이동
       .on("click", function() {
-      });
-    parent.select("button").on("click", function() {
-      window.history.back();
+      window.location.href = 'index.html'; 
     });
   });
 }
