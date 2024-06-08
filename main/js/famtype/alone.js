@@ -37,29 +37,39 @@ function alone() {
         });
 
         d3.selectAll("#dataSelect input[type='button'][data-group='g3']")
-            .on("mouseover", function () {
-                // 버튼 위에 마우스를 올렸을 때 실행될 코드
-                const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
-                const tooltip = d3.select("#tooltip");
-                const tooltipWidth = tooltip.node().offsetWidth;
-                const tooltipHeight = tooltip.node().offsetHeight;
-
-                const tooltipLeft = dataSelectRect.left + dataSelectRect.width / 2 - tooltipWidth / 2;
-                const tooltipTop = dataSelectRect.top - tooltipHeight - 10; // 위에 여백을 줄 수 있습니다.
-
-                tooltip
-                    .classed("category", true)
-                    .style("display", "block")
-                    .html("'기타'는 이혼, 사별을 제외한 기타 사유(예: 미혼모 등)를 의미한다.")
-                    .style("left", `${tooltipLeft + 50}px`)
-                    .style("top", `${tooltipTop + 420}px`);
-            })
-            .on("mouseout", function () {
-                // 버튼에서 마우스를 제거했을 때 실행될 코드
-                d3.select("#tooltip")
-                    .style("display", "none")
-                    .classed("category", false);
-            });
+        .on("click", function () {
+            // 현재 클릭된 버튼의 위치와 크기를 가져옵니다.
+            const button = d3.select(this);
+            const buttonRect = this.getBoundingClientRect();
+            const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
+    
+            // 기존의 설명 텍스트를 제거합니다.
+            d3.select("#dataSelect .tooltip-text").remove();
+    
+            // 버튼 아래에 설명 텍스트를 추가합니다.
+            const tooltip = d3.select("#dataSelect")
+                .append("div")
+                .attr("class", "tooltip-text")
+                .html("'기타'는 이혼, 사별을 제외한 기타 사유(예: 미혼모 등)를 의미한다.")
+                .style("position", "absolute")
+                .style("left", `${buttonRect.left - dataSelectRect.left}px`)
+                .style("top", `${buttonRect.bottom - dataSelectRect.top + window.scrollY}px`)
+                .style("background", "white")
+                .style("border", "1px solid black")
+                .style("padding", "5px")
+                .style("z-index", "10");
+        });
+    
+    // 다른 곳을 클릭했을 때 설명 텍스트를 제거하는 코드
+    d3.select("body").on("click", function(event) {
+        const isButton = d3.select(event.target).attr("type") === "button";
+        const isDataSelect = d3.select(event.target).node().closest("#dataSelect");
+    
+        if (!isButton && !isDataSelect) {
+            d3.select("#dataSelect .tooltip-text").remove();
+        }
+    });
+    
 
         d3.selectAll("#dataSelect input[type='button'][data-group='g4']")
             .on("mouseover", function () {
