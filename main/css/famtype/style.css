@@ -43,6 +43,7 @@
     transform: translateX(120px);
     margin-top: -20px;
     overflow:hidden; 
+    margin-right: 150px;
 }
 .chart-graph {
     margin-top: 35px;
