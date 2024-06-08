@@ -30,7 +30,7 @@ function initialize(csvFile, defaultGroup) {
         if (groupedData[defaultGroup]) {
             originalData = [...groupedData[defaultGroup]];
             showStackedBarChart(groupedData[defaultGroup]); // 초기 차트 표시
-            d3.select(`#groupSelect button[data-group='${defaultGroup}']`).classed('active', false ); // 초기 버튼 활성화
+            d3.select(`#groupSelect button[data-group='${defaultGroup}']`).classed('active', true ); // 초기 버튼 활성화
         } else {
         d3.selectAll("#groupSelect button")
             .on("click", function (event) {
@@ -54,7 +54,7 @@ function initialize(csvFile, defaultGroup) {
 function showStackedBarChart(data) {
     const width = 800;
     const height = 500;
-    const margin = { top: 100, right: 30, bottom: 50, left: 60 };
+    const margin = { top: 100, right: 30, bottom: 20, left: 60 };
 
     d3.select("#school-violence-container svg").remove(); // 기존 SVG 제거
     d3.select("#sort-buttons").remove(); // 기존 버튼 제거
@@ -116,14 +116,14 @@ function showStackedBarChart(data) {
         .append("text")
         .attr("class", "label")
         .attr("x", d => xScale(d.year) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale(d["학폭피해경험 유"]) - 5)
+        .attr("y", d => yScale(d["학폭피해경험 유"]) - 20)
         .attr("text-anchor", "middle")
         .text(d => `${(+d["학폭피해경험 유"]).toFixed(2)}%`); // 숫자로 변환
 
     //막대그래프의 제목달기
     svg.append("text")
         .attr("x", width / 2)
-        .attr("y", -40) // 상단 여백을 줌
+        .attr("y", -60) // 상단 여백을 줌
         .attr("text-anchor", "middle")
         .style("font-size", "25px")
         .style("font-weight", "bold")
@@ -176,13 +176,18 @@ function showStackedBarChart(data) {
 
     
     // SVG의 실제 높이를 계산하여 버튼 위치를 조정
-    
-    buttonContainer.selectAll("button")
+    const buttons=buttonContainer.selectAll("button")
         .data(["오름차순 정렬", "내림차순 정렬"])
         .enter()
         .append("button")
-        .text(d => d)
-        .on("click", function(event, d) {
+        .text(d => d);
+        
+    buttons.on("click", function(event, d) {
+                // 모든 버튼의 'active' 클래스를 제거
+            buttons.classed("active", false);
+            // 클릭된 버튼에만 'active' 클래스를 추가
+            d3.select(this).classed("active", true);
+
             if (d === "오름차순 정렬") {
                 isAscending = true;
                 const sortedData = [...originalData].sort((a, b) => +a["학폭피해경험 유"] - +b["학폭피해경험 유"]); // 숫자로 변환
@@ -193,11 +198,10 @@ function showStackedBarChart(data) {
                 showStackedBarChart(sortedData);
             }
         });
-
         // 버튼 컨테이너 아래에 텍스트 추가
     buttonContainer.append("div")
     .attr("id", "chart-info")
-    .style("margin-top", "10px")
+    .style("margin-top", "-5px")
     .text("(출처: 여성가족부 「청소년매체이용및유해환경실태조사」 )");
 
 }
