@@ -101,7 +101,7 @@
     background-color: white;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.35),
     0 4px 6px -4px rgba(0, 0, 0, 0.35);
-    gap: 5px;
+    margin-bottom: 150px;
 }
 
 #dataSelect input[type="button"] {
@@ -109,8 +109,8 @@
     font-size: 14px;
     font-weight: bold;
     box-sizing: border-box;
-    margin-bottom: 40px;
     padding: 10px;
+    gap: 5px;
     text-align: center;
     background-color: white;
     border-color: #dcdcdc;
