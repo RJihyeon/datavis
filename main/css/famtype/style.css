@@ -154,17 +154,29 @@
 }
 
 /* Social Infra */
-.bubble {
-    fill: orange;
-    opacity: 0.7;
-    stroke: black;
-    stroke-width: 1px;
+.explain-infra {
+    padding:5px;
+    margin-left: 180px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #3d4747;
 }
 
-.map {
+#map {
     width: 800px;
     height: 600px;
-    margin: auto;
+    margin-left: 100px;
+}
+
+#bar{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+.infra-chart{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
 #centerSelect{
@@ -192,8 +204,10 @@
     color: #585555;
 }
 
-#centerSelect input[type="button"].active {
-    background-color: #008080;
-    border-color: none;
-    color: white;
-}
+#centerSelect input[type="button"].c0.active { background-color: #e98b1f; border-color: none; color: white; }
+#centerSelect input[type="button"].c1.active { background-color: #F08080; border-color: none; color: white; }
+#centerSelect input[type="button"].c2.active { background-color: #1E90FF; border-color: none; color: white; }
+#centerSelect input[type="button"].c3.active { background-color: #6A5ACD; border-color: none; color: white; }
+#centerSelect input[type="button"].c4.active { background-color: #BA55D3; border-color: none; color: white; }
+#centerSelect input[type="button"].c5.active { background-color: #008080; border-color: none; color: white; }
+

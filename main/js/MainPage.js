@@ -75,8 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
 
-        </div>
-        `;
+        </div>`;
         // Append script dynamically
         const scriptFamtype_1 = document.createElement("script");
         scriptFamtype_1.src = "js/famtype/alone.js";
@@ -91,15 +90,31 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="title">한부모가족 복지 시설 현황 (2024년)</p>
 
         <form id="centerSelect">
-        <input type="button" data-group="c0" value="전체 시설 개수">
-          <input type="button" data-group="c1" value="생활지원시설">
-          <input type="button" data-group="c2" value="양육지원시설">
-          <input type="button" data-group="c3" value="일시지원 복지시설">
-          <input type="button" data-group="c4" value="출산지원시설">
-          <input type="button" data-group="c5" value="한부모가족 복지상담소">
+          <input type="button" class="c0" center-group="c0" value="시설 전체">
+          <input type="button" class="c1" center-group="c1" value="생활지원시설">
+          <input type="button" class="c2" center-group="c2" value="양육지원시설">
+          <input type="button" class="c3" center-group="c3" value="일시지원 복지시설">
+          <input type="button" class="c4" center-group="c4" value="출산지원시설">
+          <input type="button" class="c5" center-group="c5" value="한부모가족 복지상담소">
         </form>
+      
+        <div class="map">
+          <p class="explain-infra">각 시설의 (전국)총 개수를 기준으로 한 지역별 분포 비율 (%)</p>
+          <div id="map-container"></div>
+        </div>
 
-        <div id="map-container"></div>
+        <div class="bar">
+          <p class="explain-infra">각 시설의 (전국)총 개수를 기준으로 한 지역별 분포 비율 (%)</p>
+          <div id="bar1" class="infra-chart">
+          <div id="bar-container1"></div>
+        </div>
+
+        <div class="bar">
+          <p class="explain-infra">각 시설의 (전국)총 개수를 기준으로 한 지역별 분포 비율 (%)</p>
+          <div id="bar2" class="infra-chart">
+          <div id="bar-container2"></div>
+        </div>
+
       </div>`;
 
         const socialInfra = document.createElement("script");
