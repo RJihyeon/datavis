@@ -4,6 +4,7 @@ function infra() {
     d3.select("#centerSelect input[type='button'][center-group='c0']").classed('active', true); // 초기 버튼 활성화
     drawMap("시설 전체", "#e98b1f");
     drawBar("시설 전체(수)", "#e98b1f", "");
+    updateMapExplain("종류별 한부모가족 복지 시설 전체 데이터에 관한 시각화입니다.");
 
     d3.selectAll("#centerSelect input[type='button']")
         .on("click", function () {
@@ -12,12 +13,24 @@ function infra() {
 
             const group = d3.select(this).attr("center-group");
             switch (group) {
-                case "c0": facilityName = "시설 전체"; color = "#e98b1f"; facilityNum = "시설 전체(수)"; area = ""; break;
-                case "c1": facilityName = "생활지원시설"; color = "#F08080"; facilityNum = "생활지원시설(수)"; src = "./data/famtype/생활지원시설.csv"; area = ""; break;
-                case "c2": facilityName = "양육지원시설"; color = "#1E90FF"; facilityNum = "양육지원시설(수)"; src = "./data/famtype/양육지원시설.csv"; area = ""; break;
-                case "c3": facilityName = "일시지원 복지시설"; color = "#6A5ACD"; facilityNum = "일시지원 복지시설(수)"; src = "./data/famtype/일시지원 복지시설.csv"; area = ""; break;
-                case "c4": facilityName = "출산지원시설"; color = "#BA55D3"; facilityNum = "출산지원시설(수)"; src = "./data/famtype/출산지원시설.csv"; area = ""; break;
-                case "c5": facilityName = "한부모가족 복지상담소"; color = "#008080"; facilityNum = "한부모가족 복지상담소(수)";  area = ""; break;
+                case "c0": facilityName = "시설 전체"; color = "#e98b1f"; facilityNum = "시설 전체(수)"; area = "";
+                updateMapExplain("종류별 한부모가족 복지 시설 전체 데이터에 관한 시각화입니다.");
+                break;
+                case "c1": facilityName = "생활지원시설"; color = "#F08080"; facilityNum = "생활지원시설(수)"; src = "./data/famtype/생활지원시설.csv"; area = "";
+                updateMapExplain("생활지원시설: 경제적 어려움을 겪는 한부모가족에게 생활 안정을 지원하는 시설입니다.");
+                break;
+                case "c2": facilityName = "양육지원시설"; color = "#1E90FF"; facilityNum = "양육지원시설(수)"; src = "./data/famtype/양육지원시설.csv"; area = "";
+                updateMapExplain("양육지원시설: 한부모가족이 자녀를 양육하며 필요로 하는 다양한 지원 프로그램과 서비스를 제공하는 시설입니다.");
+                break;
+                case "c3": facilityName = "일시지원 복지시설"; color = "#6A5ACD"; facilityNum = "일시지원 복지시설(수)"; src = "./data/famtype/일시지원 복지시설.csv"; area = "";
+                updateMapExplain("일시지원 복지시설: 한부모가족이 일시적인 어려움을 겪을 때 필요한 복지 서비스를 제공하는 시설입니다.");
+                break;
+                case "c4": facilityName = "출산지원시설"; color = "#BA55D3"; facilityNum = "출산지원시설(수)"; src = "./data/famtype/출산지원시설.csv"; area = "";
+                updateMapExplain("출산지원시설: 한부모가족이 출산과 육아 과정에서 필요로 하는 지원을 제공하는 시설입니다.");
+                break;
+                case "c5": facilityName = "한부모가족 복지상담소"; color = "#008080"; facilityNum = "한부모가족 복지상담소(수)";  area = "";
+                updateMapExplain("한부모가족 복지상담소: 한부모가족에게 정서적인 지원 및 상담을 제공하여 가족 문제를 해결하고 복지를 증진하는 시설입니다.");
+                break;
             }
             if ((facilityName === "시설 전체") || (facilityName === "한부모가족 복지상담소")){
             drawMap(facilityName, color);
@@ -31,6 +44,14 @@ function infra() {
             } 
             
         });
+
+    function updateMapExplain(content) {
+        const mapExplain = d3.select("#map-explain");
+        mapExplain.html(""); // 기존 내용 지우기
+        mapExplain.append("p")
+            .text(content)
+            .attr("class", "explain3-infra");
+    }
 
     function drawMap(count, color) {
 

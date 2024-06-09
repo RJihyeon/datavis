@@ -94,7 +94,8 @@ document.addEventListener("DOMContentLoaded", function () {
       case "social-infra":
         contentArea.innerHTML = `
       <div id="social-container">
-        <p class="title">한부모가족 복지 시설 현황 (2024년)</p>
+        <p class="title-infra">한부모가족 복지 시설 현황 (2024년)</p>
+        <p class="explain2-infra">지도 위 지역명을 클릭하면 해당 지역에 위치한 시설의 비율, 시설의 종류별 개수 및 정원 수(우측 차트)를 확인할 수 있습니다.</p>
 
         <form id="centerSelect">
           <input type="button" class="c0" center-group="c0" value="시설 전체">
@@ -105,6 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
           <input type="button" class="c5" center-group="c5" value="한부모가족 복지상담소">
         </form>
       
+        <div id="map-explain"></div>
+
+
         <div class="container-infra">
 
         <div id="infra1" class="chart-infra">
