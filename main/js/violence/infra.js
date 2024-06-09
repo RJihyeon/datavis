@@ -13,11 +13,19 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
 
   console.log("Processed Data:", processedData);
 
+  let sortAscending = true;
+  let currentGroupData;
+
   function updateChart(groupBy) {
     let groupedData;
     if (groupBy === "전체") {
       groupedData = [
-        ["전체", processedData.filter((d) => d.특성별1 !== "기관유형")],
+        ["소계", processedData.filter((d) => d.특성별2 === "소계")],
+        ["남자", processedData.filter((d) => d.특성별2 === "남자")],
+        ["여자", processedData.filter((d) => d.특성별2 === "여자")],
+        ["9~11세", processedData.filter((d) => d.특성별2 === "9~11세")],
+        ["12~15세", processedData.filter((d) => d.특성별2 === "12~15세")],
+        ["16~18세", processedData.filter((d) => d.특성별2 === "16~18세")],
       ];
     } else if (
       groupBy === "성별" ||
@@ -32,6 +40,7 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       console.error("Invalid groupBy value:", groupBy);
       return;
     }
+    currentGroupData = groupedData;
     console.log(`Grouped Data (${groupBy}):`, groupedData);
     visualizeData(groupedData, groupBy);
   }
@@ -53,86 +62,10 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
     console.log(`Education Data (${groupBy}):`, educationData);
 
     // Update stacked bar chart for the selected group
-    updateStackedBarChart(data);
+    updateStackedBarChart(data, groupKey, sortAscending);
   }
 
-  function createPieChart(data) {
-    const width = 400;
-    const height = 400;
-    const radius = Math.min(width, height) / 2;
-
-    const color = d3
-      .scaleOrdinal()
-      .domain(["교육경험없음", "교육경험있음"])
-      .range(["#fffb52", "#00b2ba"]);
-
-    const arc = d3
-      .arc()
-      .outerRadius(radius - 10)
-      .innerRadius(0);
-
-    const labelArc = d3
-      .arc()
-      .outerRadius(radius - 40)
-      .innerRadius(radius - 40);
-
-    const pie = d3
-      .pie()
-      .sort(null)
-      .value((d) => d[1]);
-
-    const svg = d3
-      .select("#education-pie-chart")
-      .html("")
-      .append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .append("g")
-      .attr("transform", `translate(${width / 2},${height / 2})`);
-
-    const g = svg
-      .selectAll(".arc")
-      .data(pie(data))
-      .enter()
-      .append("g")
-      .attr("class", "arc");
-
-    g.append("path")
-      .attr("d", arc)
-      .style("fill", (d) => color(d.data[0]));
-
-    g.append("text")
-      .attr("transform", (d) => `translate(${labelArc.centroid(d)})`)
-      .attr("dy", ".35em")
-      .text((d) => `${d.data[0]}: ${d.data[1].toFixed(1)}%`);
-
-    const legend = svg
-      .append("g")
-      .attr("transform", `translate(${width / 2}, ${-height / 2 + 20})`);
-
-    legend
-      .selectAll("rect")
-      .data(color.domain())
-      .enter()
-      .append("rect")
-      .attr("x", 0)
-      .attr("y", (d, i) => i * 20)
-      .attr("width", 18)
-      .attr("height", 18)
-      .attr("fill", color);
-
-    legend
-      .selectAll("text")
-      .data(color.domain())
-      .enter()
-      .append("text")
-      .attr("x", 24)
-      .attr("y", (d, i) => i * 20 + 9)
-      .attr("dy", "0.35em")
-      .text((d) => d);
-  }
-
-  function updateStackedBarChart(data) {
+  function updateStackedBarChart(data, groupBy, sortAscending) {
     console.log(`Updating Stacked Bar Chart:`, data);
 
     const filteredData = flatMap(data, (d) => d[1]);
@@ -142,16 +75,22 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
     console.log(`Filtered Data:`, filteredData);
     console.log(`Grouped Data for Stacked Bar:`, groupedData);
 
-    visualizeStackedBarChart(groupedData);
+    visualizeStackedBarChart(groupedData, groupBy, data, sortAscending);
   }
 
   function flatMap(arr, callback) {
     return arr.map(callback).reduce((acc, val) => acc.concat(val), []);
   }
-  function visualizeStackedBarChart(data) {
-    const margin = { top: 20, right: 30, bottom: 60, left: 50 };
+
+  function visualizeStackedBarChart(
+    data,
+    groupBy,
+    currentGroupData,
+    sortAscending
+  ) {
+    const margin = { top: 50, right: 30, bottom: 60, left: 50 };
     const width = 1000 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
+    const height = 500 - margin.top - margin.bottom;
 
     const svg = d3
       .select("#vioinfra-chart")
@@ -162,11 +101,16 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const x = d3
-      .scaleBand()
-      .domain(data.map((d) => d[0]))
-      .range([0, width])
-      .padding(0.4);
+    let xDomain;
+    if (groupBy === "전체") {
+      xDomain = data.map((d) => d[0]);
+    } else {
+      xDomain = data.map((d) => d[0]);
+    }
+
+    console.log("xDomain: ", xDomain);
+
+    const x = d3.scaleBand().domain(xDomain).range([0, width]).padding(0.5);
 
     const y = d3
       .scaleLinear()
@@ -190,8 +134,9 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .stack()
       .keys(["전혀도움이안됨", "도움이안됨", "도움이됨", "매우도움이됨"])
       .value((d, key) => d[key]);
-
     const stackedData = stack(data.flatMap((d) => d[1]));
+
+    console.log("Stacked Data: ", stackedData);
 
     svg
       .append("g")
@@ -239,10 +184,12 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .data((d) => d)
       .enter()
       .append("rect")
+
       .attr("x", (d) => x(d.data.특성별2))
       .attr("y", (d) => y(d[1]))
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth())
+
       .on("mouseover", (event, d) => {
         tooltip
           .style("visibility", "visible")
@@ -255,27 +202,22 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       })
       .on("mouseout", () => {
         tooltip.style("visibility", "hidden");
-      })
-      .on("click", function (event, d) {
-        sortBarsByValue(d.data.특성별2);
       });
 
-    const legend = svg
-      .append("g")
-      .attr("transform", `translate(0,${height + 40})`); // Place legend below chart
+    const legend = svg.append("g").attr("transform", `translate(0, -40)`); // Place legend above chart
 
     legend
       .selectAll("rect")
       .data(color.domain())
       .enter()
       .append("rect")
-      .attr("x", (d, i) => i * 100)
+      .attr("x", (d, i) => i * 160)
       .attr("y", 0)
       .attr("width", 18)
       .attr("height", 18)
       .attr("fill", color)
       .on("click", function (event, d) {
-        sortBarsByLegend(d);
+        sortBarsByLegend(d, currentGroupData, groupBy, sortAscending);
       });
 
     legend
@@ -283,36 +225,38 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .data(color.domain())
       .enter()
       .append("text")
-      .attr("x", (d, i) => i * 100 + 24)
+      .attr("x", (d, i) => i * 160 + 24)
       .attr("y", 9)
       .attr("dy", "0.35em")
-      .text((d) => d);
+      .text((d) => d)
+      .style("font-weight", "bold");
   }
 
-  function sortBarsByValue(key) {
-    // Sorting logics based on the clicked bar value
-    console.log(`Sorting bars by value: ${key}`);
-
-    const sortedData = data.slice().sort((a, b) => {
-      const aValue = a[1].find((d) => d.특성별2 === key);
-      const bValue = b[1].find((d) => d.특성별2 === key);
-      return (bValue ? bValue[key] : 0) - (aValue ? aValue[key] : 0);
-    });
-
-    visualizeStackedBarChart(sortedData);
-  }
-
-  function sortBarsByLegend(key) {
+  function sortBarsByLegend(key, currentGroupData, groupBy, sortAscending) {
     // Sorting logic based on the clicked legend
     console.log(`Sorting bars by legend: ${key}`);
+    console.log("Current Group Data: ", currentGroupData);
 
-    const sortedData = data.slice().sort((a, b) => {
-      const totalA = a[1].reduce((sum, d) => sum + (d[key] || 0), 0);
-      const totalB = b[1].reduce((sum, d) => sum + (d[key] || 0), 0);
-      return totalB - totalA;
-    });
+    let sortedData;
+    if (groupBy === "전체") {
+      sortedData = currentGroupData.slice().sort((a, b) => {
+        const totalA = a[1].reduce((sum, d) => sum + (d[key] || 0), 0);
+        const totalB = b[1].reduce((sum, d) => sum + (d[key] || 0), 0);
+        return sortAscending ? totalB - totalA : totalA - totalB;
+      });
+    } else {
+      sortedData = currentGroupData.slice().sort((a, b) => {
+        const totalA = a[1].reduce((sum, d) => sum + (d[key] || 0), 0);
+        const totalB = b[1].reduce((sum, d) => sum + (d[key] || 0), 0);
+        return sortAscending ? totalB - totalA : totalA - totalB;
+      });
+    }
 
-    visualizeStackedBarChart(sortedData);
+    console.log("Sorted Data: ", sortedData);
+
+    sortAscending = !sortAscending; // Toggle sort order
+
+    visualizeStackedBarChart(sortedData, groupBy, sortedData, sortAscending);
   }
 
   // Initialize the chart with "전체" group
