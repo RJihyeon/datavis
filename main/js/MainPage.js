@@ -88,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
       case "social-infra":
         contentArea.innerHTML = `
       <div id="social-container">
-
         <p class="title">한부모 가정 자녀의 연령대별 혼자 있는 시간 (2021)</p>
         <div id="map-container"></div>
       </div>`;
@@ -98,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.appendChild(socialInfra);
 
         break;
+      
 
       // 가정폭력 케이스
       case "dom-violence":
