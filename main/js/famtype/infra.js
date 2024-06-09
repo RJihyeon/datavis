@@ -3,8 +3,7 @@ infra();
 function infra() {
     d3.select("#centerSelect input[type='button'][center-group='c0']").classed('active', true); // 초기 버튼 활성화
     drawMap("시설 전체", "#e98b1f");
-    drawBar("시설 전체(수)", "#e98b1f");
-    drawBox("./data/famtype/생활지원시설.csv", "#e98b1f");
+    drawBar("시설 전체(수)", "#e98b1f", "");
 
     d3.selectAll("#centerSelect input[type='button']")
         .on("click", function () {
@@ -13,20 +12,37 @@ function infra() {
 
             const group = d3.select(this).attr("center-group");
             switch (group) {
-                case "c0": facilityName = "시설 전체"; color = "#e98b1f"; facilityNum = "시설 전체(수)"; break;
-                case "c1": facilityName = "생활지원시설"; color = "#F08080"; facilityNum = "생활지원시설(수)"; src = "./data/famtype/생활지원시설.csv"; break;
-                case "c2": facilityName = "양육지원시설"; color = "#1E90FF"; facilityNum = "양육지원시설(수)"; src = "./data/famtype/양육지원시설.csv"; break;
-                case "c3": facilityName = "일시지원 복지시설"; color = "#6A5ACD"; facilityNum = "일시지원 복지시설(수)"; src = "./data/famtype/일시지원 복지시설.csv"; break;
-                case "c4": facilityName = "출산지원시설"; color = "#BA55D3"; facilityNum = "출산지원시설(수)"; src = "./data/famtype/출산지원시설.csv"; break;
-                case "c5": facilityName = "한부모가족 복지상담소"; color = "#008080"; facilityNum = "한부모가족 복지상담소(수)"; break;
+                case "c0": facilityName = "시설 전체"; color = "#e98b1f"; facilityNum = "시설 전체(수)"; area = ""; break;
+                case "c1": facilityName = "생활지원시설"; color = "#F08080"; facilityNum = "생활지원시설(수)"; src = "./data/famtype/생활지원시설.csv"; area = ""; break;
+                case "c2": facilityName = "양육지원시설"; color = "#1E90FF"; facilityNum = "양육지원시설(수)"; src = "./data/famtype/양육지원시설.csv"; area = ""; break;
+                case "c3": facilityName = "일시지원 복지시설"; color = "#6A5ACD"; facilityNum = "일시지원 복지시설(수)"; src = "./data/famtype/일시지원 복지시설.csv"; area = ""; break;
+                case "c4": facilityName = "출산지원시설"; color = "#BA55D3"; facilityNum = "출산지원시설(수)"; src = "./data/famtype/출산지원시설.csv"; area = ""; break;
+                case "c5": facilityName = "한부모가족 복지상담소"; color = "#008080"; facilityNum = "한부모가족 복지상담소(수)";  area = ""; break;
             }
-
+            if ((facilityName === "시설 전체") || (facilityName === "한부모가족 복지상담소")){
             drawMap(facilityName, color);
-            drawBar(facilityNum, color);
-            drawBox(src, color);
+            drawBar(facilityNum, color, area);
+            d3.select("#bar-container2").selectAll("svg").remove();
+
+            } else {
+                drawMap(facilityName, color);
+                drawBar(facilityNum, color, area);
+                drawBox(src, color, area); 
+            } 
+            
         });
 
     function drawMap(count, color) {
+
+        const v1 = count;
+        const v2 = color;
+        var source = "";
+        switch(count){
+            case "생활지원시설": source =  "./data/famtype/생활지원시설.csv"; break;
+            case "양육지원시설": source =  "./data/famtype/양육지원시설.csv"; break;
+            case "일시지원 복지시설": source =  "./data/famtype/일시지원 복지시설.csv"; break;
+            case "출산지원시설": source =  "./data/famtype/출산지원시설.csv"; break;
+        }
 
         const width = 800;
         const height = 600;
@@ -110,8 +126,8 @@ function infra() {
                         regionBubble.attr("stroke", "lemonchiffon")
                             .attr("stroke-width", "2px")
                             .attr("stroke-dasharray", "3,3");
-
                     })
+                    
                     .on("click", function (d) {
                         // 기존에 추가된 텍스트 제거
                         svg.selectAll(".guide-label").remove();
@@ -123,11 +139,19 @@ function infra() {
                         svg.append("text")
                             .attr("class", "guide-label")
                             .attr("x", width / 2) // 가운데 정렬
-                            .attr("y", 17) // 상단에 위치
+                            .attr("y", 15) // 상단에 위치
                             .attr("text-anchor", "middle")
                             .text(`${clickedRegionName}: ${Math.floor(clickedRegionData[count])}%`)
                             .attr("fill", "black")
                             .attr("font-weight", "bold");
+                        if ((count === "시설 전체") || (count === "한부모가족 복지상담소")) {
+                            drawBar(v1, v2, clickedRegionName);
+                            d3.select("#bar-container2").selectAll("svg").remove();
+
+                        } else {
+                            drawBar(v1, v2, clickedRegionName);
+                            drawBox(source, v2, clickedRegionName);
+                        }
                     })
 
                     .on("mouseout", function () {
@@ -157,22 +181,22 @@ function infra() {
             });
         });
     };
-    function drawBar(center, color) {
+    function drawBar(center, color, area) {
         const container = d3.select("#bar-container1");
         container.selectAll("svg").remove();
-
+    
         // SVG 요소의 너비와 높이 설정
         const margin = { top: 50, right: 50, bottom: 70, left: 50 };
         const width = 530 - margin.left - margin.right;
         const height = 330 - margin.top - margin.bottom;
-
+    
         // SVG 요소 추가
         const svg = container.append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
-
+    
         // 데이터 로드
         d3.csv("./data/famtype/center.csv").then(data => {
             // 선택된 기관의 데이터 필터링 및 정렬
@@ -181,22 +205,22 @@ function infra() {
                 count: +d[center] // count 값을 숫자로 변환
             })).filter(d => d.count > 0) // count가 0보다 큰 데이터만 포함
                 .sort((a, b) => b.count - a.count); // 내림차순 정렬
-
+    
             // X 스케일 설정
             const x = d3.scaleBand()
                 .domain(facilityData.map(d => d.region))
                 .range([0, width])
                 .padding(0.1);
-
+    
             // Y 스케일 설정
             const y = d3.scaleLinear()
                 .domain([0, d3.max(facilityData, d => d.count)])
                 .nice() // 최대값을 적절히 조정하여 눈금 표시
                 .range([height, 0]);
-
+    
             // 고유한 y 값만 추출
             const uniqueYValues = Array.from(new Set(facilityData.map(d => d.count)));
-
+    
             // X 축 생성
             const xAxisGroup = svg.append("g")
                 .attr("class", "x-axis") // x 축에 클래스 추가
@@ -207,7 +231,7 @@ function infra() {
                 .style("text-anchor", "end")
                 .style("font-weight", "bold")
                 .style("font-size", "13px");
-
+    
             svg.append("text")
                 .attr("x", width / 24 - 20)
                 .attr("y", -15)
@@ -215,23 +239,23 @@ function infra() {
                 .style("font-size", "11px")
                 .style("fill", "black")
                 .text("개수");
-
-                //제목추가
-                svg.append("text")
+    
+            //제목추가
+            svg.append("text")
                 .attr("x", (width + margin.left + margin.right) / 2 - 40)
                 .attr("y", 0 - (margin.top - 20))
                 .attr("text-anchor", "middle")
                 .style("font-size", "18px")
                 .style("font-weight", "bold")
                 .text("지역별 각 시설의 개수 (수)");
-
+    
             // Y 축 생성 및 보조선 추가
             svg.append("g")
                 .call(d3.axisLeft(y).tickValues(uniqueYValues).tickFormat(d3.format("d"))) // 고유한 y 값만 사용하여 축 설정
                 .selectAll("text")
                 .attr("fill", "black")
                 .style("font-size", "11px"); // y 축 텍스트 크기 설정
-
+    
             // 보조선 추가
             svg.selectAll("line.grid")
                 .data(uniqueYValues)
@@ -244,8 +268,8 @@ function infra() {
                 .attr("y2", d => y(d))
                 .attr("stroke", "lightgray")
                 .attr("stroke-dasharray", "2,2");
-
-                const tooltip = d3.select("body")
+    
+            const tooltip = d3.select("body")
                 .append("div")
                 .style("position", "absolute")
                 .style("background", "#fff")
@@ -255,7 +279,7 @@ function infra() {
                 .style("pointer-events", "none")
                 .style("font-size", "12px")
                 .style("opacity", 0);
-            
+    
             // 막대 생성
             const bars = svg.selectAll(".bar")
                 .data(facilityData)
@@ -264,10 +288,11 @@ function infra() {
                 .attr("class", "bar")
                 .attr("x", d => x(d.region))
                 .attr("width", x.bandwidth())
-                .attr("fill", color)
+                .attr("fill", d => d.region === area ? "#f6cc51" : color) // 조건에 따라 색상 변경
                 .attr("y", height) // 초기 높이 설정
                 .attr("height", 0) // 초기 높이 설정
                 .on("mouseover", function (d, i) {
+                    console.log(i);
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
@@ -287,7 +312,7 @@ function infra() {
 
         });
     }
-    function drawBox(dataSrc, color) {
+    function drawBox(dataSrc, color, area2) {
         const container = d3.select("#bar-container2");
         container.selectAll("svg").remove();
 
@@ -355,6 +380,7 @@ function infra() {
                 .style("font-size", "18px")
                 .style("font-weight", "bold")
                 .text("지역별 시설 정원 분포 (명)");
+
             // 툴팁 요소 추가
             const tooltip = d3.select("body")
                 .append("div")
@@ -376,7 +402,7 @@ function infra() {
                 .attr("class", "bar")
                 .attr("x", d => x(d.region))
                 .attr("width", x.bandwidth())
-                .attr("fill", color)
+                .attr("fill", d => d.region === area2 ? "#f6cc51" : color) // 조건에 따라 색상 변경
                 .attr("y", height) // 초기 높이 설정
                 .attr("height", 0) // 초기 높이 설정
                 .on("mouseover", function (d, i) {
