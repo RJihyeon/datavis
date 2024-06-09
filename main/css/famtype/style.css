@@ -153,6 +153,7 @@
     transition: opacity 1s ease;
 }
 
+/* Social Infra */
 .bubble {
     fill: orange;
     opacity: 0.7;
@@ -164,4 +165,35 @@
     width: 800px;
     height: 600px;
     margin: auto;
+}
+
+#centerSelect{
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+#centerSelect input[type="button"] {
+    width: auto;
+    font-size: 14px;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+    background-color: white;
+    border-color: #dcdcdc;
+    color: #585555;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#centerSelect input[type="button"]:hover {
+    background-color: #f6cc51;
+    color: #585555;
+}
+
+#centerSelect input[type="button"].active {
+    background-color: #008080;
+    border-color: none;
+    color: white;
 }
