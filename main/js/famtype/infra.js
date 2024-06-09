@@ -1,90 +1,49 @@
-var width = 700; //지도의 넓이
-var height = 700; //지도의 높이
-var initialScale = 5500; //확대시킬 값
-var initialX = -11900; //초기 위치값 X
-var initialY = 4050; //초기 위치값 Y
-var labels;
+infra();
 
-var projection = d3.geo
-    .mercator()
-    .scale(initialScale)
-    .translate([initialX, initialY]);
-var path = d3.geo.path().projection(projection);
-var zoom = d3.behavior
-    .zoom()
-    .translate(projection.translate())
-    .scale(projection.scale())
-    .scaleExtent([height, 800 * height])
-    .on('zoom', zoom);
+function infra() {
+    const width = 800;
+    const height = 600;
 
-var svg = d3
-    .select('#map-container')
-    .append('svg')
-    .attr('width', width + 'px')
-    .attr('height', height + 'px')
-    .attr('id', 'map')
-    .attr('class', 'map');
+    const svg = d3.select("#map-container")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
 
-var states = svg
-    .append('g')
-    .attr('id', 'states')
-    .call(zoom);
+    // 대한민국 지도 데이터 로드
+    d3.json("./data/famtype/provinces-topo.json").then(mapData => {
+        const projection = d3.geoMercator()
+            .center([127.766922, 35.907757])
+            .scale(5000)
+            .translate([width / 2, height / 2]);
 
-states
-    .append('rect')
-    .attr('class', 'background')
-    .attr('width', width + 'px')
-    .attr('height', height + 'px');
+        const path = d3.geoPath().projection(projection);
 
-//geoJson데이터를 파싱하여 지도그리기
-d3.json('./data/famtype/korea.json', function (json) {
-    states
-        .selectAll('path') //지역 설정
-        .data(json.features)
-        .enter()
-        .append('path')
-        .attr('d', path)
-        .attr('id', function (d) {
-            return 'path-' + d.properties.name_eng;
+        svg.append("g")
+            .selectAll("path")
+            .data(topojson.feature(mapData, mapData.objects['provinces-geo']).features) // 수정된 부분
+            .enter()
+            .append("path")
+            .attr("d", path)
+            .attr("fill", "#ddd")
+            .attr("stroke", "#999");
+        // CSV 데이터 로드
+        d3.csv("./data/famtype/center.csv").then(data => {
+            data.forEach(d => {
+                d.count = +d.count;
+            });
+
+            // 버블 차트 추가
+            svg.append("g")
+                .selectAll("circle")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", d => projection([+d.lon, +d.lat])[0])
+                .attr("cy", d => projection([+d.lon, +d.lat])[1])
+                .attr("r", d => Math.sqrt(d.count) * 2)
+                .attr("class", "bubble")
+                .append("title")
+                .text(d => `${d.region}: ${d.count}`);
         });
-
-    labels = states
-        .selectAll('text')
-        .data(json.features) //라벨표시
-        .enter()
-        .append('text')
-        .attr('transform', translateTolabel)
-        .attr('id', function (d) {
-            return 'label-' + d.properties.name_eng;
-        })
-        .attr('text-anchor', 'middle')
-        .attr('dy', '.35em')
-        .text(function (d) {
-            return d.properties.name;
-        });
-});
-
-//텍스트 위치 조절 - 하드코딩으로 위치 조절을 했습니다.
-function translateTolabel(d) {
-    var arr = path.centroid(d);
-    if (d.properties.code == 31) {
-        //서울 경기도 이름 겹쳐서 경기도 내리기
-        arr[1] +=
-            d3.event && d3.event.scale
-                ? d3.event.scale / height + 20
-                : initialScale / height + 20;
-    } else if (d.properties.code == 34) {
-        //충남은 조금 더 내리기
-        arr[1] +=
-            d3.event && d3.event.scale
-                ? d3.event.scale / height + 10
-                : initialScale / height + 10;
-    }
-    return 'translate(' + arr + ')';
-}
-
-function zoom() {
-    projection.translate(d3.event.translate).scale(d3.event.scale);
-    states.selectAll('path').attr('d', path);
-    labels.attr('transform', translateTolabel);
+    });
 }

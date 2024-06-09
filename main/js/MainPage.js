@@ -87,17 +87,18 @@ document.addEventListener("DOMContentLoaded", function () {
       // 한부모가정 복지기관 인프라
       case "social-infra":
         contentArea.innerHTML = `
-      <div id="social-container">
-
-        <p class="title">한부모 가정 자녀의 연령대별 혼자 있는 시간 (2021)</p>
-        <div id="map-container"></div>
-      </div>`;
+          <div id="social-container">
+            <p class="title">한부모 가정 자녀의 연령대별 혼자 있는 시간 (2021)</p>
+            <div id="map-container"></div>
+          </div>`;
       
+        // d3.js 로드
         const socialInfra = document.createElement("script");
         socialInfra.src = "js/famtype/infra.js";
         contentArea.appendChild(socialInfra);
 
         break;
+      
 
       // 가정폭력 케이스
       case "dom-violence":
