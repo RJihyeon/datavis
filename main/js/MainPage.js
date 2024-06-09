@@ -83,6 +83,21 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.appendChild(scriptFamtype_1);
 
         break;
+      
+      // 한부모가정 복지기관 인프라
+      case "social-infra":
+        contentArea.innerHTML = `
+      <div id="social-container">
+
+        <p class="title">한부모 가정 자녀의 연령대별 혼자 있는 시간 (2021)</p>
+        <div id="map-container"></div>
+      </div>`;
+      
+        const socialInfra = document.createElement("script");
+        socialInfra.src = "js/famtype/infra.js";
+        contentArea.appendChild(socialInfra);
+
+        break;
 
       // 가정폭력 케이스
       case "dom-violence":
@@ -208,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const script_after_bully = document.createElement("script");
         script_after_bully.src = "js/school/bar.js";
         contentArea.appendChild(script_after_bully);
-        console.log("after-bully-container", contentArea);
+        
 
         const scriptTreemap = document.createElement("script");
         scriptTreemap.src = "js/school/treemap.js";
@@ -235,6 +250,16 @@ document.addEventListener("DOMContentLoaded", function () {
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
       });
+      // data-btn 클래스 활성화
+      d3.selectAll(".data-btn").classed('active', false);
+      d3.select(event.target).classed('active', true);
+  
+      d3.selectAll("#groupSelect button")
+        .on("click", function (event) {
+          event.preventDefault();
+          d3.selectAll("#groupSelect button").classed('active', false);
+          d3.select(this).classed('active', true);
+        });
     } else if (
       event.target.hasAttribute("data-src") &&
       event.target.closest("#after-bully-container")
@@ -250,7 +275,18 @@ document.addEventListener("DOMContentLoaded", function () {
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
       });
-    }
+    // data-btn 클래스 활성화
+    d3.selectAll(".data-btn").classed('active', false);
+    d3.select(event.target).classed('active', true);
+
+    d3.selectAll("#groupSelect button")
+      .on("click", function (event) {
+        event.preventDefault();
+        d3.selectAll("#groupSelect button").classed('active', false);
+        d3.select(this).classed('active', true);
+      });
+    
+        }
   });
   renderMenuComponent();
   renderActiveComponent("violence-infra"); // Default component

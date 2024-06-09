@@ -37,30 +37,30 @@ function alone() {
         });
 
         d3.selectAll("#dataSelect input[type='button'][data-group='g3']")
-            .on("mouseover", function () {
-                // 버튼 위에 마우스를 올렸을 때 실행될 코드
-                const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
-                const tooltip = d3.select("#tooltip");
-                const tooltipWidth = tooltip.node().offsetWidth;
-                const tooltipHeight = tooltip.node().offsetHeight;
+        .on("mouseover", function () {
+            // 버튼 위에 마우스를 올렸을 때 실행될 코드
+            const dataSelectRect = document.getElementById("dataSelect").getBoundingClientRect();
+            const tooltip = d3.select("#tooltip");
+            const tooltipWidth = tooltip.node().offsetWidth;
+            const tooltipHeight = tooltip.node().offsetHeight;
 
-                const tooltipLeft = dataSelectRect.left + dataSelectRect.width / 2 - tooltipWidth / 2;
-                const tooltipTop = dataSelectRect.top - tooltipHeight - 10; // 위에 여백을 줄 수 있습니다.
+            const tooltipLeft = dataSelectRect.left + dataSelectRect.width / 2 - tooltipWidth / 2;
+            const tooltipTop = dataSelectRect.top - tooltipHeight - 10; // 위에 여백을 줄 수 있습니다.
 
-                tooltip
-                    .classed("category", true)
-                    .style("display", "block")
-                    .html("'기타'는 이혼, 사별을 제외한 기타 사유(예: 미혼모 등)를 의미한다.")
-                    .style("left", `${tooltipLeft + 50}px`)
-                    .style("top", `${tooltipTop + 420}px`);
-            })
-            .on("mouseout", function () {
-                // 버튼에서 마우스를 제거했을 때 실행될 코드
-                d3.select("#tooltip")
-                    .style("display", "none")
-                    .classed("category", false);
-            });
-
+            tooltip
+                .classed("category", true)
+                .style("display", "block")
+                .html("'기타'는 이혼, 사별을 제외한 기타 사유(예: 미혼모, 미혼부 등)를 의미한다.")
+                .style("left", `${event.pageX}px`)
+                .style("top", `${event.pageY}px`);
+        })
+        .on("mouseout", function () {
+            // 버튼에서 마우스를 제거했을 때 실행될 코드
+            d3.select("#tooltip")
+                .style("display", "none")
+                .classed("category", false);
+        });
+    
         d3.selectAll("#dataSelect input[type='button'][data-group='g4']")
             .on("mouseover", function () {
                 // 버튼 위에 마우스를 올렸을 때 실행될 코드
@@ -76,8 +76,8 @@ function alone() {
                     .classed("category", true)
                     .style("display", "block")
                     .html("'기타'는 부, 모, 자녀를 제외한 기타 가족 구성원을 의미한다.")
-                    .style("left", `${tooltipLeft + 50}px`)
-                    .style("top", `${tooltipTop + 60}px`);
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`);
             })
             .on("mouseout", function () {
                 // 버튼에서 마우스를 제거했을 때 실행될 코드
@@ -101,8 +101,8 @@ function alone() {
                     .classed("category", true)
                     .style("display", "block")
                     .html("각 차트의 데이터는 한부모 가정 내 가장 나이가 많은 자녀를 기준으로 수합하였다.")
-                    .style("left", `${tooltipLeft + 50}px`)
-                    .style("top", `${tooltipTop + 100}px`);
+                    .style("left", `${event.pageX}px`)
+                    .style("top", `${event.pageY}px`);
             })
             .on("mouseout", function () {
                 // 버튼에서 마우스를 제거했을 때 실행될 코드
