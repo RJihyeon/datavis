@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = `
         <div class="container1"> 
         <div id="chart-container4" class="graph-vioinfra">
-            <p class="vioinfra-title">가정폭력/아동학대 예방교육 만족도</p>
+            <p class="vioinfra-title">2021 가정폭력/아동학대 예방교육 만족도</p>
             <p class="vioinfra-title1">가정폭력 교육 경험있는 2945명 대상 만족도 조사</p>
             <div class="button-container">
             <button class="group-btn" data-group="전체">전체</button>
