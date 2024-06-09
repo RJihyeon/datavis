@@ -117,10 +117,13 @@ d3.csv("./data/runaway/runaway_reason.csv")
 
         // Remove initial load class when a button is clicked
         d3.select("#reason-chart").classed("initial-load", false);
+        d3.select("#reason-chart").append("p").text("가출 이유 비율");
 
         // Render all charts for the selected category
         renderAllCharts(groupedData2);
       });
+
+    d3.select("#reason-chart").append("p").text("응답자 유형별 가출 이유 비율");
 
     // Render all charts initially
     renderAllCharts(groupedData1);
