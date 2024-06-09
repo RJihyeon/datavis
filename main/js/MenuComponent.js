@@ -34,7 +34,7 @@ function renderMenuComponent() {
           <div class="menu fst_button">인프라 데이터</div>
           <ul class="sub_menu">
             <li>
-              <div class="sub_button click" id="social-infra" onclick="setActiveComponent('social-infra')">- 사회복지 인프라</div>
+              <div class="sub_button click" id="social-infra" onclick="setActiveComponent('social-infra')">- 한부모가족 복지 시설 현황</div>
             </li>
             <li>
               <div class="sub_button click" id="social-infra" onclick="setActiveComponent('violence-infra')">- 가정폭력 교육</div>

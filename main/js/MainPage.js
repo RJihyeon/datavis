@@ -88,7 +88,17 @@ document.addEventListener("DOMContentLoaded", function () {
       case "social-infra":
         contentArea.innerHTML = `
       <div id="social-container">
-        <p class="title">한부모 가정 자녀의 연령대별 혼자 있는 시간 (2021)</p>
+        <p class="title">한부모가족 복지 시설 현황 (2024년)</p>
+
+        <form id="centerSelect">
+        <input type="button" data-group="c0" value="전체 시설 개수">
+          <input type="button" data-group="c1" value="생활지원시설">
+          <input type="button" data-group="c2" value="양육지원시설">
+          <input type="button" data-group="c3" value="일시지원 복지시설">
+          <input type="button" data-group="c4" value="출산지원시설">
+          <input type="button" data-group="c5" value="한부모가족 복지상담소">
+        </form>
+
         <div id="map-container"></div>
       </div>`;
 
