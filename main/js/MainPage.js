@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="explain">막대를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</p>
 
         <div class="container">
-          <div id="char7" class="chart-graph">
+          <div id="chart7" class="chart-graph">
             <div id="kids-avg"></div>
           </div>
           <div id="chart8" class="chart-graph">
@@ -98,23 +98,30 @@ document.addEventListener("DOMContentLoaded", function () {
           <input type="button" class="c5" center-group="c5" value="한부모가족 복지상담소">
         </form>
       
-        <div class="map">
+        <div class="container-infra">
+
+        <div id="infra1" class="chart-infra">
           <p class="explain-infra">각 시설의 (전국)총 개수를 기준으로 한 지역별 분포 비율 (%)</p>
           <div id="map-container"></div>
         </div>
 
-        <div class="bar">
-          <p class="explain-infra">각 시설의 (전국)총 개수를 기준으로 한 지역별 분포 비율 (%)</p>
-          <div id="bar1" class="infra-chart">
-          <div id="bar-container1"></div>
+        <div class="chart-infra" id="infra2">
+          <div class="containers-wrapper">
+            <div class="charts-wrapper">
+              <div id="bar-container1"></div>
+            </div>
+          </div>
+
+          <div class="containers-wrapper">
+            <div class="charts-wrapper">
+              <div id="bar-container2"></div>
+            </div>
+          </div>
         </div>
 
-        <div class="bar">
-          <p class="explain-infra">각 시설의 (전국)총 개수를 기준으로 한 지역별 분포 비율 (%)</p>
-          <div id="bar2" class="infra-chart">
-          <div id="bar-container2"></div>
-        </div>
-
+      </div>
+      
+      
       </div>`;
 
         const socialInfra = document.createElement("script");

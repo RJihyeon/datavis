@@ -154,34 +154,52 @@
 }
 
 /* Social Infra */
-.explain-infra {
-    padding:5px;
-    margin-left: 180px;
-    font-weight: bold;
-    font-size: 15px;
-    color: #3d4747;
-}
 
-#map {
-    width: 800px;
-    height: 600px;
-    margin-left: 100px;
-}
-
-#bar{
+.container-infra {
     display: flex;
     flex-direction: row;
+    justify-content: space-between; /* 각 열을 좌우로 분리 */
     text-align: center;
-}
-.infra-chart{
+    margin-left: -220px;
+    margin-right: -150px;
+    transform: translateX(120px);
+    margin-top: -20px;
+    overflow: hidden;
+    margin-right: 150px;
+  }
+  
+  .chart-infra {
+    display:flex;
+    flex-direction:column;
+    margin-top: 35px;
+    padding: 0px;
+  }
+  
+  .containers-wrapper {
+    margin-left: -300px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: -20px;
+  }
+
+  .charts-wrapper {
+    margin-top: 20px; /* 각 차트 간의 간격 조절 */
+  }
+  
+
+.explain-infra {
+    padding:5px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #3d4747;
     text-align: center;
+
 }
 
 #centerSelect{
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 5px;
 }
 
 #centerSelect input[type="button"] {

@@ -836,7 +836,7 @@ function alone() {
             container.selectAll("svg").remove();
 
             const width = 250;
-            const height = 150;
+            const height = 200;
             const margin = { top: 60, right: 50, bottom: 90, left: 50 };
 
 
