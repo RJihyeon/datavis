@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+#container {
+    width: 700px;
+    min-height: 700px;
+    float: left;
+    margin: 15px 35px;
+}
+#states path {
+    fill: #4e8438;
+    stroke: #000000;
+    stroke-width: 1.5px;
+}
+
+#states path:hover {
+    fill: #ff8f34;
+}
+
+#states .active {
+    fill: #ff8f34;
+}
+
+#states .activeDetail {
+    fill: #ff8f34;
+}
+
+#states path {
+    cursor: pointer;
+}
+
+#states text {
+    cursor: pointer;
+    font-size: 13px;
+    fill: #fff;
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    
+}
+.nanum-gothic-regular {
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
