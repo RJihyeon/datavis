@@ -171,7 +171,7 @@ function showBarChart(data) {
       .text(`(Group : ${data[0].group})의 연도별 피해후 기관 도움 유무 비율`);
 
   // 범례 추가
-  const legendData = ["피해 후 기관도움 유", "피해 후 기관도움 무"];
+  const legendData = ["피해 후 기관도움 무", "피해 후 기관도움 유"];
   const legend = g.append("g")
       .attr("font-family", "sans-serif")
       .attr("font-size", 14)
@@ -236,7 +236,6 @@ document.getElementById('after-bully-container').addEventListener('click', funct
         initialize(src, groups[0]); // 초기 그룹 설정
     }
 });
-
 // 그룹 선택 버튼 클릭 이벤트 추가
 document.getElementById('groupSelect').addEventListener('click', function(event) {
     event.preventDefault(); // 페이지 초기화를 막음
