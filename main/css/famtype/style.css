@@ -91,9 +91,11 @@
 
 /* Switch TYPE Button */
 #dataSelect {
-    top:0px;
+    top:30px;
     width: 140px;
-    height:1000px;
+    height:300;
+    padding-top: 0px;
+    padding-bottom: 20px;
     margin-left: 10px;
     display: flex;
     flex-direction: column;
@@ -138,7 +140,7 @@
     font-size: 17px;
     font-weight: bold;
     color: #313e79;
-    margin-top: 80px;
+    margin-top: 20px;
 }
 
 #loadingScreen {
