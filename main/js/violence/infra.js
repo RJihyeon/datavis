@@ -89,7 +89,7 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
     sortAscending
   ) {
     const margin = { top: 50, right: 30, bottom: 60, left: 50 };
-    const width = 1000 - margin.left - margin.right;
+    const width = 1100 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
     const svg = d3
@@ -170,7 +170,6 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .style("border-radius", "5px")
       .style("text-align", "left")
       .style("font-size", "12px");
-
     const serie = svg
       .selectAll(".serie")
       .data(stackedData)
@@ -179,17 +178,16 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .attr("class", "serie")
       .attr("fill", (d) => color(d.key));
 
-    serie
+    // Enter + Update selection
+    const rects = serie
       .selectAll("rect")
       .data((d) => d)
       .enter()
       .append("rect")
-
       .attr("x", (d) => x(d.data.특성별2))
       .attr("y", (d) => y(d[1]))
       .attr("height", (d) => y(d[0]) - y(d[1]))
       .attr("width", x.bandwidth())
-
       .on("mouseover", (event, d) => {
         tooltip
           .style("visibility", "visible")
@@ -204,6 +202,15 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
         tooltip.style("visibility", "hidden");
       });
 
+    rects
+      .transition()
+      .duration(1000) // Transition duration in milliseconds
+      .delay((d, i) => i * 100) // Delay based on index
+      .attr("x", (d) => x(d.data.특성별2))
+      .attr("y", (d) => y(d[1]))
+      .attr("height", (d) => y(d[0]) - y(d[1]))
+      .attr("width", x.bandwidth());
+
     const legend = svg.append("g").attr("transform", `translate(0, -40)`); // Place legend above chart
 
     legend
@@ -216,6 +223,7 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .attr("width", 18)
       .attr("height", 18)
       .attr("fill", color)
+      .style("cursor", "pointer")
       .on("click", function (event, d) {
         sortBarsByLegend(d, currentGroupData, groupBy, sortAscending);
       });
@@ -225,13 +233,16 @@ d3.csv("./data/domestic_violence/infra.csv").then(function (data) {
       .data(color.domain())
       .enter()
       .append("text")
+      .style("cursor", "pointer")
       .attr("x", (d, i) => i * 160 + 24)
       .attr("y", 9)
       .attr("dy", "0.35em")
       .text((d) => d)
-      .style("font-weight", "bold");
+      .style("font-weight", "bold")
+      .on("click", function (event, d) {
+        sortBarsByLegend(d, currentGroupData, groupBy, sortAscending);
+      });
   }
-
   function sortBarsByLegend(key, currentGroupData, groupBy, sortAscending) {
     // Sorting logic based on the clicked legend
     console.log(`Sorting bars by legend: ${key}`);

@@ -194,6 +194,7 @@
   align-items: center;
   overflow: hidden;
   width: 50%;
+  height: 100%;
   padding-bottom: 0;
   margin-left: 30px;
 }
@@ -238,7 +239,7 @@
 
 #report-chart {
   width: 100%;
-  height: 0;
+  height: 100%;
   padding-bottom: 50%; /* 2:1 비율 (세로 2, 가로 1) 설정 */
   position: relative;
 }
@@ -314,9 +315,131 @@
   margin: 0px;
 }
 
-.vioinfra-guide{
+.vioinfra-guide {
   font-size: 14px;
   font-weight: bold;
   color: #6e7176;
   margin: 0px;
+}
+
+.infra-legends :hover {
+  cursor: pointer;
+}
+
+/* 가출 여부 */
+.chart-component {
+  align-items: center;
+}
+
+#reason-chart {
+  text-align: center;
+  margin-left: 100px;
+}
+
+#reason-chart p {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #6e7176;
+}
+
+.initial-load .chart-component {
+  border: 2px solid green; /* 초기 로드시 강조 스타일 */
+  border-radius: 20px;
+}
+
+.initial-load p {
+  color: green; /* 초기 로드시 p 태그 스타일 */
+}
+
+.highlight p {
+  color: blue; /* 전체 클릭 시 p 태그 스타일 */
+}
+
+
+
+#dataSelect1 {
+  top: 0px;
+  width: 140px;
+  height: 1000px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  background-color: white solid;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.35),
+    0 4px 6px -4px rgba(0, 0, 0, 0.35);
+  gap: 5px;
+}
+
+#dataSelect2 {
+  margin-top: 550px;
+  width: 140px;
+  height: 150px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  background-color: white solid;
+  gap: 5px;
+}
+
+.btn.btn-primary.m-1 {
+  width: 120px;
+  font-size: 14px;
+  font-weight: bold;
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+  background-color: white;
+  border: 2px solid #585555; /* 초기 로드시 강조 스타일 */
+  color: #585555;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn.btn-primary.m-1:hover {
+  background-color: #f6cc51;
+  color: #585555;
+}
+
+.btn.btn-primary.m-1:active {
+  background-color: #008080;
+  color: white;
+}
+
+.btn.btn-secondary.m-1 {
+  width: 120px;
+  font-size: 14px;
+  font-weight: bold;
+  border-color: #585555;
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+  background-color: white;
+  color: #585555;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn.btn-secondary.m-1:hover {
+  background-color: #f6cc51;
+  color: #585555;
+}
+
+.btn.btn-secondary.m-1:active {
+  background-color: #008080;
+  color: white;
+}
+
+#dataSelect1 p {
+  padding: 10px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+  color: #313e79;
 }
