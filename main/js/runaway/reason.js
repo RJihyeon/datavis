@@ -136,6 +136,10 @@ d3.csv("./data/runaway/runaway_reason.csv")
   });
 
 function renderAllCharts(groupedData) {
+  d3.select("#dataSelect input[type='button'][data-group='g4']").classed(
+    "active",
+    true
+  ); // 초기 버튼 활성화
   const chartContainer = d3.select("#reason-chart");
 
   const chartGroups = Array.from(groupedData.entries());
