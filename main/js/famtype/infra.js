@@ -382,7 +382,7 @@ function infra() {
                 .style("text-anchor", "end")
                 .style("font-size", "11px")
                 .style("fill", "black")
-                .text("정원 총수");
+                .text("총 정원수");
 
 
             // Y 축 생성 및 보조선 추가
@@ -400,7 +400,7 @@ function infra() {
                 .attr("text-anchor", "middle")
                 .style("font-size", "18px")
                 .style("font-weight", "bold")
-                .text("지역별 시설 정원 분포 (명)");
+                .text("시설 종류별 각 지역에서 수용할 수 있는 총 정원수 (명)");
 
             // 툴팁 요소 추가
             const tooltip = d3.select("body")
