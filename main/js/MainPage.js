@@ -5,12 +5,19 @@ document.addEventListener("DOMContentLoaded", function () {
     switch (activeComponent) {
       case "runaway":
         contentArea.innerHTML = `
-      <div></div>`;
+       <div id="content-area">
+        <div id="dataSelect1"></div>
+        <div id="dataSelect2"></div>
+        <div id="reason-chart"></div>
+    </div>
+
+    
+      `;
 
         const exp = document.createElement("script");
-        exp.src = "js/runaway/bar.js";
+        exp.src = "js/runaway/reason.js";
         contentArea.appendChild(exp);
-        break; // 추가
+        break;
 
       case "family-type":
         contentArea.innerHTML = `
@@ -122,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.appendChild(socialInfra);
 
         break;
-      
 
       // 가정폭력 케이스
       case "dom-violence":
@@ -230,12 +236,14 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.appendChild(scriptschool);
 
         setTimeout(() => {
-          const defaultButton = contentArea.querySelector(".data-btn[data-default='true']");
+          const defaultButton = contentArea.querySelector(
+            ".data-btn[data-default='true']"
+          );
           if (defaultButton) {
             defaultButton.click();
           }
         }, 100);
-        
+
         break;
 
       case "after-school-bully":
@@ -264,7 +272,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(scriptTreemap);
 
         setTimeout(() => {
-          const defaultButton = contentArea.querySelector(".data-btn[data-default='true']");
+          const defaultButton = contentArea.querySelector(
+            ".data-btn[data-default='true']"
+          );
           if (defaultButton) {
             defaultButton.click();
           }
@@ -327,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   renderMenuComponent();
-  renderActiveComponent("violence-infra"); // Default component
+  renderActiveComponent("runaway"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);
