@@ -35,89 +35,22 @@ d3.csv("./data/runaway/runaway_reason.csv")
           .attr("class", "btn btn-secondary m-1")
           .text((d) => d)
           .on("click", function (event, d) {
+            // Toggle active class for second set of buttons
+            buttonContainer2.selectAll("button").classed("active", false);
+            d3.select(this).classed("active", true);
+
             const filteredData = groupedData2.get(d);
             console.log("Filtered data for chart:", filteredData); // 필터링된 데이터 콘솔 출력
 
             highlightChart(d);
           });
 
-        // Add highlight class if 전체 is clicked
-        if (d === "성별") {
-          d3.select("#reason-chart")
-            .classed("gender", true)
-            .append("p")
-            .text("성별에 따른 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("gender", false);
-        }
-        if (d === "전체") {
-          d3.select("#reason-chart")
-            .classed("all", true)
-            .append("p")
-            .text("전체 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("all", false);
-        }
+        // Toggle active class for first set of buttons
+        buttonContainer1.selectAll("button").classed("active", false);
+        d3.select(this).classed("active", true);
 
-        // Add highlight class if 전체 is clicked
-        if (d === "학교급별") {
-          d3.select("#reason-chart")
-            .classed("school-level", true)
-            .append("p")
-            .text("학교급별 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("school-level", false);
-        }
-
-        // Add highlight class if 전체 is clicked
-        if (d === "고교유형별") {
-          d3.select("#reason-chart")
-            .classed("school", true)
-            .append("p")
-            .text("고교유형별 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("gender", false);
-        }
-        // Add highlight class if 전체 is clicked
-        if (d === "지역규모별") {
-          d3.select("#reason-chart")
-            .classed("region", true)
-            .append("p")
-            .text("지역규모별 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("gender", false);
-        }
-        // Add highlight class if 전체 is clicked
-        if (d === "가족유형별") {
-          d3.select("#reason-chart")
-            .classed("famtype", true)
-            .append("p")
-            .text("가족유형별 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("gender", false);
-        }
-        // Add highlight class if 전체 is clicked
-        if (d === "학업성적별") {
-          d3.select("#reason-chart")
-            .classed("grade", true)
-            .append("p")
-            .text("학업성적별 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("gender", false);
-        }
-        // Add highlight class if 전체 is clicked
-        if (d === "경제적수준별") {
-          d3.select("#reason-chart")
-            .classed("eco-level", true)
-            .append("p")
-            .text("경제수준별 가출 이유 비율");
-        } else {
-          d3.select("#reason-chart").classed("gender", false);
-        }
-
-        // Remove initial load class when a button is clicked
-        d3.select("#reason-chart").classed("initial-load", false);
-        d3.select("#reason-chart").append("p").text("가출 이유 비율");
+        // Add highlight class if 응답자유형별(1) is clicked
+        handleHighlightClass(d);
 
         // Render all charts for the selected category
         renderAllCharts(groupedData2);
@@ -191,6 +124,7 @@ function showBarChart(data, containerId) {
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
+
   const x0 = d3
     .scaleBand()
     .domain(data.map((d) => d["응답자유형별(2)"]))
@@ -238,6 +172,7 @@ function showBarChart(data, containerId) {
     .style("text-anchor", "end")
     .style("font-size", "12px")
     .style("font-weight", "bold");
+
   svg
     .append("g")
     .attr("class", "y-axis")
@@ -269,4 +204,75 @@ function showBarChart(data, containerId) {
     .attr("y", 9.5)
     .attr("dy", "0.32em")
     .text((d) => d);
+}
+
+function handleHighlightClass(d) {
+  const classes = [
+    "gender",
+    "all",
+    "school-level",
+    "school",
+    "region",
+    "famtype",
+    "grade",
+    "eco-level"
+  ];
+
+  // Remove all highlight classes
+  d3.select("#reason-chart").classed("initial-load", false);
+  classes.forEach((cls) => d3.select("#reason-chart").classed(cls, false));
+
+  // Add appropriate highlight class
+  switch (d) {
+    case "성별":
+      d3.select("#reason-chart")
+        .classed("gender", true)
+        .append("p")
+        .text("성별에 따른 가출 이유 비율");
+      break;
+    case "전체":
+      d3.select("#reason-chart")
+        .classed("all", true)
+        .append("p")
+        .text("전체 가출 이유 비율");
+      break;
+    case "학교급별":
+      d3.select("#reason-chart")
+        .classed("school-level", true)
+        .append("p")
+        .text("학교급별 가출 이유 비율");
+      break;
+    case "고교유형별":
+      d3.select("#reason-chart")
+        .classed("school", true)
+        .append("p")
+        .text("고교유형별 가출 이유 비율");
+      break;
+    case "지역규모별":
+      d3.select("#reason-chart")
+        .classed("region", true)
+        .append("p")
+        .text("지역규모별 가출 이유 비율");
+      break;
+    case "가족유형별":
+      d3.select("#reason-chart")
+        .classed("famtype", true)
+        .append("p")
+        .text("가족유형별 가출 이유 비율");
+      break;
+    case "학업성적별":
+      d3.select("#reason-chart")
+        .classed("grade", true)
+        .append("p")
+        .text("학업성적별 가출 이유 비율");
+      break;
+    case "경제적수준별":
+      d3.select("#reason-chart")
+        .classed("eco-level", true)
+        .append("p")
+        .text("경제수준별 가출 이유 비율");
+      break;
+    default:
+      break;
+  }
 }

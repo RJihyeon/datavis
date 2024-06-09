@@ -385,6 +385,16 @@
   background-color: white solid;
   gap: 5px;
 }
+#dataSelect1 input[type="button"]:hover {
+  background-color: #f6cc51;
+  color: #585555;
+}
+
+#dataSelect1 input[type="button"].active {
+  background-color: #008080;
+  border-color: none;
+  color: white;
+}
 
 .btn.btn-primary.m-1 {
   width: 120px;
