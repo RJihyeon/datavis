@@ -5,12 +5,19 @@ document.addEventListener("DOMContentLoaded", function () {
     switch (activeComponent) {
       case "runaway":
         contentArea.innerHTML = `
-      <div></div>`;
+       <div id="content-area">
+        <div id="dataSelect1"></div>
+        <div id="dataSelect2"></div>
+        <div id="reason-chart"></div>
+    </div>
+
+    
+      `;
 
         const exp = document.createElement("script");
-        exp.src = "js/runaway/bar.js";
+        exp.src = "js/runaway/reason.js";
         contentArea.appendChild(exp);
-        break; // 추가
+        break;
 
       case "family-type":
         contentArea.innerHTML = `
@@ -129,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.appendChild(socialInfra);
 
         break;
-      
 
       // 가정폭력 케이스
       case "dom-violence":
@@ -219,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.innerHTML = `
         <div id="school-violence-container">
           <div>
-              <button class="data-btn" data-groups="초4,초5,초6,중1,중2,중3,고1,고2,고3" data-src="./data/school/bully_exp_grade.csv">학년별 피해경험</button>
+              <button class="data-btn" data-groups="초4,초5,초6,중1,중2,중3,고1,고2,고3" data-src="./data/school/bully_exp_grade.csv" data-default="true">학년별 피해경험</button>
               <button class="data-btn" data-groups="남자,여자" data-src="./data/school/bully_exp_sex.csv">성별 피해경험</button>
               <button class="data-btn" data-groups="남학교,여학교,남녀공학" data-src="./data/school/bully_exp_school_type.csv">학교유형별 피해경험</button>
               <button class="data-btn" data-groups="초등학교,중학교,고등학교" data-src="./data/school/bully_exp_school_step.csv">진학단계별 피해경험</button>
@@ -235,13 +241,23 @@ document.addEventListener("DOMContentLoaded", function () {
         const scriptschool = document.createElement("script");
         scriptschool.src = "js/school/stacked.js";
         contentArea.appendChild(scriptschool);
+
+        setTimeout(() => {
+          const defaultButton = contentArea.querySelector(
+            ".data-btn[data-default='true']"
+          );
+          if (defaultButton) {
+            defaultButton.click();
+          }
+        }, 100);
+
         break;
 
       case "after-school-bully":
         contentArea.innerHTML = `
           <div id="after-bully-container">
             <div>
-                  <button class="data-btn" data-groups="초4,초5,초6,중1,중2,중3,고1,고2,고3" data-src="./data/school/after_bully_grade.csv">학년별 학교폭력 피해지원</button>
+                  <button class="data-btn" data-groups="초4,초5,초6,중1,중2,중3,고1,고2,고3" data-src="./data/school/after_bully_grade.csv" data-default="true">학년별 학교폭력 피해지원</button>
                   <button class="data-btn" data-groups="남자,여자" data-src="./data/school/after_bully_sex.csv">성별 학교폭력 피해지원</button>
                   <button class="data-btn" data-groups="남학교,여학교,남녀공학" data-src="./data/school/after_bully_type.csv">학교유형별 학교폭력 피해지원</button>
                   <button class="data-btn" data-groups="초등학교,중학교,고등학교" data-src="./data/school/after_bully_step.csv">진학단계별 학교폭력 피해지원</button>
@@ -261,6 +277,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const scriptTreemap = document.createElement("script");
         scriptTreemap.src = "js/school/treemap.js";
         document.body.appendChild(scriptTreemap);
+
+        setTimeout(() => {
+          const defaultButton = contentArea.querySelector(
+            ".data-btn[data-default='true']"
+          );
+          if (defaultButton) {
+            defaultButton.click();
+          }
+        }, 100);
 
         break;
 
@@ -319,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   renderMenuComponent();
-  renderActiveComponent("violence-infra"); // Default component
+  renderActiveComponent("runaway"); // Default component
 
   function setActiveComponent(component) {
     renderActiveComponent(component);

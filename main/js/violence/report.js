@@ -225,7 +225,7 @@ function drawChart(data, year, city, chartClass, sortOrder, highlight = false) {
 function drawHeatmap(data) {
   const margin = { top: 50, right: 120, bottom: 100, left: 100 },
     width = 600 - margin.left - margin.right, // 폭을 좁게 조정
-    height = 700 - margin.top - margin.bottom, // 세로를 길게 조정
+    height = 750 - margin.top - margin.bottom, // 세로를 길게 조정
     gridSize = Math.floor(width / 24),
     legendElementWidth = gridSize * 4,
     colors = [
