@@ -213,7 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const scriptTreemap = document.createElement("script");
         scriptTreemap.src = "js/school/treemap.js";
         document.body.appendChild(scriptTreemap);
-        
 
         break;
 
@@ -222,38 +221,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   document.addEventListener("click", function (event) {
-  if (
-    event.target.hasAttribute("data-src") &&
-    event.target.closest("#school-violence-container")
-  ) {
-    // school-violence 로직
-    const groups = event.target.getAttribute("data-groups").split(",");
-    const groupSelect = document.getElementById("groupSelect");
-    groupSelect.innerHTML = "";
-    groups.forEach((group) => {
-      const button = document.createElement("button");
-      button.textContent = group;
-      button.setAttribute("data-group", group);
-      groupSelect.appendChild(button);
-    });
-} else if (
-    event.target.hasAttribute("data-src") &&
-    event.target.closest("#after-bully-container")
-) {
-  // school-violence-a 로직
-    const groups = event.target.getAttribute("data-groups").split(",");
-    const groupSelect = document.getElementById("groupSelect");
-    console.log("groupSelect", groupSelect);
-    groupSelect.innerHTML = "";
-    groups.forEach((group) => {
-    const button = document.createElement("button");
-    button.textContent = group;
-    button.setAttribute("data-group", group);
-    groupSelect.appendChild(button);
-    });
-
-}
-});
+    if (
+      event.target.hasAttribute("data-src") &&
+      event.target.closest("#school-violence-container")
+    ) {
+      // school-violence 로직
+      const groups = event.target.getAttribute("data-groups").split(",");
+      const groupSelect = document.getElementById("groupSelect");
+      groupSelect.innerHTML = "";
+      groups.forEach((group) => {
+        const button = document.createElement("button");
+        button.textContent = group;
+        button.setAttribute("data-group", group);
+        groupSelect.appendChild(button);
+      });
+    } else if (
+      event.target.hasAttribute("data-src") &&
+      event.target.closest("#after-bully-container")
+    ) {
+      // school-violence-a 로직
+      const groups = event.target.getAttribute("data-groups").split(",");
+      const groupSelect = document.getElementById("groupSelect");
+      console.log("groupSelect", groupSelect);
+      groupSelect.innerHTML = "";
+      groups.forEach((group) => {
+        const button = document.createElement("button");
+        button.textContent = group;
+        button.setAttribute("data-group", group);
+        groupSelect.appendChild(button);
+      });
+    }
+  });
   renderMenuComponent();
   renderActiveComponent("violence-infra"); // Default component
 
