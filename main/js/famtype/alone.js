@@ -699,7 +699,7 @@ function alone() {
             const container = d3.select("#kids-avg"); // 수정된 부분
             const width = 220;
             const height = 150;
-            const margin = { top: 40, right: 40, bottom: 30, left: 120 };
+            const margin = { top: 40, right: 40, bottom: 30, left: 125 };
             container.select("svg").remove(); // 수정된 부분
 
 
@@ -836,7 +836,7 @@ function alone() {
             container.selectAll("svg").remove();
 
             const width = 250;
-            const height = 200;
+            const height = 150;
             const margin = { top: 60, right: 50, bottom: 90, left: 50 };
 
 
@@ -1382,7 +1382,7 @@ function alone() {
             const container = d3.select("#elements-avg"); // 수정된 부분
             const width = 220;
             const height = 150;
-            const margin = { top: 40, right: 40, bottom: 30, left: 120 };
+            const margin = { top: 40, right: 40, bottom: 30, left: 125 };
             container.select("svg").remove(); // 수정된 부분
 
 
@@ -2062,7 +2062,7 @@ function alone() {
             const container = d3.select("#middles-avg"); // 수정된 부분
             const width = 220;
             const height = 150;
-            const margin = { top: 40, right: 40, bottom: 30, left: 120 };
+            const margin = { top: 40, right: 40, bottom: 30, left: 125 };
             container.select("svg").remove(); // 수정된 부분
 
 
