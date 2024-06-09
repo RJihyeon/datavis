@@ -8,7 +8,7 @@ function renderMenuComponent() {
           <div class="menu fst_button">청소년 가출 현황</div>
           <ul class="sub_menu">
             <li>
-              <div class="sub_button click" id="runaway" onclick="setActiveComponent('runaway')">- 가출 여부</div>
+              <div class="sub_button click active" id="runaway" onclick="setActiveComponent('runaway')">- 가출 여부</div>
             </li>
           </ul>
         </li>
@@ -42,14 +42,20 @@ function renderMenuComponent() {
             <li>
               <div class="sub_button click" id="school" onclick="setActiveComponent('after-school-bully')">- 학교폭력 피해지원</div>
             </li>              
+          </ul>
+        </li>
+      </ul>
     </div>
   `;
+
   // Attach event listeners to all sub_buttons
-  const subButtons = document.querySelectorAll('.sub_button');
-  subButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      subButtons.forEach(btn => btn.classList.remove('active')); // Remove 'active' class from all buttons
-      this.classList.add('active'); // Add 'active' class to the clicked button
+  const subButtons = document.querySelectorAll(".sub_button");
+  subButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      subButtons.forEach((btn) => btn.classList.remove("active")); // Remove 'active' class from all buttons
+      this.classList.add("active"); // Add 'active' class to the clicked button
     });
   });
+
+
 }
