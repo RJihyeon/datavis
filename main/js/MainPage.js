@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contentArea.appendChild(scriptFamtype_1);
 
         break;
-      
+
       // 한부모가정 복지기관 인프라
       case "social-infra":
         contentArea.innerHTML = `
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <p class="title">한부모 가정 자녀의 연령대별 혼자 있는 시간 (2021)</p>
         <div id="map-container"></div>
       </div>`;
-      
+
         const socialInfra = document.createElement("script");
         socialInfra.src = "js/famtype/infra.js";
         contentArea.appendChild(socialInfra);
@@ -163,12 +163,14 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="container1"> 
         <div id="chart-container4" class="graph-vioinfra">
             <p class="vioinfra-title">가정폭력/아동학대 예방교육 만족도</p>
-            <p class="vioinfra-title1">응답자 ___명 </p>
+            <p class="vioinfra-title1">가정폭력 교육 경험있는 2945명 대상 만족도 조사</p>
             <div class="button-container">
             <button class="group-btn" data-group="전체">전체</button>
             <button class="group-btn" data-group="성별">성별</button>
             <button class="group-btn" data-group="연령">연령</button>
             <button class="group-btn" data-group="기관유형">기관유형</button>
+            <p class="vioinfra-guide">아래 범례를 눌러 오름차순 혹은 내림차순으로 정렬할 수 있습니다.</p>
+           
             </div>
             <div id="groupSelect"></div>
             <div id="education-pie-chart"></div> <!-- 파이 차트를 위한 div 추가 -->
@@ -223,7 +225,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const script_after_bully = document.createElement("script");
         script_after_bully.src = "js/school/bar.js";
         contentArea.appendChild(script_after_bully);
-        
 
         const scriptTreemap = document.createElement("script");
         scriptTreemap.src = "js/school/treemap.js";
@@ -251,15 +252,14 @@ document.addEventListener("DOMContentLoaded", function () {
         groupSelect.appendChild(button);
       });
       // data-btn 클래스 활성화
-      d3.selectAll(".data-btn").classed('active', false);
-      d3.select(event.target).classed('active', true);
-  
-      d3.selectAll("#groupSelect button")
-        .on("click", function (event) {
-          event.preventDefault();
-          d3.selectAll("#groupSelect button").classed('active', false);
-          d3.select(this).classed('active', true);
-        });
+      d3.selectAll(".data-btn").classed("active", false);
+      d3.select(event.target).classed("active", true);
+
+      d3.selectAll("#groupSelect button").on("click", function (event) {
+        event.preventDefault();
+        d3.selectAll("#groupSelect button").classed("active", false);
+        d3.select(this).classed("active", true);
+      });
     } else if (
       event.target.hasAttribute("data-src") &&
       event.target.closest("#after-bully-container")
@@ -275,18 +275,16 @@ document.addEventListener("DOMContentLoaded", function () {
         button.setAttribute("data-group", group);
         groupSelect.appendChild(button);
       });
-    // data-btn 클래스 활성화
-    d3.selectAll(".data-btn").classed('active', false);
-    d3.select(event.target).classed('active', true);
+      // data-btn 클래스 활성화
+      d3.selectAll(".data-btn").classed("active", false);
+      d3.select(event.target).classed("active", true);
 
-    d3.selectAll("#groupSelect button")
-      .on("click", function (event) {
+      d3.selectAll("#groupSelect button").on("click", function (event) {
         event.preventDefault();
-        d3.selectAll("#groupSelect button").classed('active', false);
-        d3.select(this).classed('active', true);
+        d3.selectAll("#groupSelect button").classed("active", false);
+        d3.select(this).classed("active", true);
       });
-    
-        }
+    }
   });
   renderMenuComponent();
   renderActiveComponent("violence-infra"); // Default component
