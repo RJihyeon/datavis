@@ -6,7 +6,7 @@ d3.csv("./data/runaway/runaway_reason.csv")
     // Create buttons for 응답자유형별(1)
     const buttonContainer1 = d3.select("#dataSelect1");
     d3.select("#dataSelect1").classed("text", false);
-    d3.select("#dataSelect1").append("p").text("응답자유형별(1)");
+    d3.select("#dataSelect1").append("p").text("응답자유형별");
     buttonContainer1
       .selectAll("button")
       .data(Array.from(groupedData1.keys()))
@@ -187,7 +187,6 @@ function showBarChart(data, containerId) {
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
-
   const x0 = d3
     .scaleBand()
     .domain(data.map((d) => d["응답자유형별(2)"]))
